@@ -60,7 +60,7 @@ Antes de começar, certifique-se de ter instalado:
 2.  **Rodar o Frontend (React):**
     * Abra **outro** terminal na pasta `siaec-frontend`.
     * Execute o comando para iniciar o servidor de desenvolvimento:
-        * Se usar Vite: `npm run dev`
-    * O frontend estará disponível, por padrão, em `http://localhost:5173` (Vite). Abra esta URL no seu navegador.
+        * `npm run dev`
+    * O frontend estará disponível, por padrão, em `http://localhost:5173`. Abra esta URL no seu navegador.
 
 A aplicação React fará chamadas para a API do backend (que deve estar rodando) para buscar e enviar dados.
