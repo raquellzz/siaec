@@ -14,14 +14,11 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "delivery_persons")
-public class DeliveryPerson {
+@Table(name = "event_planners")
+public class EventPlanner {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String deliveryPersonId;
-
-    @Nonnull
-    private String vehicleModel;
+    private String eventPlannerId;
 
     @Enumerated(EnumType.STRING)
     @Nonnull
@@ -31,20 +28,12 @@ public class DeliveryPerson {
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
 
-    public String getDeliveryPersonId() {
-        return deliveryPersonId;
+    public String getEventPlannerId() {
+        return eventPlannerId;
     }
 
-    public void setDeliveryPersonId(String deliveryPersonId) {
-        this.deliveryPersonId = deliveryPersonId;
-    }
-
-    public String getVehicleModel() {
-        return vehicleModel;
-    }
-
-    public void setVehicleModel(String vehicleModel) {
-        this.vehicleModel = vehicleModel;
+    public void setEventPlannerId(String eventPlannerId) {
+        this.eventPlannerId = eventPlannerId;
     }
 
     public RegistrationAccountStatusEnum getRegistrationAccountStatus() {

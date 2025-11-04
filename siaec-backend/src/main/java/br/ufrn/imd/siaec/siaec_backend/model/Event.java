@@ -1,19 +1,23 @@
 package br.ufrn.imd.siaec.siaec_backend.model;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import io.micrometer.common.lang.Nullable;
 import jakarta.annotation.Nonnull;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
+@Table(name = "events")
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -47,8 +51,8 @@ public class Event {
     @Nullable
     private Date deletedAt;
 
-    @OneToMany(mappedBy = "event")
-    Set<EventRegistration> artisanRegistrations;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<EventRegistration> artisanRegistrations = new ArrayList<>();
 
     public String getEventId() {
         return eventId;
@@ -122,11 +126,11 @@ public class Event {
         this.deletedAt = deletedAt;
     }
 
-    public Set<EventRegistration> getArtisanRegistrations() {
+    public List<EventRegistration> getArtisanRegistrations() {
         return artisanRegistrations;
     }
 
-    public void setArtisanRegistrations(Set<EventRegistration> artisanRegistrations) {
+    public void setArtisanRegistrations(List<EventRegistration> artisanRegistrations) {
         this.artisanRegistrations = artisanRegistrations;
     }
 

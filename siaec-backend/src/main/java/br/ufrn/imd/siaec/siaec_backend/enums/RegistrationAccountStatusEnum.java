@@ -1,14 +1,13 @@
 package br.ufrn.imd.siaec.siaec_backend.enums;
 
-public enum PagamentMethodEnum {
-    CREDIT_CARD("credit_card"),
-    DEBIT_CARD("debit_card"),
-    PIX("pix"),
-    BOLETO("boleto");
+public enum RegistrationAccountStatusEnum {
+    APPROVED("approved"),
+    DENIED("denied"),
+    UNDER_REVIEW("under_review");
 
     private String text;
 
-    PagamentMethodEnum(String text) {
+    RegistrationAccountStatusEnum(String text) {
         this.text = text;
     }
 

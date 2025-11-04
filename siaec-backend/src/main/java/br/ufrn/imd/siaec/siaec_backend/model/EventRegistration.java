@@ -3,28 +3,29 @@ package br.ufrn.imd.siaec.siaec_backend.model;
 import java.util.Date;
 
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
+@Entity
+@Table(name = "events_registrations")
 public class EventRegistration {
-    @EmbeddedId
+    @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String eventRegistrationId;
 
     @ManyToOne
-    @MapsId("artisan_id")
-    @JoinColumn(name = "artisan_id", referencedColumnName = "artisan_id")
+    @JoinColumn(name = "artisanId")
     private Artisan artisan;
 
     @ManyToOne
-    @MapsId("event_id")
-    @JoinColumn(name = "event_id", referencedColumnName = "event_id")
+    @JoinColumn(name = "eventId")
     private Event event;
 
     @Nonnull

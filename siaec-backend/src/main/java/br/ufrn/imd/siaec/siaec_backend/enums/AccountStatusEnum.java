@@ -1,14 +1,12 @@
 package br.ufrn.imd.siaec.siaec_backend.enums;
 
-public enum PagamentMethodEnum {
-    CREDIT_CARD("credit_card"),
-    DEBIT_CARD("debit_card"),
-    PIX("pix"),
-    BOLETO("boleto");
+public enum AccountStatusEnum {
+    ACTIVE("active"),
+    SUSPENDED("suspended");
 
     private String text;
 
-    PagamentMethodEnum(String text) {
+    AccountStatusEnum(String text) {
         this.text = text;
     }
 
