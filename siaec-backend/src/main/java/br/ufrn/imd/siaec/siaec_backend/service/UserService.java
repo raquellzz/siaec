@@ -24,9 +24,12 @@ public class UserService {
     }
 
     public User create(UserDTO user) {
-        boolean userExists = repository.existsByEmailAndUsername(user.getEmail(), user.getUsername());
-        if (userExists) {
-            throw new BadRequestException("Usuário já cadastrado com o e-mail e o username informado");
+        boolean usernameExists = repository.existsByUsername(user.getUsername());
+        boolean emailExists = repository.existsByEmail(user.getEmail());
+        if (usernameExists) {
+            throw new BadRequestException("Usuário já cadastrado com o username informado");
+        } else if (emailExists) {
+            throw new BadRequestException("Usuário já cadastrado com o e-mail informado");
         } else {
             User newUser = new User();
             newUser.setName(user.getName());

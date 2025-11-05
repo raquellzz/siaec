@@ -17,6 +17,8 @@ public class UserDTO {
     private String taxId;
     private AccountStatusEnum statusAccount;
 
+    public UserDTO() {}
+
     public UserDTO(String userId, String role, String name, String username, String email,
             String password, String phone, Date dateOfBirth, String taxId, String statusAccount) {
         this.userId = userId;

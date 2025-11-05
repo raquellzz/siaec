@@ -6,7 +6,7 @@ public enum RoleEnum {
     ARTISAN("artisan"),
     CLIENT("client"),
     DELIVERY_PERSON("delivery_person"),
-    CERIMONIALIST("cerimonialist");
+    EVENT_PLANNER("event_planner");
 
     private String text;
 

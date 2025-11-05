@@ -7,5 +7,7 @@ import br.ufrn.imd.siaec.siaec_backend.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-    boolean existsByEmailAndUsername(String email, String username);
+    boolean existsByEmail(String email);
+
+    boolean existsByUsername(String username);
 }
