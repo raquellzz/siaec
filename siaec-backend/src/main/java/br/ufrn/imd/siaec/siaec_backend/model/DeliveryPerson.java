@@ -12,8 +12,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "delivery_persons")
 public class DeliveryPerson {
     @Id
@@ -30,37 +38,4 @@ public class DeliveryPerson {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
-
-    public String getDeliveryPersonId() {
-        return deliveryPersonId;
-    }
-
-    public void setDeliveryPersonId(String deliveryPersonId) {
-        this.deliveryPersonId = deliveryPersonId;
-    }
-
-    public String getVehicleModel() {
-        return vehicleModel;
-    }
-
-    public void setVehicleModel(String vehicleModel) {
-        this.vehicleModel = vehicleModel;
-    }
-
-    public RegistrationAccountStatusEnum getRegistrationAccountStatus() {
-        return registrationAccountStatus;
-    }
-
-    public void setRegistrationAccountStatus(
-            RegistrationAccountStatusEnum registrationAccountStatus) {
-        this.registrationAccountStatus = registrationAccountStatus;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

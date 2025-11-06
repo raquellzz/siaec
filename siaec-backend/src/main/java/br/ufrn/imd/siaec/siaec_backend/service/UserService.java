@@ -23,7 +23,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User create(UserDTO user) {
+    public UserDTO create(UserDTO user) {
         boolean usernameExists = repository.existsByUsername(user.getUsername());
         boolean emailExists = repository.existsByEmail(user.getEmail());
         if (usernameExists) {
@@ -31,20 +31,33 @@ public class UserService {
         } else if (emailExists) {
             throw new BadRequestException("Usuário já cadastrado com o e-mail informado");
         } else {
-            User newUser = new User();
-            newUser.setName(user.getName());
-            newUser.setEmail(user.getEmail());
-            newUser.setUsername(user.getUsername());
-            newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-            newUser.setPhone(user.getPhone());
-            newUser.setRole(user.getRole());
-            newUser.setDateOfBirth(user.getDateOfBirth());
-            newUser.setStatusAccount(AccountStatusEnum.ACTIVE);
-            newUser.setTaxId(user.getTaxId());
-            newUser.setCreatedAt(new Date());
-            newUser.setDeletedAt(null);
+            User newUser = User.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .phone(user.getPhone())
+                .role(user.getRole())
+                .dateOfBirth(user.getDateOfBirth())
+                .statusAccount(AccountStatusEnum.ACTIVE)
+                .taxId(user.getTaxId())
+                .createdAt(new Date())
+                .deletedAt(null)
+                .build();
 
-            return repository.save(newUser);
+            User savedUser = repository.save(newUser);
+
+            return UserDTO.builder()
+                .userId(savedUser.getUserId())
+                .name(savedUser.getName())
+                .email(savedUser.getEmail())
+                .username(savedUser.getUsername())
+                .phone(savedUser.getPhone())
+                .role(savedUser.getRole())
+                .dateOfBirth(user.getDateOfBirth())
+                .statusAccount(AccountStatusEnum.ACTIVE)
+                .taxId(user.getTaxId())
+                .build();
         }
     }
 

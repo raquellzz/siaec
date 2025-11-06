@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.imd.siaec.siaec_backend.dto.UserDTO;
-import br.ufrn.imd.siaec.siaec_backend.model.User;
 import br.ufrn.imd.siaec.siaec_backend.service.UserService;
 
 @RestController
@@ -24,8 +23,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody UserDTO user) {
-        User usercreated = userService.create(user);
+    public ResponseEntity<UserDTO> register(@RequestBody UserDTO user) {
+        UserDTO usercreated = userService.create(user);
         URI location = URI.create("/v1/users/" + usercreated.getUserId());
         return ResponseEntity.created(location).body(usercreated);
     }

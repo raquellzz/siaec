@@ -15,8 +15,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "artisans")
 public class Artisan {
     @Id
@@ -36,45 +44,4 @@ public class Artisan {
 
     @OneToMany(mappedBy = "artisan", cascade = CascadeType.ALL)
     private List<EventRegistration> eventRegistrations;
-
-    public String getArtisanId() {
-        return artisanId;
-    }
-
-    public void setArtisanId(String artisanId) {
-        this.artisanId = artisanId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public RegistrationAccountStatusEnum getRegistrationAccountStatus() {
-        return registrationAccountStatus;
-    }
-
-    public void setRegistrationAccountStatus(
-            RegistrationAccountStatusEnum registrationAccountStatus) {
-        this.registrationAccountStatus = registrationAccountStatus;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<EventRegistration> getEventRegistrations() {
-        return eventRegistrations;
-    }
-
-    public void setEventRegistrations(List<EventRegistration> eventRegistrations) {
-        this.eventRegistrations = eventRegistrations;
-    }
 }

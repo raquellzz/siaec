@@ -12,8 +12,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "event_planners")
 public class EventPlanner {
     @Id
@@ -27,29 +35,4 @@ public class EventPlanner {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
-
-    public String getEventPlannerId() {
-        return eventPlannerId;
-    }
-
-    public void setEventPlannerId(String eventPlannerId) {
-        this.eventPlannerId = eventPlannerId;
-    }
-
-    public RegistrationAccountStatusEnum getRegistrationAccountStatus() {
-        return registrationAccountStatus;
-    }
-
-    public void setRegistrationAccountStatus(
-            RegistrationAccountStatusEnum registrationAccountStatus) {
-        this.registrationAccountStatus = registrationAccountStatus;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
