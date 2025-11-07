@@ -1,6 +1,6 @@
 package br.ufrn.imd.siaec.siaec_backend.enums;
 
-public enum PagamentMethodEnum {
+public enum PaymentMethodEnum {
     CREDIT_CARD("credit_card"),
     DEBIT_CARD("debit_card"),
     PIX("pix"),
@@ -8,7 +8,7 @@ public enum PagamentMethodEnum {
 
     private String text;
 
-    PagamentMethodEnum(String text) {
+    PaymentMethodEnum(String text) {
         this.text = text;
     }
 

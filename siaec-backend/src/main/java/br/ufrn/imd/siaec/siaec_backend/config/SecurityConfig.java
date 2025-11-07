@@ -18,8 +18,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(
-                auth -> auth.requestMatchers("/*").permitAll().anyRequest().authenticated());
+        // http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(
+        //         auth -> auth.requestMatchers("/*").permitAll().anyRequest().authenticated());
+        
+        // Configurações de segurança desativadas para permitir todas as requisições pelo postman 
+        http
+            // 1. Desabilita o CSRF
+            .csrf(csrf -> csrf.disable())
+            
+            // 2. Libera todas as requisições
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/**").permitAll() // Permite acesso a TUDO
+                .anyRequest().authenticated()
+            );
 
         return http.build();
     }
