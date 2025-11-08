@@ -32,7 +32,10 @@ public class ProductDTO {
     private String material; 
 
     private boolean status;
+
     private Date createdAt;
+
+    private String artisanId;
 
     private List<String> imagePaths;
 
@@ -48,7 +51,11 @@ public class ProductDTO {
         dto.setMaterial(product.getMaterial());
         dto.setStatus(product.isStatus());
         dto.setCreatedAt(product.getCreatedAt());
-        
+
+        if (product.getCatalog() != null && product.getCatalog().getArtisan() != null) {
+            dto.setArtisanId(product.getCatalog().getArtisan().getArtisanId());
+        }
+
         if (product.getProductImages() != null) {
             dto.setImagePaths(product.getProductImages().stream()
                     .map(ProductImage::getImagePath)

@@ -44,4 +44,7 @@ public class Artisan {
 
     @OneToMany(mappedBy = "artisan", cascade = CascadeType.ALL)
     private List<EventRegistration> eventRegistrations;
+
+    @OneToOne(mappedBy = "artisan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Catalog catalog;
 }
