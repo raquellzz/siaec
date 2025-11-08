@@ -75,6 +75,18 @@
 
 .search-input { border-radius: 25px; }
 
+.catalog-button {
+    margin-left: 9px;
+    padding: 10px 20px;
+    background-color: #b13707;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+}
+
 .featured-artisans, .upcoming-fairs {
   margin-bottom: 40px;
 }

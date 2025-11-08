@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getHomeData } from '../services/homeService'; 
 import { FaSearch } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import './HomePage.css';
 
 function HomePage() {
@@ -60,11 +61,14 @@ function HomePage() {
           <FaSearch className="search-icon" /> 
           <input 
             type="text" 
-            placeholder="Pesquise aqui por produtos, artesãos ou eventos..." 
+            placeholder="Pesquise aqui por artesãos ou eventos..." 
             className="search-input"
-            value={searchTerm} // Controla o valor
-            onChange={(e) => setSearchTerm(e.target.value)} // Atualiza o estado
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <Link to="/products" className="catalog-button">
+            Ver Catálogo
+          </Link>
       </div>
 
       <section className="featured-artisans">
