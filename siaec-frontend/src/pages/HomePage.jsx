@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { getHomeData } from '../services/homeService'; 
+import { getArtisans } from '../services/artisanService';
+import { getEvents } from '../services/eventService';
 import { FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
 
 function HomePage() {
-  const [homeData, setHomeData] = useState(null);
+  const [artisans, setArtisans] = useState(null);
+  const [events, setEvents] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,8 +17,15 @@ function HomePage() {
       try {
         setLoading(true);
         setError(null);
-        const data = await getHomeData(); 
-        setHomeData(data); 
+        const pageSize = 4; 
+
+        const [artisanData, eventData] = await Promise.all([
+          getArtisans(0, pageSize, null), //
+          getEvents(0, pageSize, null)   //
+        ]);
+        
+        setArtisans(artisanData.content || []); 
+        setEvents(eventData.content || []); 
       } catch (err) {
         setError('Falha ao carregar os dados da página inicial.'); 
         console.error(err);
@@ -36,25 +45,22 @@ function HomePage() {
     return <div className="error-message">{error}</div>;
   }
 
-  if (!homeData) {
-      return <div className="error-message">Não foi possível carregar os dados.</div>;
-  }
 
   // Filtra artesãos
-  const filteredArtisans = homeData.artesoesDestaque?.filter(artesao =>
-    artesao.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredArtisans = artisans.filter(artisan =>
+    artisan.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
   // Filtra feiras
-  const filteredFairs = homeData.proximasFeiras?.filter(feira =>
-    feira.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredFairs = events.filter(event =>
+    event.name.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
 
   return (
     <div className="homepage">
       <section className="welcome-banner">
-        <h1>{homeData.mensagemBoasVindas || 'Bem-vindo ao SIAEC!'}</h1>
+        <h1>Artesanado Potiguar:O Talento do RN na sua Casa</h1>
       </section>
 
       <div className="search-bar-container">
@@ -72,12 +78,15 @@ function HomePage() {
       </div>
 
       <section className="featured-artisans">
-        <h2>Artesãos em Destaque</h2>
+        <div className="section-header">
+          <h2>Artesões em Destaques</h2>
+          <Link to="/artisans" className="view-all-link">Ver todos</Link>
+        </div>
         {filteredArtisans.length > 0 ? (
           <div className="artisan-list">
-            {filteredArtisans.map((artesao, index) => (
+            {filteredArtisans.map((artisan, index) => (
               <div key={index} className="artisan-card">
-                <p>{artesao}</p>
+                <p>{artisan}</p>
               </div>
             ))}
           </div>
@@ -87,17 +96,20 @@ function HomePage() {
       </section>
 
       <section className="upcoming-fairs">
-        <h2>Próximas Feiras</h2>
+        <div className="section-header">
+          <h2>Próximos Eventos</h2>
+          <Link to="/events" className="view-all-link">Ver todos</Link>
+        </div>
         {filteredFairs.length > 0 ? (
           <div className="fair-list">
-            {filteredFairs.map((feira, index) => (
+            {filteredFairs.map((event, index) => (
               <div key={index} className="fair-card">
-                <p>{feira}</p>
+                <p>{event.name}</p>
               </div>
             ))}
           </div>
         ) : (
-          <p>{searchTerm ? 'Nenhuma feira encontrada.' : 'Nenhuma feira cadastrada no momento.'}</p>
+          <p>{searchTerm ? 'Nenhum evento encontrado.' : 'Nenhum evento cadastrado no momento.'}</p>
         )}
       </section>
     </div>

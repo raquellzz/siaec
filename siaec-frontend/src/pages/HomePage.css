@@ -87,6 +87,36 @@
     text-align: center;
 }
 
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-header h2 {
+  margin: 0;
+  color: #444;
+  font-size: 1.4em;
+  padding-left: 5px; 
+}
+
+.view-all-link {
+  text-decoration: none;
+  color: #b13707;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+.view-all-link:hover {
+  color: #8f2b04;
+  text-decoration: underline;
+}
+
+.featured-artisans h2, .upcoming-fairs h2 {
+  margin-bottom: 0; 
+}
+
 .featured-artisans, .upcoming-fairs {
   margin-bottom: 40px;
 }
