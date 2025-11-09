@@ -15,12 +15,12 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
         return ResponseEntity.ok(eventService.createEvent(event));
     }
 
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<Page<Event>> getEvents(
             @RequestParam(required = false) String name,
             @PageableDefault(size = 10, page = 0) Pageable pageable) {
