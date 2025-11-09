@@ -3,7 +3,6 @@ package br.ufrn.imd.siaec.siaec_backend.service;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -94,9 +93,8 @@ public class UserService {
         return user;
     }
 
-    public Page<User> getAll(int limit, int page) {
-        Pageable pagination = PageRequest.of(page, limit);
-        return repository.findAll(pagination);
+    public Page<User> getAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public UserResponseDTO get(String userId) {

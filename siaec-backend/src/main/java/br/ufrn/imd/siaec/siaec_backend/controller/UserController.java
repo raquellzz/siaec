@@ -2,6 +2,8 @@ package br.ufrn.imd.siaec.siaec_backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import br.ufrn.imd.siaec.siaec_backend.dto.UserResponseDTO;
 import br.ufrn.imd.siaec.siaec_backend.dto.UserUpdateDTO;
@@ -29,18 +30,8 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/")
-    public ResponseEntity<Page<User>> getAllUsers(
-        @RequestParam(required = false) String limit,
-        @RequestParam(required = false) String page
-    ) {
-        int limitRequest, pageRequest;
-        if (limit == null) limitRequest = 10;
-        else limitRequest = Integer.parseInt(limit);
-
-        if (page == null) pageRequest = 0;
-        else pageRequest = Integer.parseInt(page);
-
-        Page<User> users = userService.getAll(limitRequest, pageRequest);
+    public ResponseEntity<Page<User>> getAllUsers(@PageableDefault(size = 10, page = 0) Pageable pageable) {
+        Page<User> users = userService.getAll(pageable);
         return ResponseEntity.ok(users);
     }
 
