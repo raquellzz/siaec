@@ -5,7 +5,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import br.ufrn.imd.siaec.siaec_backend.enums.AccountStatusEnum;
 import br.ufrn.imd.siaec.siaec_backend.enums.RoleEnum;
@@ -34,6 +36,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Table(name = "users")
+@SQLRestriction("deleted_at IS NULL")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -81,16 +84,12 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
-
-    public String getPassword() {
-        return password;
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
