@@ -1,8 +1,12 @@
 package br.ufrn.imd.siaec.siaec_backend.model;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Date;
-
+import java.util.List;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import br.ufrn.imd.siaec.siaec_backend.enums.AccountStatusEnum;
 import br.ufrn.imd.siaec.siaec_backend.enums.RoleEnum;
 import jakarta.annotation.Nonnull;
@@ -30,7 +34,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String userId;
@@ -67,13 +71,45 @@ public class User {
     @Nonnull
     private AccountStatusEnum statusAccount;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     @Nullable
-    @Builder.Default
-    private Date createdAt = new Date();
+    private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Nullable
     private Date deletedAt;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return statusAccount.equals(AccountStatusEnum.ACTIVE);
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return statusAccount.equals(AccountStatusEnum.ACTIVE);
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return statusAccount.equals(AccountStatusEnum.ACTIVE);
+    }
 }
