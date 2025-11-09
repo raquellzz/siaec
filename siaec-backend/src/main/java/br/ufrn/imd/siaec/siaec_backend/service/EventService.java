@@ -1,6 +1,6 @@
 package br.ufrn.imd.siaec.siaec_backend.service;
 
-import br.ufrn.imd.siaec.siaec_backend.exception.ResourceNotFoundException;
+import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.model.Event;
 import br.ufrn.imd.siaec.siaec_backend.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class EventService {
     @Transactional
     public Event updateEvent(String id, Event eventDetails) {
         Event event = findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Evento não encontrado com id: " + id));
+                .orElseThrow(() -> new NotFoundException("Evento não encontrado com id: " + id));
 
         event.setName(eventDetails.getName());
         event.setDescription(eventDetails.getDescription());
@@ -56,7 +56,7 @@ public class EventService {
     @Transactional
     public void deleteEvent(String id) {
         Event event = findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Evento não encontrado com id: " + id));
+                .orElseThrow(() -> new NotFoundException("Evento não encontrado com id: " + id));
 
         event.setDeletedAt(new Date());
         eventRepository.save(event);
