@@ -83,12 +83,12 @@ public class UserService {
                 )
             );
         } catch (AuthenticationException exception) {
-            throw new UnauthorizedException("Email or password are incorrect");
+            throw new UnauthorizedException("E-mail ou senha estão incorretos");
         }
 
         User user = repository
             .findByEmail(credentials.getEmail())
-            .orElseThrow(() -> new NotFoundException("User not found"));
+            .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
 
         return user;
     }
@@ -98,7 +98,7 @@ public class UserService {
     }
 
     public UserResponseDTO get(String userId) {
-        User user = repository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+        User user = repository.findById(userId).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
         return UserResponseDTO.builder()
             .userId(user.getUserId())
             .name(user.getName())
@@ -112,7 +112,7 @@ public class UserService {
     }
 
     public void update(String userId, UserUpdateDTO input) {
-        User userUpdated = repository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+        User userUpdated = repository.findById(userId).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
 
         if (input.getName() != null) userUpdated.setName(input.getName());
         if (input.getUsername() != null) {
@@ -131,7 +131,7 @@ public class UserService {
     }
 
     public void delete(String userId) {
-        User user = repository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+        User user = repository.findById(userId).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
         user.setDeletedAt(new Date());
         repository.save(user);
     }
