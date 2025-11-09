@@ -55,7 +55,7 @@ Antes de começar, certifique-se de ter instalado:
     * Abra um terminal na pasta `siaec-backend`.
     * Execute o comando usando o Maven Wrapper:
         * `mvn spring-boot:run`
-    * O backend estará disponível, por padrão, em `http://localhost:8080/api` (considerando a porta 8080 e o context-path `/api` configurados no `application.properties`).
+    * O backend estará disponível, por padrão, em `http://localhost:8080/v1`.
 
 2.  **Rodar o Frontend (React):**
     * Abra **outro** terminal na pasta `siaec-frontend`.

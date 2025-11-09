@@ -5,7 +5,8 @@ import Header from './components/Header.jsx';
 import ProductListPage from './pages/ProductListPage.jsx';
 import ArtisanListPage from './pages/ArtisanListPage.jsx';
 import EventListPage from './pages/EventListPage.jsx';
-
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
@@ -17,8 +18,11 @@ function App() {
           <Route path="/products" element={<ProductListPage />} />
           <Route path="/artisans" element={<ArtisanListPage />} />
           <Route path="/events" element={<EventListPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </div>
+      
     </Router>
   );
 }
