@@ -3,7 +3,7 @@ package br.ufrn.imd.siaec.siaec_backend.service;
 import br.ufrn.imd.siaec.siaec_backend.dto.OrderRequestDTO;
 import br.ufrn.imd.siaec.siaec_backend.dto.OrderResponseDTO;
 import br.ufrn.imd.siaec.siaec_backend.exception.BusinessRuleException;
-import br.ufrn.imd.siaec.siaec_backend.exception.ResourceNotFoundException;
+import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.model.Order;
 import br.ufrn.imd.siaec.siaec_backend.model.OrderItem;
 import br.ufrn.imd.siaec.siaec_backend.model.Product;
@@ -49,7 +49,7 @@ public class OrderService {
         for (var itemDTO : requestDTO.getItems()) {
             Product product = productRepository.findById(itemDTO.getProductId())
                     .filter(p -> p.getDeletedAt() == null) // Apenas ativos
-                    .orElseThrow(() -> new ResourceNotFoundException("Produto com ID " + itemDTO.getProductId() + " não encontrado."));
+                    .orElseThrow(() -> new NotFoundException("Produto com ID " + itemDTO.getProductId() + " não encontrado."));
 
             // RN06
             if (!product.isStatus()) {

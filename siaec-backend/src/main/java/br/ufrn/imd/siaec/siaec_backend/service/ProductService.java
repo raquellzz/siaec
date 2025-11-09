@@ -1,7 +1,6 @@
 package br.ufrn.imd.siaec.siaec_backend.service;
 
 import br.ufrn.imd.siaec.siaec_backend.dto.ProductDTO;
-// import br.ufrn.imd.siaec.siaec_backend.exception.ResourceNotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.model.Product;
 import br.ufrn.imd.siaec.siaec_backend.model.ProductImage;
 import br.ufrn.imd.siaec.siaec_backend.repository.ProductRepository;
@@ -35,7 +34,7 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .filter(p -> p.getDeletedAt() == null) 
                 .orElseThrow();
-                // .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado com id: " + productId));
+                // .orElseThrow(() -> new NotFoundException("Produto não encontrado com id: " + productId));
         return ProductDTO.fromEntity(product);
     }
 
@@ -86,7 +85,7 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .filter(p -> p.getDeletedAt() == null) 
                 .orElse(null);
-                // .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado com id: " + productId));
+                // .orElseThrow(() -> new NotFoundException("Produto não encontrado com id: " + productId));
         
         product.setDeletedAt(new Date());
         product.setStatus(false); 
