@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,7 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    @PreAuthorize("hasRole('ROLE_EVENT_PLANNER') or hasRole('ROLE_ADMIN')")
     @PostMapping("")
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
         return ResponseEntity.ok(eventService.createEvent(event));
@@ -36,6 +38,7 @@ public class EventController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_EVENT_PLANNER') or hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Event> updateEvent(@PathVariable String id, @RequestBody Event eventDetails) {
         try {
@@ -46,6 +49,7 @@ public class EventController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_EVENT_PLANNER') or hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable String id) {
         try {
