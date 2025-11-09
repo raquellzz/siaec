@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class UserRegisterDTO {
     @NotBlank(message = "Role is required")
     private RoleEnum role;
 
