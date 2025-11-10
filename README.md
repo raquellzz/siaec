@@ -41,7 +41,7 @@ O repositório está organizado em duas pastas principais:
 
 Antes de começar, certifique-se de ter instalado:
 
-* [cite_start]**JDK 17 ou superior:** [cite: 4289] Verifique com `java -version`. Configure a variável de ambiente `JAVA_HOME`.
+* [cite_start]**JDK 17 ou superior:** Verifique com `java -version`. Configure a variável de ambiente `JAVA_HOME`.
 * **Maven:** Verifique com `mvn -version`. (O projeto inclui um Maven Wrapper `mvnw` que pode ser usado no lugar).
 * **Node.js e npm:** Verifique com `node -v` e `npm -v`. Use uma versão LTS recente.
 * **Git:** Para clonar o repositório.
