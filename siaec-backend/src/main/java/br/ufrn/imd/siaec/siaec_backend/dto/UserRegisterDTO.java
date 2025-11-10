@@ -40,4 +40,6 @@ public class UserRegisterDTO {
 
     @NotBlank(message = "CPF/CNPJ is required")
     private String taxId;
+
+    private String description;
 }

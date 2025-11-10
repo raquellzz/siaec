@@ -5,18 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import br.ufrn.imd.siaec.siaec_backend.dto.LoginDTO;
-import br.ufrn.imd.siaec.siaec_backend.dto.UserRegisterDTO;
 import br.ufrn.imd.siaec.siaec_backend.dto.UserResponseDTO;
 import br.ufrn.imd.siaec.siaec_backend.dto.UserUpdateDTO;
-import br.ufrn.imd.siaec.siaec_backend.enums.AccountStatusEnum;
 import br.ufrn.imd.siaec.siaec_backend.exception.BadRequestException;
 import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
-import br.ufrn.imd.siaec.siaec_backend.exception.UnauthorizedException;
 import br.ufrn.imd.siaec.siaec_backend.model.User;
 import br.ufrn.imd.siaec.siaec_backend.repository.UserRepository;
 
@@ -24,7 +18,6 @@ import br.ufrn.imd.siaec.siaec_backend.repository.UserRepository;
 public class UserService {
     private UserRepository repository;
     private PasswordEncoder passwordEncoder;
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     public UserService(
@@ -34,65 +27,8 @@ public class UserService {
     ) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
     }
-
-    public UserResponseDTO create(UserRegisterDTO user) {
-        boolean usernameExists = repository.existsByUsername(user.getUsername());
-        boolean emailExists = repository.existsByEmail(user.getEmail());
-        if (usernameExists) {
-            throw new BadRequestException("Usuário já cadastrado com o username informado");
-        } else if (emailExists) {
-            throw new BadRequestException("Usuário já cadastrado com o e-mail informado");
-        } else {
-            User savedUser = repository.save(
-                User.builder()
-                    .name(user.getName())
-                    .email(user.getEmail())
-                    .username(user.getUsername())
-                    .password(passwordEncoder.encode(user.getPassword()))
-                    .phone(user.getPhone())
-                    .role(user.getRole())
-                    .dateOfBirth(user.getDateOfBirth())
-                    .statusAccount(AccountStatusEnum.ACTIVE)
-                    .taxId(user.getTaxId())
-                    .createdAt(new Date())
-                    .deletedAt(null)
-                    .build()
-            );
-
-            return UserResponseDTO.builder()
-                .userId(savedUser.getUserId())
-                .name(savedUser.getName())
-                .email(savedUser.getEmail())
-                .username(savedUser.getUsername())
-                .phone(savedUser.getPhone())
-                .role(savedUser.getRole())
-                .dateOfBirth(savedUser.getDateOfBirth())
-                .taxId(savedUser.getTaxId())
-                .build();
-        }
-    }
-
-    public User authenticate(LoginDTO credentials) {
-        try {
-            authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                    credentials.getEmail(),
-                    credentials.getPassword()
-                )
-            );
-        } catch (AuthenticationException exception) {
-            throw new UnauthorizedException("E-mail ou senha estão incorretos");
-        }
-
-        User user = repository
-            .findByEmail(credentials.getEmail())
-            .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
-
-        return user;
-    }
-
+    
     public Page<User> getAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
@@ -112,7 +48,8 @@ public class UserService {
     }
 
     public void update(String userId, UserUpdateDTO input) {
-        User userUpdated = repository.findById(userId).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
+        User userUpdated = repository.findById(userId)
+            .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
 
         if (input.getName() != null) userUpdated.setName(input.getName());
         if (input.getUsername() != null) {
