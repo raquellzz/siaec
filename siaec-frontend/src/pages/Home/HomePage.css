@@ -6,6 +6,7 @@
 .loading,
 .error-message {
   padding: 20px;
+  margin-top: 48px;
   font-size: 1.2em;
   text-align: center;
 }
@@ -25,9 +26,8 @@
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
-  margin: 32px -10px 30px -10px;
+  margin: 48px -10px 30px -10px;
   border-radius: 25px;
-
   color: #f5f5f5;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
   text-align: center;
@@ -51,6 +51,7 @@
 
 .search-input {
   padding: 12px 20px;
+  font-family: 'Montserrat';
   font-size: 1em;
   border: 1px solid #d0d0d0;
   border-radius: 25px;
@@ -139,9 +140,8 @@
 
 .artisan-list,
 .fair-list {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 15px;
   margin-top: 15px;
 }
@@ -151,17 +151,16 @@
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px;
-  width: 140px;
   text-align: center;
   background-color: #f5f5f5;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   color: #333;
 }
 .artisan-card p,
 .fair-card p {
   margin: 5px 0 0 0;
-  font-size: 0.9em;
+  font-size: 1em;
+  font-weight: 500;
 }
 
 .artisan-card:hover,

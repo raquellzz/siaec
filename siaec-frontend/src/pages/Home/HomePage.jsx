@@ -46,7 +46,8 @@ function HomePage() {
   }
 
   // Filtra artesãos
-  const filteredArtisans = artisans.filter((artisan) => artisan.toLowerCase().includes(searchTerm.toLowerCase())) || [];
+  const filteredArtisans =
+    artisans.filter((artisan) => artisan.user.name.toLowerCase().includes(searchTerm.toLowerCase())) || [];
 
   // Filtra feiras
   const filteredFairs = events.filter((event) => event.name.toLowerCase().includes(searchTerm.toLowerCase())) || [];
@@ -66,7 +67,7 @@ function HomePage() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Link to="/products" className="catalog-button ease-in delay-50">
+        <Link to="/products" className="catalog-button">
           Pesquisar
         </Link>
       </div>
@@ -80,9 +81,9 @@ function HomePage() {
         </div>
         {filteredArtisans.length > 0 ? (
           <div className="artisan-list">
-            {filteredArtisans.map((artisan, index) => (
-              <div key={index} className="artisan-card">
-                <p>{artisan}</p>
+            {filteredArtisans.map((artisan) => (
+              <div key={artisan.artisanId} className="artisan-card">
+                <p>{artisan.user.name}</p>
               </div>
             ))}
           </div>

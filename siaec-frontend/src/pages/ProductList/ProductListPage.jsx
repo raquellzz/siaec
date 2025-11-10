@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getProducts } from '../../services/productService';
 import { Link } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 import './ProductListPage.css';
+import { Pagination } from '@mui/material';
 
 function ProductListPage() {
   const [products, setProducts] = useState([]);
@@ -36,16 +37,8 @@ function ProductListPage() {
     fetchProducts();
   }, [currentPage, searchTerm]);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
+  const handleChange = (_, value) => {
+    setCurrentPage(value - 1);
   };
 
   const handleFilterSubmit = (e) => {
@@ -62,7 +55,7 @@ function ProductListPage() {
     <div className="product-list-page">
       <h2>Catálogo de Produtos</h2>
 
-      <form className="filter-container" onSubmit={handleFilterSubmit}>
+      <div className="filter-container">
         <div className="search-bar-wrapper">
           <FaSearch className="search-icon" />
           <input
@@ -73,17 +66,17 @@ function ProductListPage() {
             className="filter-input"
           />
         </div>
-        <button type="submit" className="filter-button">
+        <button type="submit" className="filter-button" onClick={handleFilterSubmit}>
           Buscar
         </button>
-      </form>
+      </div>
 
       {loading ? (
         <div className="loading">Carregando...</div>
       ) : (
         <>
           <div className="product-grid">
-            {products.length > 0 ? (
+            {products.length > 0 &&
               products.map((product) => (
                 <Link to={`/products/${product.productId}`} key={product.productId} className="product-card-link">
                   <div className="product-card">
@@ -92,23 +85,20 @@ function ProductListPage() {
                     <p>R$ {product.price?.toFixed(2)}</p>
                   </div>
                 </Link>
-              ))
-            ) : (
-              <p>Nenhum produto encontrado.</p>
-            )}
+              ))}
           </div>
 
-          <div className="pagination-controls">
-            <button onClick={handlePrevPage} disabled={currentPage === 0}>
-              Anterior
-            </button>
-            <span>
-              Página {currentPage + 1} de {totalPages || 1}
-            </span>
-            <button onClick={handleNextPage} disabled={currentPage >= totalPages - 1}>
-              Próxima
-            </button>
-          </div>
+          {products.length === 0 && <p>Nenhum produto encontrado.</p>}
+
+          {totalPages > 0 && (
+            <Pagination
+              count={totalPages}
+              color="secondary"
+              shape="rounded"
+              page={currentPage + 1}
+              onChange={handleChange}
+            />
+          )}
         </>
       )}
     </div>

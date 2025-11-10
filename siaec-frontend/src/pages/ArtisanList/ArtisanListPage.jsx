@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getArtisans } from '../../services/artisanService';
 import { Link } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 import '../ProductList/ProductListPage.css';
+import { Pagination } from '@mui/material';
 
 function ArtisanListPage() {
   const [artisans, setArtisans] = useState([]);
@@ -30,12 +31,10 @@ function ArtisanListPage() {
     fetchArtisans();
   }, [currentPage, searchTerm]);
 
-  const handleNextPage = () => {
-    /* ... (igual ProductList) ... */ if (currentPage < totalPages - 1) setCurrentPage(currentPage + 1);
+  const handleChange = (_, value) => {
+    setCurrentPage(value);
   };
-  const handlePrevPage = () => {
-    /* ... (igual ProductList) ... */ if (currentPage > 0) setCurrentPage(currentPage - 1);
-  };
+
   const handleFilterSubmit = (e) => {
     e.preventDefault();
     setSearchTerm(filter);
@@ -47,8 +46,7 @@ function ArtisanListPage() {
   return (
     <div className="product-list-page">
       <h2>Nossos Artesãos</h2>
-      <form className="filter-container" onSubmit={handleFilterSubmit}>
-        {/* ... (input e botão de filtro iguais ao ProductList) ... */}
+      <div className="filter-container">
         <div className="search-bar-wrapper">
           <FaSearch className="search-icon" />
           <input
@@ -59,42 +57,38 @@ function ArtisanListPage() {
             className="filter-input"
           />
         </div>
-        <button type="submit" className="filter-button">
+        <button type="submit" className="filter-button" onClick={handleFilterSubmit}>
           Buscar
         </button>
-      </form>
+      </div>
 
       {loading ? (
         <div className="loading">Carregando...</div>
       ) : (
         <>
           <div className="product-grid">
-            {artisans.length > 0 ? (
+            {artisans.length > 0 &&
               artisans.map((artisan) => (
                 <Link to={`/artisans/${artisan.artisanId}`} key={artisan.artisanId} className="product-card-link">
                   <div className="product-card">
-                    {/* (Adicionar imagem do artesão aqui quando tiver) */}
-                    <h3>{artisan.user.name}</h3> {/* Nome vem do User aninhado */}
+                    <h3>{artisan.user.name}</h3>
                     <p>{artisan.description}</p>
                   </div>
                 </Link>
-              ))
-            ) : (
-              <p>Nenhum artesão encontrado.</p>
-            )}
+              ))}
           </div>
-          <div className="pagination-controls">
-            {/* ... (botões de paginação iguais ao ProductList) ... */}
-            <button onClick={handlePrevPage} disabled={currentPage === 0}>
-              Anterior
-            </button>
-            <span>
-              Página {currentPage + 1} de {totalPages || 1}
-            </span>
-            <button onClick={handleNextPage} disabled={currentPage >= totalPages - 1}>
-              Próxima
-            </button>
-          </div>
+
+          {artisans.length === 0 && <p>Nenhum artesão encontrado.</p>}
+
+          {totalPages > 0 && (
+            <Pagination
+              count={totalPages}
+              color="secondary"
+              shape="rounded"
+              page={currentPage + 1}
+              onChange={handleChange}
+            />
+          )}
         </>
       )}
     </div>
