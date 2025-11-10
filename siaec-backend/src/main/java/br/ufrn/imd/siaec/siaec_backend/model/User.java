@@ -87,8 +87,11 @@ public class User implements UserDetails {
         if (this.role == null) {
             return List.of(); 
         }
-        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name())); 
-        // return List.of(new SimpleGrantedAuthority(this.role.name())); 
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+    }
+
+    public String getNickname() {
+        return username;
     }
 
     @Override

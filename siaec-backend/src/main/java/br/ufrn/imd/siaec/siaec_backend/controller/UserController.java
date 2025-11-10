@@ -42,7 +42,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-
     @PreAuthorize("hasRole('ROLE_ADMIN') or #id == authentication.principal.userId")
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable String id, @RequestBody UserUpdateDTO user) {

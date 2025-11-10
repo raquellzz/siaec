@@ -110,7 +110,7 @@ public class AuthService {
                 .userId(savedUser.getUserId())
                 .name(savedUser.getName())
                 .email(savedUser.getEmail())
-                .username(savedUser.getUsername())
+                .username(savedUser.getNickname())
                 .phone(savedUser.getPhone())
                 .role(savedUser.getRole())
                 .dateOfBirth(savedUser.getDateOfBirth())
