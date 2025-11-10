@@ -20,7 +20,7 @@ O sistema é composto por duas partes principais:
 **Frontend:**
 
 * React 18+
-* Vite (ou Create React App)
+* Vite
 * Node.js / npm
 * Axios (para chamadas HTTP)
 * React Router DOM (para roteamento)
@@ -62,8 +62,17 @@ Antes de começar, certifique-se de ter instalado:
 
 2.  **Rodar o Frontend (React):**
     * Abra **outro** terminal na pasta `siaec-frontend`.
+    * Instale as dependências necessárias:
+        * `npm ci`
     * Execute o comando para iniciar o servidor de desenvolvimento:
         * `npm run dev`
     * O frontend estará disponível, por padrão, em `http://localhost:5173`. Abra esta URL no seu navegador.
 
 A aplicação React fará chamadas para a API do backend (que deve estar rodando) para buscar e enviar dados.
+
+
+## Autores
+
+* Fabiana Pereira
+* Nicole Nogueira
+* Raquel Freire
