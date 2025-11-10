@@ -40,7 +40,7 @@ public class ProductService {
 
     @Transactional
     public ProductDTO create(ProductDTO productDTO) {
-        //User currentUser = userService.getCurrentAuthenticatedUser();
+        User currentUser = userService.getCurrentAuthenticatedUser();
         Artisan artisan = artisanRepository.findById(productDTO.getArtisanId())
                 .orElseThrow(() -> new NotFoundException("Artesão não encontrado com id: " + productDTO.getArtisanId()));
 

@@ -18,7 +18,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PreAuthorize("hasRole('ROLE_ARTISAN') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ARTISAN') or hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductDTO newProduct = productService.create(productDTO);
@@ -45,14 +45,14 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    @PreAuthorize("hasRole('ROLE_ARTISAN') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ARTISAN') or hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable String id, @Valid @RequestBody ProductDTO productDTO) { 
         ProductDTO updatedProduct = productService.update(id, productDTO);
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @PreAuthorize("hasRole('ROLE_ARTISAN') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ARTISAN') or hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable String id) { 
         productService.delete(id);
@@ -60,12 +60,13 @@ public class ProductController {
     }
 
     @GetMapping("/my-products")
-    @PreAuthorize("hasRole('ROLE_ARTISAN')")
+    @PreAuthorize("hasAuthority('ARTISAN')")
     public ResponseEntity<Page<ProductDTO>> getMyProducts(Pageable pageable) {
         Page<ProductDTO> myProducts = productService.findMyProducts(pageable);
         return ResponseEntity.ok(myProducts);
     }
-    @PreAuthorize("hasRole('ROLE_ARTISAN') or hasRole('ROLE_ADMIN')")
+
+    @PreAuthorize("hasAuthority('ARTISAN') or hasAuthority('ADMIN')")
     @PutMapping("/my-products/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable String id, @Valid @RequestBody ProductDTO productDTO) { 
         // O service vai verificar se o produto pertence ao artesão logado
@@ -73,7 +74,7 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @PreAuthorize("hasRole('ROLE_ARTISAN') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ARTISAN') or hasAuthority('ADMIN')")
     @DeleteMapping("/my-products/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) { 
         // O service vai verificar se o produto pertence ao artesão logado

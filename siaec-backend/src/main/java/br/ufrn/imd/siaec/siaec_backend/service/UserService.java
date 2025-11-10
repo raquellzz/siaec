@@ -8,6 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.ufrn.imd.siaec.siaec_backend.dto.LoginDTO;
@@ -28,6 +30,7 @@ import br.ufrn.imd.siaec.siaec_backend.repository.CatalogRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.Authentication;
+import org.springframework.context.annotation.Lazy;
 
 @Service
 public class UserService {
@@ -36,6 +39,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
     private CatalogRepository catalogRepository;
+
 
     public UserService(
         UserRepository repository,
@@ -47,9 +51,15 @@ public class UserService {
         this.repository = repository;
         this.artisanRepository = artisanRepository;
         this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
+        //this.authenticationManager = authenticationManager;
         this.catalogRepository = catalogRepository;
     }
+
+    @Autowired
+    public void setAuthenticationManager(@Lazy AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
     
 
     public UserResponseDTO create(UserRegisterDTO user) {
@@ -147,7 +157,6 @@ public class UserService {
                 userUpdated.setUsername(input.getUsername());
             }
         }
-        // if (input.getPassword() != null) userUpdated.setPassword(passwordEncoder.encode(userUpdated.getPassword()));
         if (input.getPassword() != null) {
             userUpdated.setPassword(passwordEncoder.encode(input.getPassword()));
         }
@@ -160,8 +169,10 @@ public class UserService {
     public void delete(String userId) {
         User user = repository.findById(userId).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
         user.setDeletedAt(new Date());
+        
         user.setStatusAccount(AccountStatusEnum.valueOf("DELETED"));
        
+        
         repository.save(user);
     }
 
