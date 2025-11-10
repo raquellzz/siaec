@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { createProduct, getProductById, updateProduct } from '../../services/productService';
 import ButtonUI from '../../components/ButtonUI';
 import Input from '../../components/Input';
-import { Checkbox } from '@mui/material';
+import { Checkbox, Snackbar } from '@mui/material';
 
 function ProductFormPage() {
   const { productId } = useParams();
@@ -21,6 +21,7 @@ function ProductFormPage() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
   useEffect(() => {
     if (isEditing) {
@@ -37,9 +38,10 @@ function ProductFormPage() {
             imagePaths: data.imagePaths || [''],
           });
         })
-        .catch((err) =>
-          setError('Não foi possível carregar o produto para edição.' + (err.response?.data?.message || '')),
-        )
+        .catch((err) => {
+          setError('Não foi possível carregar o produto para edição.' + (err.response?.data?.message || ''));
+          setIsSnackbarOpen(true);
+        })
         .finally(() => setLoading(false));
     }
   }, [productId, isEditing]);
@@ -80,6 +82,7 @@ function ProductFormPage() {
       }
       navigate('/meus-produtos');
     } catch (err) {
+      setIsSnackbarOpen(true);
       setError('Erro ao salvar o produto. Verifique os campos.');
       console.error(err);
     } finally {
@@ -165,6 +168,12 @@ function ProductFormPage() {
           <ButtonUI text="Salvar Produto" loading={loading} onClick={handleSubmit} />
         </div>
       </div>
+      <Snackbar
+        open={isSnackbarOpen}
+        autoHideDuration={5000}
+        onClose={() => setIsSnackbarOpen(false)}
+        message={error}
+      />
     </div>
   );
 }
