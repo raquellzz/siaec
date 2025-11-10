@@ -45,13 +45,6 @@ function HomePage() {
     return <div className="error-message">{error}</div>;
   }
 
-  // Filtra artesãos
-  const filteredArtisans =
-    artisans.filter((artisan) => artisan.user.name.toLowerCase().includes(searchTerm.toLowerCase())) || [];
-
-  // Filtra feiras
-  const filteredFairs = events.filter((event) => event.name.toLowerCase().includes(searchTerm.toLowerCase())) || [];
-
   return (
     <div className="homepage">
       <section className="welcome-banner">
@@ -62,7 +55,7 @@ function HomePage() {
         <FaSearch className="search-icon" />
         <input
           type="text"
-          placeholder="Pesquise aqui por produtos, artesãos ou eventos"
+          placeholder="Pesquise por produtos"
           className="search-input"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -79,16 +72,16 @@ function HomePage() {
             Ver todos
           </Link>
         </div>
-        {filteredArtisans.length > 0 ? (
+        {artisans.length > 0 ? (
           <div className="artisan-list">
-            {filteredArtisans.map((artisan) => (
+            {artisans.map((artisan) => (
               <div key={artisan.artisanId} className="artisan-card">
                 <p>{artisan.user.name}</p>
               </div>
             ))}
           </div>
         ) : (
-          <p>{searchTerm ? 'Nenhum artesão encontrado.' : 'Nenhum artesão em destaque no momento.'}</p>
+          <p>Nenhum artesão em destaque no momento.</p>
         )}
       </section>
 
@@ -99,16 +92,16 @@ function HomePage() {
             Ver todos
           </Link>
         </div>
-        {filteredFairs.length > 0 ? (
+        {events.length > 0 ? (
           <div className="fair-list">
-            {filteredFairs.map((event, index) => (
+            {events.map((event, index) => (
               <div key={index} className="fair-card">
                 <p>{event.name}</p>
               </div>
             ))}
           </div>
         ) : (
-          <p>{searchTerm ? 'Nenhum evento encontrado.' : 'Nenhum evento cadastrado no momento.'}</p>
+          <p>'enhum evento cadastrado no momento.</p>
         )}
       </section>
     </div>
