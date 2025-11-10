@@ -7,6 +7,9 @@ import ArtisanListPage from './pages/ArtisanListPage.jsx';
 import EventListPage from './pages/EventListPage.jsx';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ProfilePage from './pages/ProfilePage.jsx';
+import MyProductsPage from './pages/MyProductsPage.jsx';
+import ProductFormPage from './pages/ProductFormPage.jsx';
 
 function App() {
   return (
@@ -20,6 +23,10 @@ function App() {
           <Route path="/events" element={<EventListPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/meus-produtos" element={<MyProductsPage />} />
+          <Route path="/meus-produtos/novo" element={<ProductFormPage />} />
+          <Route path="/meus-produtos/editar/:productId" element={<ProductFormPage />} />
         </Routes>
       </div>
       

@@ -20,9 +20,9 @@ function Header() {
                 </Link>
                 {isAuthenticated ? (
                     <>
-                        {/* <Link to="/profile" className="navbar-icon">
+                        <Link to="/profile" className="header-button profile-button">
                             <FaUserCircle />
-                        </Link> */}
+                        </Link>
                         {/* <button onClick={logout} className="navbar-logout">
                             Sair
                         </button> */}

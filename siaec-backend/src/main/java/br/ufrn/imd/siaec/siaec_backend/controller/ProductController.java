@@ -58,4 +58,26 @@ public class ProductController {
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/my-products")
+    @PreAuthorize("hasRole('ROLE_ARTISAN')")
+    public ResponseEntity<Page<ProductDTO>> getMyProducts(Pageable pageable) {
+        Page<ProductDTO> myProducts = productService.findMyProducts(pageable);
+        return ResponseEntity.ok(myProducts);
+    }
+    @PreAuthorize("hasRole('ROLE_ARTISAN') or hasRole('ROLE_ADMIN')")
+    @PutMapping("/my-products/{id}")
+    public ResponseEntity<ProductDTO> update(@PathVariable String id, @Valid @RequestBody ProductDTO productDTO) { 
+        // O service vai verificar se o produto pertence ao artesão logado
+        ProductDTO updatedProduct = productService.update(id, productDTO);
+        return ResponseEntity.ok(updatedProduct);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ARTISAN') or hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/my-products/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) { 
+        // O service vai verificar se o produto pertence ao artesão logado
+        productService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

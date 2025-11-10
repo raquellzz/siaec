@@ -1,7 +1,9 @@
 package br.ufrn.imd.siaec.siaec_backend.service;
 
 import br.ufrn.imd.siaec.siaec_backend.dto.ProductDTO;
+import br.ufrn.imd.siaec.siaec_backend.exception.BusinessRuleException;
 import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException; // Importar
+import br.ufrn.imd.siaec.siaec_backend.exception.UnauthorizedException;
 import br.ufrn.imd.siaec.siaec_backend.model.Artisan;
 import br.ufrn.imd.siaec.siaec_backend.model.Catalog;
 import br.ufrn.imd.siaec.siaec_backend.model.Product;
@@ -14,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ufrn.imd.siaec.siaec_backend.model.User;
+import br.ufrn.imd.siaec.siaec_backend.service.UserService;
 
 import java.util.Date;
 import java.util.List;
@@ -31,8 +35,12 @@ public class ProductService {
     @Autowired
     private CatalogRepository catalogRepository;
 
+    @Autowired
+    private UserService userService;
+
     @Transactional
     public ProductDTO create(ProductDTO productDTO) {
+        //User currentUser = userService.getCurrentAuthenticatedUser();
         Artisan artisan = artisanRepository.findById(productDTO.getArtisanId())
                 .orElseThrow(() -> new NotFoundException("Artesão não encontrado com id: " + productDTO.getArtisanId()));
 
@@ -40,15 +48,15 @@ public class ProductService {
                 .orElseGet(() -> {
                     Catalog newCatalog = new Catalog();
                     newCatalog.setArtisan(artisan);
-                    artisan.setCatalog(newCatalog); // Mantém a relação bidirecional
-                    return catalogRepository.save(newCatalog); // Salva o novo catálogo
+                    artisan.setCatalog(newCatalog); 
+                    return catalogRepository.save(newCatalog);
                 });
 
         Product product = productDTO.toEntity();
-        product.setCreatedAt(new Date()); // Define a data de criação
+        product.setCreatedAt(new Date());
         product.setCatalog(catalog);
         
-        // CascadeType.ALL no model fará com que as imagens sejam salvas junto
+        
         Product savedProduct = productRepository.save(product);
         return ProductDTO.fromEntity(savedProduct);
     }
@@ -57,8 +65,7 @@ public class ProductService {
     public ProductDTO findById(String productId) { 
         Product product = productRepository.findById(productId)
                 .filter(p -> p.getDeletedAt() == null) 
-                .orElseThrow();
-                // .orElseThrow(() -> new NotFoundException("Produto não encontrado com id: " + productId));
+                .orElseThrow(() -> new NotFoundException("Produto não encontrado com id: " + productId)); 
         return ProductDTO.fromEntity(product);
     }
 
@@ -76,21 +83,25 @@ public class ProductService {
 
     @Transactional
     public ProductDTO update(String productId, ProductDTO productDTO) { 
+        User currentUser = userService.getCurrentAuthenticatedUser();
+        Artisan artisan = artisanRepository.findById(currentUser.getUserId())
+            .orElseThrow(() -> new BusinessRuleException("O usuário logado não é um artesão."));
+        Catalog catalog = catalogRepository.findByArtisanArtisanId(artisan.getArtisanId())
+            .orElseThrow(() -> new NotFoundException("Catálogo não encontrado para este artesão."));
+            
         Product product = productRepository.findById(productId)
                 .filter(p -> p.getDeletedAt() == null)
                 .orElseThrow(() -> new NotFoundException("Produto não encontrado com id: " + productId));
 
+        if (!product.getCatalog().getId().equals(catalog.getId())) {
+            throw new UnauthorizedException("Você não tem permissão para editar este produto.");
+        }
+
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
-        product.setPrice(productDTO.getPrice());
-        product.setStock(productDTO.getStock());
-        product.setMaterial(productDTO.getMaterial());
-        product.setStatus(productDTO.isStatus());
-
         if (product.getProductImages() != null) {
             product.getProductImages().clear();
         }
-
         if (productDTO.getImagePaths() != null) {
             List<ProductImage> images = productDTO.getImagePaths().stream().map(path -> {
                 ProductImage img = new ProductImage();
@@ -107,14 +118,36 @@ public class ProductService {
 
     @Transactional
     public void delete(String productId) { 
+        User currentUser = userService.getCurrentAuthenticatedUser();
+        Artisan artisan = artisanRepository.findById(currentUser.getUserId())
+            .orElseThrow(() -> new BusinessRuleException("O usuário logado não é um artesão."));
+        Catalog catalog = catalogRepository.findByArtisanArtisanId(artisan.getArtisanId())
+            .orElseThrow(() -> new NotFoundException("Catálogo não encontrado para este artesão."));
+
         Product product = productRepository.findById(productId)
                 .filter(p -> p.getDeletedAt() == null) 
-                .orElse(null);
-                // .orElseThrow(() -> new NotFoundException("Produto não encontrado com id: " + productId));
+                .orElseThrow(() -> new NotFoundException("Produto não encontrado com id: " + productId)); 
         
+        if (!product.getCatalog().getId().equals(catalog.getId())) {
+            throw new UnauthorizedException("Você não tem permissão para deletar este produto.");
+        }
         product.setDeletedAt(new Date());
         product.setStatus(false); 
         productRepository.save(product);
-        
     }
+
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> findMyProducts(Pageable pageable) {
+        User currentUser = userService.getCurrentAuthenticatedUser();
+        Artisan artisan = artisanRepository.findById(currentUser.getUserId())
+            .orElseThrow(() -> new BusinessRuleException("O usuário logado não é um artesão."));
+        Catalog catalog = catalogRepository.findByArtisanArtisanId(artisan.getArtisanId())
+            .orElseThrow(() -> new NotFoundException("Catálogo não encontrado para este artesão."));
+        
+        // Busca os produtos desse catálogo
+        Page<Product> page = productRepository.findByCatalogAndDeletedAtIsNull(catalog, pageable);
+        return page.map(ProductDTO::fromEntity);
+    }
+
+    
 }

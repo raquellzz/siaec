@@ -11,7 +11,7 @@ function RegisterPage() {
         phone: '',
         taxId: '',
         dateOfBirth: '',
-        role: 'CLIENTE' 
+        role: 'CLIENT' 
     });
     
     const [loading, setLoading] = useState(false);
@@ -82,11 +82,11 @@ function RegisterPage() {
                 <div>
                     <label>Eu sou:</label>
                     <select name="role" value={formData.role} onChange={handleChange}>
-                        <option value="CLIENTE">Cliente</option>
-                        <option value="ARTESAO">Artesão</option>
-                        <option value="CURADOR">Curador</option>
-                        <option value="ENTREGADOR">Entregador</option>
-                        <option value="CERIMONIALISTA">Cerimonialista</option>
+                        <option value="CLIENT">Cliente</option> 
+                        <option value="ARTISAN">Artesão</option>
+                        <option value="CURATOR">Curador</option>
+                        <option value="DELIVERY_PERSON">Entregador</option>
+                        <option value="EVENT_PLANNER">Cerimonialista</option>
                     </select>
                 </div>
 

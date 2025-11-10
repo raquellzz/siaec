@@ -1,35 +1,57 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { login as apiLogin } from '../services/authService';
+import { getMyProfile } from '../services/userService';
 import api from '../services/api';
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null); 
-    const [token, setToken] = useState(localStorage.getItem('token')); 
+    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [loadingAuth, setLoadingAuth] = useState(true);
 
     useEffect(() => {
-        if (token) {
-            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            
-            const userId = localStorage.getItem('userId');
-            if (userId) {
-                setUser({ id: userId });
+        const loadUserFromToken = async () => {
+            const storedToken = localStorage.getItem('token');
+            // 1. Pega o userId do storage
+            const storedUserId = localStorage.getItem('userId'); 
+
+            if (storedToken && storedToken !== 'undefined' && storedUserId) {
+                try {
+                    api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+
+                    // 2. Busca o perfil usando o ID
+                    const userData = await getMyProfile(storedUserId); 
+
+                    setUser(userData); 
+                    setToken(storedToken);
+
+                } catch (error) {
+                    console.error("Falha ao carregar usuário (token pode ter expirado):", error);
+                    logout(); 
+                }
             }
-        }
-    }, [token]);
+            setLoadingAuth(false);
+        };
+
+        loadUserFromToken();
+    }, []); 
 
     const login = async (email, password) => {
         try {
+            // 3. O 'data' aqui é o LoginResponseDTO
             const data = await apiLogin(email, password); 
 
+            // 4. Salva o token E o userId
             localStorage.setItem('token', data.token);
-            localStorage.setItem('userId', data.userId);
-
-            setToken(data.token);
-            setUser({ id: data.userId });
+            localStorage.setItem('userId', data.userId); 
 
             api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+
+            // 5. Busca o perfil completo usando o ID retornado
+            const userData = await getMyProfile(data.userId);
+            setUser(userData);
+            setToken(data.token);
 
         } catch (error) {
             console.error("Falha na autenticação (Context)", error);
@@ -40,24 +62,23 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
         setToken(null);
-
         localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-
+        localStorage.removeItem('userId'); // 6. Limpa o ID
         delete api.defaults.headers.common['Authorization'];
     };
+
     const value = {
-        isAuthenticated: !!token, 
+        isAuthenticated: !!token && !!user,
         user,
         token,
+        loadingAuth,
         login,
         logout
     };
 
     return (
         <AuthContext.Provider value={value}>
-            {children}
+            {!loadingAuth && children} 
         </AuthContext.Provider>
     );
 };
-
