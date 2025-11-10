@@ -15,6 +15,7 @@ O sistema é composto por duas partes principais:
 * Spring Boot 3.x
 * Spring Data JPA / Hibernate
 * Maven
+* MySQL
 
 **Frontend:**
 
@@ -23,7 +24,7 @@ O sistema é composto por duas partes principais:
 * Node.js / npm
 * Axios (para chamadas HTTP)
 * React Router DOM (para roteamento)
-* CSS / (Framework de sua escolha - ex: Tailwind CSS, Material UI)
+* Material UI
 
 ## Estrutura do Projeto
 
@@ -31,7 +32,7 @@ O repositório está organizado em duas pastas principais:
 
 * `siaec-backend/`: Contém todo o código-fonte do backend Spring Boot.
     * `src/main/java/br/ufrn/imd/siaec/`: Pacote principal com subpastas para `controller`, `service`, `repository`, `model`, `dto`, `config`, `exception`.
-    * `src/main/resources/`: Contém arquivos de configuração (`application.properties`) e arquivos estáticos (se houver deploy unificado).
+    * `src/main/resources/`: Contém o arquivo de configuração (`application.properties`).
     * `pom.xml`: Arquivo de configuração do Maven.
 * `siaec-frontend/`: Contém todo o código-fonte do frontend React.
     * `src/`: Pasta principal com subpastas para `pages`, `components`, `services`, `contexts`, etc.
@@ -41,8 +42,9 @@ O repositório está organizado em duas pastas principais:
 
 Antes de começar, certifique-se de ter instalado:
 
-* [cite_start]**JDK 17 ou superior:** [cite: 4289] Verifique com `java -version`. Configure a variável de ambiente `JAVA_HOME`.
-* **Maven:** Verifique com `mvn -version`. (O projeto inclui um Maven Wrapper `mvnw` que pode ser usado no lugar).
+* [cite_start]**JDK 17:** [cite: 4289] Verifique com `java -version`. Configure a variável de ambiente `JAVA_HOME`.
+* **Maven:** Verifique com `mvn -version`.
+* **MySQL**: Instale o banco de dados MySQL.
 * **Node.js e npm:** Verifique com `node -v` e `npm -v`. Use uma versão LTS recente.
 * **Git:** Para clonar o repositório.
 
@@ -52,6 +54,7 @@ Antes de começar, certifique-se de ter instalado:
 **IMPORTANTE:** Para o funcionamento completo durante o desenvolvimento, **ambos** o backend e o frontend precisam estar rodando simultaneamente.
 
 1.  **Rodar o Backend (Spring Boot):**
+    * Edite o arquivo `application.properties` e edite os campos de username e password adicionando as credenciais do seu banco de dados.
     * Abra um terminal na pasta `siaec-backend`.
     * Execute o comando usando o Maven Wrapper:
         * `mvn spring-boot:run`
