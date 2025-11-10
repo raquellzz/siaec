@@ -22,4 +22,6 @@ public class UserUpdateDTO {
 
     @Past
     private LocalDate dateOfBirth;
+
+    private String description;
 }
