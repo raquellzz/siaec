@@ -14,11 +14,11 @@ function Header() {
         </Link>
       </div>
       <div className="header-right">
-        <Link to="/cart" className="header-button cart-button">
-          <FaShoppingCart />
-        </Link>
         {isAuthenticated ? (
           <>
+            <Link to="/cart" className="header-button cart-button">
+              <FaShoppingCart />
+            </Link>
             {/* <Link to="/profile" className="navbar-icon">
                             <FaUserCircle />
                         </Link> */}
