@@ -10,20 +10,19 @@ import br.ufrn.imd.siaec.siaec_backend.model.Product;
 import br.ufrn.imd.siaec.siaec_backend.model.ProductImage;
 import br.ufrn.imd.siaec.siaec_backend.repository.ArtisanRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.CatalogRepository;
+import br.ufrn.imd.siaec.siaec_backend.repository.ProductImageRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.ufrn.imd.siaec.siaec_backend.model.User;
-
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
     private ProductRepository productRepository;
+    private ProductImageRepository productImageRepository;
     private ArtisanRepository artisanRepository;
     private CatalogRepository catalogRepository;
     private UserService userService;
@@ -32,11 +31,13 @@ public class ProductService {
         ProductRepository productRepository,
         ArtisanRepository artisanRepository,
         CatalogRepository catalogRepository,
+        ProductImageRepository productImageRepository,
         UserService userService
     ) {
         this.artisanRepository = artisanRepository;
         this.catalogRepository = catalogRepository;
         this.productRepository = productRepository;
+        this.productImageRepository = productImageRepository;
         this.userService = userService;
     }
 
@@ -99,17 +100,21 @@ public class ProductService {
 
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
-        if (product.getProductImages() != null) {
-            product.getProductImages().clear();
-        }
+        product.setMaterial(productDTO.getMaterial());
+        product.setPrice(productDTO.getPrice());
+        product.setStatus(productDTO.isStatus());
+        product.setStock(productDTO.getStock());
+
         if (productDTO.getImagePaths() != null) {
-            List<ProductImage> images = productDTO.getImagePaths().stream().map(path -> {
-                ProductImage img = new ProductImage();
-                img.setImagePath(path);
-                img.setProduct(product);
-                return img;
-            }).collect(Collectors.toList());
-            product.setProductImages(images);
+            productDTO.getImagePaths().stream().forEach(path -> {
+                boolean imageExists = productImageRepository.existsByImagePath(path);
+                if (!imageExists) {
+                    ProductImage img = new ProductImage();
+                    img.setImagePath(path);
+                    img.setProduct(product);
+                    productImageRepository.save(img);
+                }
+            });
         }
 
         Product updatedProduct = productRepository.save(product);
@@ -148,6 +153,4 @@ public class ProductService {
         Page<Product> page = productRepository.findByCatalogAndDeletedAtIsNull(catalog, pageable);
         return page.map(ProductDTO::fromEntity);
     }
-
-    
 }
