@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage.jsx';
-import './App.css'
-import Header from './components/Header.jsx';
-import ProductListPage from './pages/ProductListPage.jsx';
-import ArtisanListPage from './pages/ArtisanListPage.jsx';
-import EventListPage from './pages/EventListPage.jsx';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import ProfilePage from './pages/ProfilePage.jsx';
-import MyProductsPage from './pages/MyProductsPage.jsx';
-import ProductFormPage from './pages/ProductFormPage.jsx';
+import HomePage from './pages/Home/HomePage.jsx';
+import './App.css';
+import Header from './components/Header/Header.jsx';
+import ProductListPage from './pages/ProductList/ProductListPage.jsx';
+import ArtisanListPage from './pages/ArtisanList/ArtisanListPage.jsx';
+import EventListPage from './pages/EventList/EventListPage.jsx';
+import LoginPage from './pages/Login/LoginPage';
+import RegisterPage from './pages/Register/RegisterPage';
+import ProfilePage from './pages/Profile/ProfilePage.jsx';
+import MyProductsPage from './pages/MyProducts/MyProductsPage.jsx';
+import ProductFormPage from './pages/ProductForm/ProductFormPage.jsx';
 
 function App() {
   return (

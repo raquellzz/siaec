@@ -3,7 +3,6 @@ package br.ufrn.imd.siaec.siaec_backend.service;
 import java.util.Date;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,8 +14,6 @@ import br.ufrn.imd.siaec.siaec_backend.enums.AccountStatusEnum;
 import br.ufrn.imd.siaec.siaec_backend.exception.UnauthorizedException;
 import br.ufrn.imd.siaec.siaec_backend.model.User;
 import br.ufrn.imd.siaec.siaec_backend.repository.UserRepository;
-import br.ufrn.imd.siaec.siaec_backend.repository.ArtisanRepository;
-import br.ufrn.imd.siaec.siaec_backend.repository.CatalogRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.Authentication;
@@ -28,10 +25,7 @@ public class UserService {
 
     public UserService(
         UserRepository repository,
-        ArtisanRepository artisanRepository,
-        PasswordEncoder passwordEncoder,
-        CatalogRepository catalogRepository,
-        AuthenticationManager authenticationManager
+        PasswordEncoder passwordEncoder
     ) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;

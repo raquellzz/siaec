@@ -14,8 +14,12 @@ import java.util.Optional;
 
 @Service
 public class ArtisanService {
-    @Autowired
     private ArtisanRepository artisanRepository;
+
+    @Autowired
+    public ArtisanService(ArtisanRepository artisanRepository) {
+        this.artisanRepository = artisanRepository;
+    }
 
     @Transactional(readOnly = true)
     public Page<Artisan> findArtisans(String nameFilter, Pageable pageable) {

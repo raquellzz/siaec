@@ -15,9 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/artisans")
 public class ArtisanController {
-    @Autowired
     private ArtisanService artisanService;
     private UserService userService;
+
+    @Autowired
+    public ArtisanController(ArtisanService artisanService, UserService userService) {
+        this.artisanService = artisanService;
+        this.userService = userService;
+    }
 
     @GetMapping
     public ResponseEntity<Page<Artisan>> getArtisans(

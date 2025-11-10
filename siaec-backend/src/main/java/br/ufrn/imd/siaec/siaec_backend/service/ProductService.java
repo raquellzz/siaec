@@ -2,22 +2,20 @@ package br.ufrn.imd.siaec.siaec_backend.service;
 
 import br.ufrn.imd.siaec.siaec_backend.dto.ProductDTO;
 import br.ufrn.imd.siaec.siaec_backend.exception.BusinessRuleException;
-import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException; // Importar
+import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.exception.UnauthorizedException;
 import br.ufrn.imd.siaec.siaec_backend.model.Artisan;
 import br.ufrn.imd.siaec.siaec_backend.model.Catalog;
 import br.ufrn.imd.siaec.siaec_backend.model.Product;
 import br.ufrn.imd.siaec.siaec_backend.model.ProductImage;
-import br.ufrn.imd.siaec.siaec_backend.repository.ArtisanRepository; // Importar
-import br.ufrn.imd.siaec.siaec_backend.repository.CatalogRepository; // Importar
+import br.ufrn.imd.siaec.siaec_backend.repository.ArtisanRepository;
+import br.ufrn.imd.siaec.siaec_backend.repository.CatalogRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.ufrn.imd.siaec.siaec_backend.model.User;
-import br.ufrn.imd.siaec.siaec_backend.service.UserService;
 
 import java.util.Date;
 import java.util.List;
@@ -25,22 +23,25 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
-
-    @Autowired
     private ProductRepository productRepository;
-
-    @Autowired
     private ArtisanRepository artisanRepository;
-
-    @Autowired
     private CatalogRepository catalogRepository;
-
-    @Autowired
     private UserService userService;
+
+    public ProductService(
+        ProductRepository productRepository,
+        ArtisanRepository artisanRepository,
+        CatalogRepository catalogRepository,
+        UserService userService
+    ) {
+        this.artisanRepository = artisanRepository;
+        this.catalogRepository = catalogRepository;
+        this.productRepository = productRepository;
+        this.userService = userService;
+    }
 
     @Transactional
     public ProductDTO create(ProductDTO productDTO) {
-        User currentUser = userService.getCurrentAuthenticatedUser();
         Artisan artisan = artisanRepository.findById(productDTO.getArtisanId())
                 .orElseThrow(() -> new NotFoundException("Artesão não encontrado com id: " + productDTO.getArtisanId()));
 
@@ -84,7 +85,7 @@ public class ProductService {
     @Transactional
     public ProductDTO update(String productId, ProductDTO productDTO) { 
         User currentUser = userService.getCurrentAuthenticatedUser();
-        Artisan artisan = artisanRepository.findById(currentUser.getUserId())
+        Artisan artisan = artisanRepository.findByUserUserId(currentUser.getUserId())
             .orElseThrow(() -> new BusinessRuleException("O usuário logado não é um artesão."));
         Catalog catalog = catalogRepository.findByArtisanArtisanId(artisan.getArtisanId())
             .orElseThrow(() -> new NotFoundException("Catálogo não encontrado para este artesão."));
@@ -119,7 +120,7 @@ public class ProductService {
     @Transactional
     public void delete(String productId) { 
         User currentUser = userService.getCurrentAuthenticatedUser();
-        Artisan artisan = artisanRepository.findById(currentUser.getUserId())
+        Artisan artisan = artisanRepository.findByUserUserId(currentUser.getUserId())
             .orElseThrow(() -> new BusinessRuleException("O usuário logado não é um artesão."));
         Catalog catalog = catalogRepository.findByArtisanArtisanId(artisan.getArtisanId())
             .orElseThrow(() -> new NotFoundException("Catálogo não encontrado para este artesão."));
@@ -139,7 +140,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Page<ProductDTO> findMyProducts(Pageable pageable) {
         User currentUser = userService.getCurrentAuthenticatedUser();
-        Artisan artisan = artisanRepository.findById(currentUser.getUserId())
+        Artisan artisan = artisanRepository.findByUserUserId(currentUser.getUserId())
             .orElseThrow(() -> new BusinessRuleException("O usuário logado não é um artesão."));
         Catalog catalog = catalogRepository.findByArtisanArtisanId(artisan.getArtisanId())
             .orElseThrow(() -> new NotFoundException("Catálogo não encontrado para este artesão."));

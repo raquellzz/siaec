@@ -35,13 +35,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/").permitAll()
-                .requestMatchers(HttpMethod.GET, "/v1/products").permitAll() 
-                .requestMatchers(HttpMethod.GET, "/v1/products/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/products").permitAll() 
+                .requestMatchers(HttpMethod.GET, "/products/{id}").permitAll()
                 .requestMatchers(HttpMethod.GET, "/artisans/**").permitAll() 
                 .requestMatchers(HttpMethod.GET, "/events/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/auth/register/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/auth/login/**").permitAll()
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

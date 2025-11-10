@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,7 +19,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PreAuthorize("hasAuthority('ARTISAN') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ARTISAN') or hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductDTO newProduct = productService.create(productDTO);
@@ -45,14 +46,14 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    @PreAuthorize("hasAuthority('ARTISAN') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ARTISAN') or hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable String id, @Valid @RequestBody ProductDTO productDTO) { 
         ProductDTO updatedProduct = productService.update(id, productDTO);
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @PreAuthorize("hasAuthority('ARTISAN') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ARTISAN') or hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable String id) { 
         productService.delete(id);
@@ -60,13 +61,13 @@ public class ProductController {
     }
 
     @GetMapping("/my-products")
-    @PreAuthorize("hasAuthority('ARTISAN')")
-    public ResponseEntity<Page<ProductDTO>> getMyProducts(Pageable pageable) {
+    @PreAuthorize("hasRole('ARTISAN')")
+    public ResponseEntity<Page<ProductDTO>> getMyProducts(@PageableDefault(size = 10, page = 0) Pageable pageable) {
         Page<ProductDTO> myProducts = productService.findMyProducts(pageable);
         return ResponseEntity.ok(myProducts);
     }
 
-    @PreAuthorize("hasAuthority('ARTISAN') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ARTISAN') or hasRole('ADMIN')")
     @PutMapping("/my-products/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable String id, @Valid @RequestBody ProductDTO productDTO) { 
         // O service vai verificar se o produto pertence ao artesão logado
@@ -74,7 +75,7 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @PreAuthorize("hasAuthority('ARTISAN') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ARTISAN') or hasRole('ADMIN')")
     @DeleteMapping("/my-products/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) { 
         // O service vai verificar se o produto pertence ao artesão logado
