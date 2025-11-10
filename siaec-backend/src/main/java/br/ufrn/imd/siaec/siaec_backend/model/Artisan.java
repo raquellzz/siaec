@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.ufrn.imd.siaec.siaec_backend.enums.RegistrationAccountStatusEnum;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -31,7 +32,7 @@ public class Artisan {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String artisanId;
 
-    @Nonnull
+    @Nullable
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -44,7 +45,4 @@ public class Artisan {
 
     @OneToMany(mappedBy = "artisan", cascade = CascadeType.ALL)
     private List<EventRegistration> eventRegistrations;
-
-    @OneToOne(mappedBy = "artisan", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Catalog catalog;
 }

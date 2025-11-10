@@ -49,7 +49,6 @@ public class ProductService {
                 .orElseGet(() -> {
                     Catalog newCatalog = new Catalog();
                     newCatalog.setArtisan(artisan);
-                    artisan.setCatalog(newCatalog); 
                     return catalogRepository.save(newCatalog);
                 });
 

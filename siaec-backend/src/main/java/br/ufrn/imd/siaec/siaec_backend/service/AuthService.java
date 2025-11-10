@@ -17,9 +17,11 @@ import br.ufrn.imd.siaec.siaec_backend.exception.BadRequestException;
 import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.exception.UnauthorizedException;
 import br.ufrn.imd.siaec.siaec_backend.model.Artisan;
+import br.ufrn.imd.siaec.siaec_backend.model.Catalog;
 import br.ufrn.imd.siaec.siaec_backend.model.EventPlanner;
 import br.ufrn.imd.siaec.siaec_backend.model.User;
 import br.ufrn.imd.siaec.siaec_backend.repository.ArtisanRepository;
+import br.ufrn.imd.siaec.siaec_backend.repository.CatalogRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.EventPlannerRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.UserRepository;
 
@@ -30,6 +32,7 @@ public class AuthService {
     private EventPlannerRepository eventPlannerRepository;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
+    private CatalogRepository catalogRepository;
 
     @Autowired
     public AuthService(
@@ -37,13 +40,15 @@ public class AuthService {
         ArtisanRepository artisanRepository,
         EventPlannerRepository eventPlannerRepository,
         PasswordEncoder passwordEncoder,
-        AuthenticationManager authenticationManager
+        AuthenticationManager authenticationManager,
+        CatalogRepository catalogRepository
     ) {
         this.userRepository = userRepository;
         this.artisanRepository = artisanRepository;
         this.eventPlannerRepository = eventPlannerRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.catalogRepository = catalogRepository;
     }
 
     public UserResponseDTO create(UserRegisterDTO user) {
@@ -76,7 +81,17 @@ public class AuthService {
                 newArtisan.setUser(savedUser);
                 newArtisan.setRegistrationAccountStatus(RegistrationAccountStatusEnum.APPROVED);
 
-                artisanRepository.save(newArtisan);
+                Catalog newCatalog = new Catalog();
+                newCatalog.setArtisan(newArtisan);
+
+                try {
+                    artisanRepository.save(newArtisan);
+                    catalogRepository.save(newCatalog);
+                } catch (Exception e) {
+                    userRepository.delete(savedUser);
+                    artisanRepository.delete(newArtisan);
+                    catalogRepository.delete(newCatalog);
+                }
             }
 
             if (user.getRole() == RoleEnum.EVENT_PLANNER) {
@@ -84,7 +99,11 @@ public class AuthService {
                 newEventPlanner.setUser(savedUser);
                 newEventPlanner.setRegistrationAccountStatus(RegistrationAccountStatusEnum.APPROVED);
 
-                eventPlannerRepository.save(newEventPlanner);
+                try {
+                    eventPlannerRepository.save(newEventPlanner);
+                } catch (Exception e) {
+                    userRepository.delete(savedUser);
+                }
             }
 
             return UserResponseDTO.builder()
