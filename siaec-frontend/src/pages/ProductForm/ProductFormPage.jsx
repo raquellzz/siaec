@@ -48,7 +48,7 @@ function ProductFormPage() {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : type === 'number' ? Number(value) : value,
     }));
   };
 
@@ -63,7 +63,6 @@ function ProductFormPage() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setLoading(true);
     setError(null);
 
