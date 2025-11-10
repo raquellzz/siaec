@@ -4,7 +4,7 @@ export default function ButtonUI({ loading = false, onClick, text, fullWidth = f
   return (
     <Button
       variant="contained"
-      disabled={loading}
+      loading={loading}
       onClick={onClick}
       color="primary"
       style={{
@@ -16,7 +16,7 @@ export default function ButtonUI({ loading = false, onClick, text, fullWidth = f
         padding: '10px 32px',
       }}
     >
-      {loading ? 'Carregando...' : text}
+      {text}
     </Button>
   );
 }
