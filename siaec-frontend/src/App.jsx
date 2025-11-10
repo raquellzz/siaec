@@ -5,11 +5,13 @@ import Header from './components/Header/Header.jsx';
 import ProductListPage from './pages/ProductList/ProductListPage.jsx';
 import ArtisanListPage from './pages/ArtisanList/ArtisanListPage.jsx';
 import EventListPage from './pages/EventList/EventListPage.jsx';
-import LoginPage from './pages/Login/LoginPage';
-import RegisterPage from './pages/Register/RegisterPage';
+import LoginPage from './pages/Login/LoginPage.jsx';
+import RegisterPage from './pages/Register/RegisterPage.jsx';
 import ProfilePage from './pages/Profile/ProfilePage.jsx';
 import MyProductsPage from './pages/MyProducts/MyProductsPage.jsx';
 import ProductFormPage from './pages/ProductForm/ProductFormPage.jsx';
+import ProductDetailPage from './pages/ProductDetail/ProductDetailPage.jsx';
+import CartPage from './pages/Cart/CartPage.jsx';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route path="/meus-produtos" element={<MyProductsPage />} />
           <Route path="/meus-produtos/novo" element={<ProductFormPage />} />
           <Route path="/meus-produtos/editar/:productId" element={<ProductFormPage />} />
+          <Route path="/products/:productId" element={<ProductDetailPage />} />
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </div>
     </Router>
