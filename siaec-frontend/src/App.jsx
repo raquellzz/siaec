@@ -1,18 +1,18 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage.jsx';
-import './App.css'
-import Header from './components/Header.jsx';
-import ProductListPage from './pages/ProductListPage.jsx';
-import ArtisanListPage from './pages/ArtisanListPage.jsx';
-import EventListPage from './pages/EventListPage.jsx';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import HomePage from './pages/Home/HomePage.jsx';
+import './App.css';
+import Header from './components/Header/Header.jsx';
+import ProductListPage from './pages/ProductList/ProductListPage.jsx';
+import ArtisanListPage from './pages/ArtisanList/ArtisanListPage.jsx';
+import EventListPage from './pages/EventList/EventListPage.jsx';
+import LoginPage from './pages/Login/LoginPage';
+import RegisterPage from './pages/Register/RegisterPage';
 
 function App() {
   return (
     <Router>
       <Header />
-      <div className="container">
+      <div>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductListPage />} />
@@ -22,9 +22,8 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </div>
-      
     </Router>
   );
 }
 
-export default App
+export default App;

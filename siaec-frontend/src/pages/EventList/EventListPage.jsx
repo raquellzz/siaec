@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { getEvents } from '../services/eventService';
+import { useState, useEffect } from 'react';
+import { getEvents } from '../../services/eventService';
 import { Link } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
-import './ProductListPage.css'; // REUTILIZANDO O CSS de produtos
+import '../ProductList/ProductListPage.css';
 
 function EventListPage() {
   const [events, setEvents] = useState([]);
@@ -30,9 +30,17 @@ function EventListPage() {
     fetchEvents();
   }, [currentPage, searchTerm]);
 
-  const handleNextPage = () => { /* ... (igual ProductList) ... */ if (currentPage < totalPages - 1) setCurrentPage(currentPage + 1); };
-  const handlePrevPage = () => { /* ... (igual ProductList) ... */ if (currentPage > 0) setCurrentPage(currentPage - 1); };
-  const handleFilterSubmit = (e) => { e.preventDefault(); setSearchTerm(filter); setCurrentPage(0); };
+  const handleNextPage = () => {
+    /* ... (igual ProductList) ... */ if (currentPage < totalPages - 1) setCurrentPage(currentPage + 1);
+  };
+  const handlePrevPage = () => {
+    /* ... (igual ProductList) ... */ if (currentPage > 0) setCurrentPage(currentPage - 1);
+  };
+  const handleFilterSubmit = (e) => {
+    e.preventDefault();
+    setSearchTerm(filter);
+    setCurrentPage(0);
+  };
 
   if (error) return <div className="error-message">{error}</div>;
 
@@ -41,14 +49,24 @@ function EventListPage() {
       <h2>Próximos Eventos</h2>
       <form className="filter-container" onSubmit={handleFilterSubmit}>
         {/* ... (input e botão de filtro iguais ao ProductList) ... */}
-         <div className="search-bar-wrapper">
+        <div className="search-bar-wrapper">
           <FaSearch className="search-icon" />
-          <input type="text" placeholder="Filtrar por nome..." value={filter} onChange={(e) => setFilter(e.target.value)} className="filter-input" />
+          <input
+            type="text"
+            placeholder="Filtrar por nome..."
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="filter-input"
+          />
         </div>
-        <button type="submit" className="filter-button">Buscar</button>
+        <button type="submit" className="filter-button">
+          Buscar
+        </button>
       </form>
 
-      {loading ? ( <div className="loading">Carregando...</div> ) : (
+      {loading ? (
+        <div className="loading">Carregando...</div>
+      ) : (
         <>
           <div className="product-grid">
             {events.length > 0 ? (
@@ -67,9 +85,15 @@ function EventListPage() {
           </div>
           <div className="pagination-controls">
             {/* ... (botões de paginação iguais ao ProductList) ... */}
-            <button onClick={handlePrevPage} disabled={currentPage === 0}>Anterior</button>
-            <span>Página {currentPage + 1} de {totalPages || 1}</span>
-            <button onClick={handleNextPage} disabled={currentPage >= totalPages - 1}>Próxima</button>
+            <button onClick={handlePrevPage} disabled={currentPage === 0}>
+              Anterior
+            </button>
+            <span>
+              Página {currentPage + 1} de {totalPages || 1}
+            </span>
+            <button onClick={handleNextPage} disabled={currentPage >= totalPages - 1}>
+              Próxima
+            </button>
           </div>
         </>
       )}

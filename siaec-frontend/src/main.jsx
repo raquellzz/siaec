@@ -1,13 +1,28 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App.jsx';
+import { ThemeProvider } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 import { AuthProvider } from './contexts/AuthContext';
+import App from './App.jsx';
+import './index.css';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#c66e19',
+    },
+    secondary: {
+      main: '#c49a22',
+    },
+  },
+});
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <ThemeProvider theme={theme}>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </ThemeProvider>
   </StrictMode>,
-)
+);

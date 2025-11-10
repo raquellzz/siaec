@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getProducts } from '../services/productService';
+import { getProducts } from '../../services/productService';
 import { Link } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 import './ProductListPage.css';
@@ -11,7 +11,7 @@ function ProductListPage() {
 
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  
+
   const [filter, setFilter] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -20,9 +20,9 @@ function ProductListPage() {
       try {
         setLoading(true);
         setError(null);
-        
+
         const data = await getProducts(currentPage, 9, searchTerm || null);
-        
+
         setProducts(data.content || []);
         setTotalPages(data.totalPages || 0);
       } catch (err) {
@@ -54,7 +54,6 @@ function ProductListPage() {
     setCurrentPage(0);
   };
 
-
   if (error) {
     return <div className="error-message">{error}</div>;
   }
@@ -66,7 +65,7 @@ function ProductListPage() {
       <form className="filter-container" onSubmit={handleFilterSubmit}>
         <div className="search-bar-wrapper">
           <FaSearch className="search-icon" />
-          <input 
+          <input
             type="text"
             placeholder="Filtrar por nome..."
             value={filter}
@@ -74,7 +73,9 @@ function ProductListPage() {
             className="filter-input"
           />
         </div>
-        <button type="submit" className="filter-button">Buscar</button>
+        <button type="submit" className="filter-button">
+          Buscar
+        </button>
       </form>
 
       {loading ? (

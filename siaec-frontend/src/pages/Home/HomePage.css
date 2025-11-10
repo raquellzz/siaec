@@ -3,7 +3,8 @@
   padding: 0 10px;
 }
 
-.loading, .error-message {
+.loading,
+.error-message {
   padding: 20px;
   font-size: 1.2em;
   text-align: center;
@@ -14,7 +15,7 @@
 }
 
 .welcome-banner {
-  background-image: url('../assets/home.png');
+  background-image: url('../../assets/home.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -24,17 +25,17 @@
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
-  margin: 15px -10px 30px -10px;
+  margin: 32px -10px 30px -10px;
   border-radius: 25px;
 
-  color: #ffffff;
+  color: #f5f5f5;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
   text-align: center;
 }
 
 .welcome-banner h1 {
   margin-bottom: 20px;
-  color: #ffffff;
+  color: #f5f5f5;
   font-size: 2.5em;
 }
 
@@ -42,11 +43,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin: 20px auto;
   width: 80%;
   max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
   position: relative;
 }
 
@@ -56,7 +55,7 @@
   border: 1px solid #d0d0d0;
   border-radius: 25px;
   width: 100%;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 12px 20px 12px 40px;
 }
 
@@ -73,18 +72,25 @@
   font-size: 0.9em;
 }
 
-.search-input { border-radius: 25px; }
+.search-input {
+  border-radius: 25px;
+}
 
 .catalog-button {
-    margin-left: 9px;
-    padding: 10px 20px;
-    background-color: #b13707;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    text-align: center;
+  margin-left: 9px;
+  padding: 10px 20px;
+  background-color: #b13707;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+}
+
+.catalog-button:hover {
+  color: white;
+  filter: brightness(0.9);
 }
 
 .section-header {
@@ -98,7 +104,7 @@
   margin: 0;
   color: #444;
   font-size: 1.4em;
-  padding-left: 5px; 
+  padding-left: 5px;
 }
 
 .view-all-link {
@@ -113,46 +119,53 @@
   text-decoration: underline;
 }
 
-.featured-artisans h2, .upcoming-fairs h2 {
-  margin-bottom: 0; 
+.featured-artisans h2,
+.upcoming-fairs h2 {
+  margin-bottom: 0;
 }
 
-.featured-artisans, .upcoming-fairs {
+.featured-artisans,
+.upcoming-fairs {
   margin-bottom: 40px;
 }
 
-.featured-artisans h2, .upcoming-fairs h2 {
-    color: #444;
-    margin-bottom: 15px;
-    font-size: 1.4em;
-    padding-left: 5px; 
+.featured-artisans h2,
+.upcoming-fairs h2 {
+  color: #444;
+  margin-bottom: 15px;
+  font-size: 1.4em;
+  padding-left: 5px;
 }
 
-.artisan-list, .fair-list {
+.artisan-list,
+.fair-list {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   flex-wrap: wrap;
   gap: 15px;
   margin-top: 15px;
 }
 
-.artisan-card, .fair-card {
+.artisan-card,
+.fair-card {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px;
   width: 140px;
   text-align: center;
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  background-color: #f5f5f5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   color: #333;
 }
-.artisan-card p, .fair-card p {
-    margin: 5px 0 0 0;
-    font-size: 0.9em;
+.artisan-card p,
+.fair-card p {
+  margin: 5px 0 0 0;
+  font-size: 0.9em;
 }
 
-.artisan-card:hover, .fair-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+.artisan-card:hover,
+.fair-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
