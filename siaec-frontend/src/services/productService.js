@@ -28,6 +28,24 @@ export const getProducts = async (page = 0, size = 10, nameFilter = null) => {
 };
 
 /**
+ * Busca os produtos do usuário autenticado
+ * @param {number} page - O número da página (começando em 0)
+ * @param {number} size - O tamanho da página
+ * @returns {Promise<Object>} - A página de produtos do usuário
+ */
+export const getMyProducts = async (page = 0, size = 10) => {
+    try {
+        const response = await api.get('/v1/products/my-products', {
+            params: { page, size, sort: 'name,asc' }
+        });
+        return response.data; 
+    } catch (error) {
+        console.error("Erro ao buscar meus produtos:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+/**
  * Busca um único produto pelo ID
  * @param {string} id - O ID do produto
  * @returns {Promise<Object>} - O objeto do produto
@@ -40,4 +58,33 @@ export const getProductById = async (id) => {
         console.error(`Erro ao buscar produto com id ${id}:`, error);
         throw error;
     }
+};
+
+export const deleteProduct = async (productId) => {
+    try {
+        await api.delete(`/v1/products/${productId}`);
+    } catch (error) {
+        console.error("Erro ao deletar produto:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+export const createProduct = async (productData) => {
+    try {
+        const response = await api.post('/v1/products', productData);
+        return response.data; 
+    } catch (error) {
+        console.error("Erro ao criar produto:", error.response?.data || error.message);
+        throw error;
+    }
+};
+
+export const updateProduct = async (productId, productData) => {
+    try {
+        const response = await api.put(`/v1/products/${productId}`, productData);
+        return response.data; 
+    } catch (error) {
+        console.error("Erro ao atualizar produto:", error.response?.data || error.message);
+        throw error;
+    }   
 };

@@ -49,6 +49,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> productImages;
+    
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "catalog_id")
