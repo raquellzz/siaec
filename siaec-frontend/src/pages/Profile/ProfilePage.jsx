@@ -1,16 +1,9 @@
-import React from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './ProfilePage.css';
 
 function ProfilePage() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const { user } = useAuth();
 
   if (!user) {
     return <div>Carregando perfil...</div>;
@@ -65,10 +58,6 @@ function ProfilePage() {
           </Link>
         )}
       </div>
-
-      <button onClick={handleLogout} className="logout-button">
-        Sair (Logout)
-      </button>
     </div>
   );
 }

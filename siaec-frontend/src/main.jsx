@@ -15,6 +15,9 @@ const theme = createTheme({
       main: '#c49a22',
     },
   },
+  typography: {
+    fontFamily: ["'Montserrat'", 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'].join(','),
+  },
 });
 
 createRoot(document.getElementById('root')).render(

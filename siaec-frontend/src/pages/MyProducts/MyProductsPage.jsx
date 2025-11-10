@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getMyProducts, deleteProduct } from '../../services/productService';
+import ButtonUI from '../../components/ButtonUI';
 
 function MyProductsPage() {
   const [products, setProducts] = useState([]);
@@ -41,13 +42,13 @@ function MyProductsPage() {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Gerenciar Meus Produtos</h1>
+      <h2>Gerenciar Meus Produtos</h2>
 
       <Link to="/meus-produtos/novo">
-        <button style={{ marginBottom: '20px', padding: '10px' }}>+ Adicionar Novo Produto</button>
+        <ButtonUI text="Adicionar Novo Produto" onClick={() => {}} />
       </Link>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 24 }}>
         <thead>
           <tr style={{ borderBottom: '2px solid black' }}>
             <th style={{ textAlign: 'left', padding: '8px' }}>Nome</th>

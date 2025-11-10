@@ -1,15 +1,23 @@
 import { Button } from '@mui/material';
 
-export default function ButtonUI({ loading = false, onClick, text, fullWidth = false }) {
+export default function ButtonUI({
+  loading = false,
+  onClick,
+  text,
+  fullWidth = false,
+  color = 'primary',
+  variant = 'contained',
+}) {
   return (
     <Button
-      variant="contained"
+      variant={variant}
       loading={loading}
       onClick={onClick}
-      color="primary"
+      color={color}
       style={{
         fontFamily: 'Montserrat',
         textTransform: 'capitalize',
+        letterSpacing: 0,
         fontWeight: 500,
         fontSize: 16,
         width: fullWidth ? '100%' : 'fit-content',

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { createProduct, getProductById, updateProduct } from '../../services/productService';
+import ButtonUI from '../../components/ButtonUI';
+import Input from '../../components/Input';
+import { Checkbox } from '@mui/material';
 
 function ProductFormPage() {
   const { productId } = useParams();
@@ -88,73 +91,81 @@ function ProductFormPage() {
   if (loading && isEditing) return <div>Carregando formulário...</div>;
 
   return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto' }}>
-      <h1>{isEditing ? 'Editar Produto' : 'Adicionar Novo Produto'}</h1>
+    <div style={{ maxWidth: '600px', margin: '64px auto 32px' }}>
+      <h2>{isEditing ? 'Editar Produto' : 'Adicionar Novo Produto'}</h2>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: 24 }}>
+        <Input label="Nome do Produto" type="text" name="name" value={formData.name} onChange={handleChange} required />
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Nome do Produto:</label>
-          <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+        <Input
+          label="Descrição"
+          type="text"
+          multiline
+          rows={3}
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          required
+        />
+
+        <Input
+          label="Preço (R$)"
+          type="number"
+          name="price"
+          value={formData.price}
+          onChange={handleChange}
+          inputProps={{
+            step: '0.01',
+            min: '0.01',
+          }}
+          required
+        />
+
+        <Input
+          label="Estoque"
+          type="number"
+          name="stock"
+          value={formData.stock}
+          onChange={handleChange}
+          inputProps={{
+            min: '0',
+          }}
+          required
+        />
+
+        <Input
+          label="Material"
+          type="text"
+          name="material"
+          value={formData.material}
+          onChange={handleChange}
+          required
+        />
+
+        <div style={{ display: 'flex', gap: 8 }}>
+          <Checkbox name="status" checked={formData.status} onChange={handleChange} />
+          <p>Produto ativo</p>
         </div>
-        <div>
-          <label>Descrição:</label>
-          <textarea name="description" value={formData.description} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Preço (R$):</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            step="0.01"
-            min="0.01"
-            required
+
+        <label>URLs das Imagens:</label>
+        {formData.imagePaths.map((path, index) => (
+          <Input
+            key={index}
+            label={`Imagem ${index + 1}`}
+            type="text"
+            name={`image-${index}`}
+            value={path}
+            onChange={(e) => handleImageChange(index, e.target.value)}
+            placeholder="http://exemplo.com/imagem.png"
           />
-        </div>
-        <div>
-          <label>Estoque:</label>
-          <input type="number" name="stock" value={formData.stock} onChange={handleChange} min="0" required />
-        </div>
-        <div>
-          <label>Material:</label>
-          <input type="text" name="material" value={formData.material} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" name="status" checked={formData.status} onChange={handleChange} />
-            Produto Ativo
-          </label>
-        </div>
-
-        <div>
-          <label>URLs das Imagens:</label>
-          {formData.imagePaths.map((path, index) => (
-            <input
-              key={index}
-              type="text"
-              value={path}
-              onChange={(e) => handleImageChange(index, e.target.value)}
-              placeholder="http://exemplo.com/imagem.png"
-              style={{ display: 'block', marginBottom: '5px' }}
-            />
-          ))}
-          <button type="button" onClick={addImageField}>
-            + Adicionar URL
-          </button>
-        </div>
-
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-
-        <div style={{ marginTop: '20px' }}>
-          <button type="submit" disabled={loading} style={{ padding: '10px' }}>
-            {loading ? 'Salvando...' : 'Salvar Produto'}
-          </button>
-          <Link to="/meus-produtos" style={{ marginLeft: '10px' }}>
-            Cancelar
+        ))}
+        <ButtonUI text="Adicionar URL" onClick={addImageField} color="secondary" />
+        <div style={{ marginTop: '20px', display: 'flex', gap: 16, justifyContent: 'end' }}>
+          <Link to="/meus-produtos">
+            <ButtonUI text="Cancelar" loading={loading} onClick={() => {}} color="primary" variant="text" />
           </Link>
+          <ButtonUI text="Salvar Produto" loading={loading} onClick={handleSubmit} />
         </div>
-      </form>
+      </div>
     </div>
   );
 }

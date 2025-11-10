@@ -1,6 +1,17 @@
 import { TextField } from '@mui/material';
 
-export default function Input({ name, label, type = 'text', value, onChange, required = false, error = false }) {
+export default function Input({
+  name,
+  label,
+  type = 'text',
+  value,
+  onChange,
+  required = false,
+  error = false,
+  rows = undefined,
+  multiline = false,
+  ...otherProps
+}) {
   return (
     <TextField
       name={name}
@@ -13,7 +24,10 @@ export default function Input({ name, label, type = 'text', value, onChange, req
       color="primary"
       required={required}
       error={error}
+      multiline={multiline}
+      rows={rows}
       slotProps={{ inputLabel: { shrink: type === 'date' ? true : undefined } }}
+      {...otherProps}
     />
   );
 }

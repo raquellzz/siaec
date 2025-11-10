@@ -1,12 +1,19 @@
 import './Header.css';
 import logo from '../../assets/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { FaUserCircle, FaShoppingCart } from 'react-icons/fa';
 import { FaArrowRightFromBracket } from 'react-icons/fa6';
 
 function Header() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <header className="header">
       <div className="header-center">
@@ -17,13 +24,15 @@ function Header() {
       <div className="header-right">
         {isAuthenticated ? (
           <>
-            <Link to="/cart" className="header-button cart-button">
-              <FaShoppingCart />
-            </Link>
+            {user.role === 'CLIENT' && (
+              <Link to="/cart" className="header-button cart-button">
+                <FaShoppingCart />
+              </Link>
+            )}
             <Link to="/profile" className="header-button cart-button">
               <FaUserCircle />
             </Link>
-            <button onClick={logout} className="header-button cart-button navbar-logout">
+            <button onClick={handleLogout} className="header-button cart-button navbar-logout">
               <FaArrowRightFromBracket />
             </button>
           </>

@@ -42,7 +42,8 @@ public class ProductService {
 
     @Transactional
     public ProductDTO create(ProductDTO productDTO) {
-        Artisan artisan = artisanRepository.findById(productDTO.getArtisanId())
+        User currentUser = userService.getCurrentAuthenticatedUser();
+        Artisan artisan = artisanRepository.findByUserUserId(currentUser.getUserId())
                 .orElseThrow(() -> new NotFoundException("Artesão não encontrado com id: " + productDTO.getArtisanId()));
 
         Catalog catalog = catalogRepository.findByArtisanArtisanId(artisan.getArtisanId())
@@ -55,7 +56,6 @@ public class ProductService {
         Product product = productDTO.toEntity();
         product.setCreatedAt(new Date());
         product.setCatalog(catalog);
-        
         
         Product savedProduct = productRepository.save(product);
         return ProductDTO.fromEntity(savedProduct);

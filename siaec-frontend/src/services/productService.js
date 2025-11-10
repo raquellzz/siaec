@@ -61,7 +61,7 @@ export const getProductById = async (id) => {
 
 export const deleteProduct = async (productId) => {
   try {
-    await api.delete(`/v1/products/${productId}`);
+    await api.delete(`/products/${productId}`);
   } catch (error) {
     console.error('Erro ao deletar produto:', error.response?.data || error.message);
     throw error;
@@ -70,7 +70,7 @@ export const deleteProduct = async (productId) => {
 
 export const createProduct = async (productData) => {
   try {
-    const response = await api.post('/v1/products', productData);
+    const response = await api.post('/products', productData);
     return response.data;
   } catch (error) {
     console.error('Erro ao criar produto:', error.response?.data || error.message);
@@ -80,7 +80,7 @@ export const createProduct = async (productData) => {
 
 export const updateProduct = async (productId, productData) => {
   try {
-    const response = await api.put(`/v1/products/${productId}`, productData);
+    const response = await api.put(`/products/${productId}`, productData);
     return response.data;
   } catch (error) {
     console.error('Erro ao atualizar produto:', error.response?.data || error.message);
