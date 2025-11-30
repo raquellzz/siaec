@@ -4,6 +4,7 @@ import br.ufrn.imd.siaec.siaec_backend.dto.UserUpdateDTO;
 import br.ufrn.imd.siaec.siaec_backend.model.Artisan;
 import br.ufrn.imd.siaec.siaec_backend.service.ArtisanService;
 import br.ufrn.imd.siaec.siaec_backend.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +43,7 @@ public class ArtisanController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or #id == authentication.principal.userId")
+    @Transactional
     public ResponseEntity<Void> updateArtisan(@PathVariable String id, @RequestBody UserUpdateDTO input) {
         userService.update(id, input);
         artisanService.update(id, input);

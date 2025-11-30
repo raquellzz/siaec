@@ -24,6 +24,7 @@ import br.ufrn.imd.siaec.siaec_backend.repository.ArtisanRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.CatalogRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.EventPlannerRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.UserRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class AuthService {
@@ -51,6 +52,7 @@ public class AuthService {
         this.catalogRepository = catalogRepository;
     }
 
+    @Transactional
     public UserResponseDTO create(UserRegisterDTO user) {
         boolean usernameExists = userRepository.existsByUsername(user.getUsername());
         boolean emailExists = userRepository.existsByEmail(user.getEmail());
@@ -84,14 +86,8 @@ public class AuthService {
                 Catalog newCatalog = new Catalog();
                 newCatalog.setArtisan(newArtisan);
 
-                try {
-                    artisanRepository.save(newArtisan);
-                    catalogRepository.save(newCatalog);
-                } catch (Exception e) {
-                    userRepository.delete(savedUser);
-                    artisanRepository.delete(newArtisan);
-                    catalogRepository.delete(newCatalog);
-                }
+                artisanRepository.save(newArtisan);
+                catalogRepository.save(newCatalog);
             }
 
             if (user.getRole() == RoleEnum.EVENT_PLANNER) {
@@ -99,11 +95,7 @@ public class AuthService {
                 newEventPlanner.setUser(savedUser);
                 newEventPlanner.setRegistrationAccountStatus(RegistrationAccountStatusEnum.APPROVED);
 
-                try {
-                    eventPlannerRepository.save(newEventPlanner);
-                } catch (Exception e) {
-                    userRepository.delete(savedUser);
-                }
+                eventPlannerRepository.save(newEventPlanner);
             }
 
             return UserResponseDTO.builder()
