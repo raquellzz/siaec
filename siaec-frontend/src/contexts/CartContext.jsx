@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
-const CartContext = createContext(null);
+// eslint-disable-next-line react-refresh/only-export-components
+export const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -11,9 +12,7 @@ export const CartProvider = ({ children }) => {
 
       if (existingItem) {
         return prevItems.map((item) =>
-          item.productId === product.productId
-            ? { ...item, quantity: item.quantity + quantityToAdd }
-            : item,
+          item.productId === product.productId ? { ...item, quantity: item.quantity + quantityToAdd } : item,
         );
       } else {
         return [...prevItems, { ...product, quantity: quantityToAdd }];
@@ -39,12 +38,4 @@ export const CartProvider = ({ children }) => {
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
-};
-
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart deve ser usado dentro de um CartProvider');
-  }
-  return context;
 };
