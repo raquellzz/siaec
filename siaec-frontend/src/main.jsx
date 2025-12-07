@@ -17,7 +17,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["'Montserrat'", 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'].join(','),
+    fontFamily: ["'Plus Jakarta Sans'", 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'].join(','),
   },
 });
 

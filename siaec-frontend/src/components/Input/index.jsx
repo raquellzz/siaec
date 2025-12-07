@@ -20,7 +20,7 @@ export default function Input({
       type={type}
       value={value}
       onChange={onChange}
-      style={{ fontFamily: 'Montserrat', fontSize: 16, width: '100%' }}
+      style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 16, width: '100%' }}
       color="primary"
       required={required}
       error={error}

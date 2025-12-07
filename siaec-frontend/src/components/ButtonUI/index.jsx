@@ -15,7 +15,7 @@ export default function ButtonUI({
       onClick={onClick}
       color={color}
       style={{
-        fontFamily: 'Montserrat',
+        fontFamily: 'Plus Jakarta Sans',
         textTransform: 'capitalize',
         letterSpacing: 0,
         fontWeight: 500,
