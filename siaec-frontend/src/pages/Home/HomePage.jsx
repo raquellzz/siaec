@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
 import { getArtisans } from '../../services/artisanService';
 import { getEvents } from '../../services/eventService';
-import { FaSearch } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import ArtisanCard from '../../components/ArtisanCard';
 import EventCard from '../../components/EventCard';
+import Carregando from '../../components/Carregando';
+import SearchBar from '../../components/SearchBar';
 
 function HomePage() {
   const [artisans, setArtisans] = useState(null);
   const [events, setEvents] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,8 +41,12 @@ function HomePage() {
     fetchData();
   }, []);
 
+  const onSearchProducts = (value) => {
+    navigate({ pathname: '/products', state: { search: value } });
+  };
+
   if (loading) {
-    return <div className="loading">Carregando...</div>;
+    return <Carregando />;
   }
 
   if (error) {
@@ -53,19 +59,7 @@ function HomePage() {
         <h1>Artesanato Potiguar: O Talento do RN na sua Casa</h1>
       </section>
 
-      <div className="search-bar-container">
-        <FaSearch className="search-icon" />
-        <input
-          type="text"
-          placeholder="Pesquise por produtos"
-          className="search-input"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <Link to="/products" className="catalog-button">
-          Pesquisar
-        </Link>
-      </div>
+      <SearchBar placeholder="Pesquise por produtos" onSearch={onSearchProducts} />
 
       <section className="featured-artisans">
         <div className="section-header">
@@ -99,7 +93,13 @@ function HomePage() {
         {events.length > 0 ? (
           <div className="event-list">
             {events.map((event) => (
-              <EventCard key={event.eventId} name={event.name} local={event.location} date={event.dateStart} />
+              <EventCard
+                key={event.eventId}
+                name={event.name}
+                local={event.location}
+                date={event.dateStart}
+                imagePath={event.imagePath}
+              />
             ))}
           </div>
         ) : (

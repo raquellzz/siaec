@@ -7,6 +7,7 @@ export default function ButtonUI({
   fullWidth = false,
   color = 'primary',
   variant = 'contained',
+  styles = {},
 }) {
   return (
     <Button
@@ -22,6 +23,7 @@ export default function ButtonUI({
         fontSize: 16,
         width: fullWidth ? '100%' : 'fit-content',
         padding: '10px 32px',
+        ...styles,
       }}
     >
       {text}

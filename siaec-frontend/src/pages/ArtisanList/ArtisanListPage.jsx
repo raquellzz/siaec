@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { getArtisans } from '../../services/artisanService';
 import { Link } from 'react-router-dom';
-import { FaSearch } from 'react-icons/fa';
 import '../ProductList/ProductListPage.css';
 import { Pagination } from '@mui/material';
+import Carregando from '../../components/Carregando';
+import SearchBar from '../../components/SearchBar';
+import ArtisanCard from '../../components/ArtisanCard';
 
 function ArtisanListPage() {
   const [artisans, setArtisans] = useState([]);
@@ -11,7 +13,6 @@ function ArtisanListPage() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [filter, setFilter] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -23,6 +24,7 @@ function ArtisanListPage() {
         setArtisans(data.content || []);
         setTotalPages(data.totalPages || 0);
       } catch (err) {
+        console.error(err);
         setError('Falha ao carregar artesãos.');
       } finally {
         setLoading(false);
@@ -35,9 +37,8 @@ function ArtisanListPage() {
     setCurrentPage(value);
   };
 
-  const handleFilterSubmit = (e) => {
-    e.preventDefault();
-    setSearchTerm(filter);
+  const handleFilterSubmit = (value) => {
+    setSearchTerm(value);
     setCurrentPage(0);
   };
 
@@ -46,34 +47,17 @@ function ArtisanListPage() {
   return (
     <div className="product-list-page">
       <h2>Nossos Artesãos</h2>
-      <div className="filter-container">
-        <div className="search-bar-wrapper">
-          <FaSearch className="search-icon" />
-          <input
-            type="text"
-            placeholder="Filtrar por nome..."
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="filter-input"
-          />
-        </div>
-        <button type="submit" className="filter-button" onClick={handleFilterSubmit}>
-          Buscar
-        </button>
-      </div>
+      <SearchBar placeholder="Filtrar por nome..." onSearch={handleFilterSubmit} />
 
       {loading ? (
-        <div className="loading">Carregando...</div>
+        <Carregando />
       ) : (
         <>
           <div className="product-grid">
             {artisans.length > 0 &&
               artisans.map((artisan) => (
-                <Link to={`/artisans/${artisan.artisanId}`} key={artisan.artisanId} className="product-card-link">
-                  <div className="product-card">
-                    <h3>{artisan.user.name}</h3>
-                    <p>{artisan.description}</p>
-                  </div>
+                <Link to={`/artisans/${artisan.artisanId}`} key={artisan.artisanId}>
+                  <ArtisanCard description={artisan.description} name={artisan.user.name} />
                 </Link>
               ))}
           </div>
