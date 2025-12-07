@@ -1,5 +1,5 @@
 import './Header.css';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo-header.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { FaUserCircle, FaShoppingCart } from 'react-icons/fa';
