@@ -1,0 +1,21 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - (5em + 32px));
+}
+
+.title {
+  font-size: 36px;
+}
+
+.link {
+  font-size: 18px;
+  color: #c66e19;
+}
+
+.link:hover {
+  color: #c66e19;
+  filter: brightness(0.9);
+}

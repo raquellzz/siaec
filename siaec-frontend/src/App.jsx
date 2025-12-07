@@ -12,8 +12,16 @@ import MyProductsPage from './pages/MyProducts/MyProductsPage.jsx';
 import ProductFormPage from './pages/ProductForm/ProductFormPage.jsx';
 import ProductDetailPage from './pages/ProductDetail/ProductDetailPage.jsx';
 import CartPage from './pages/Cart/CartPage.jsx';
+import { useAuth } from './hooks/useAuth.jsx';
+import { roleEnum } from './enums/RoleEnum.js';
+import NotFound from './pages/NotFound/index.jsx';
 
 function App() {
+  const { user } = useAuth();
+  const isUserLoggedIn = Boolean(user);
+  const isArtisan = isUserLoggedIn && user.role === roleEnum.artisan;
+  const isClient = isUserLoggedIn && user.role === roleEnum.client;
+
   return (
     <Router>
       <Header />
@@ -21,16 +29,21 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductListPage />} />
+          <Route path="/products/:productId" element={<ProductDetailPage />} />
           <Route path="/artisans" element={<ArtisanListPage />} />
           <Route path="/events" element={<EventListPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/meus-produtos" element={<MyProductsPage />} />
-          <Route path="/meus-produtos/novo" element={<ProductFormPage />} />
-          <Route path="/meus-produtos/editar/:productId" element={<ProductFormPage />} />
-          <Route path="/products/:productId" element={<ProductDetailPage />} />
-          <Route path="/cart" element={<CartPage />} />
+          {isUserLoggedIn && <Route path="/profile" element={<ProfilePage />} />}
+          {isArtisan && (
+            <>
+              <Route path="/meus-produtos" element={<MyProductsPage />} />
+              <Route path="/meus-produtos/novo" element={<ProductFormPage />} />
+              <Route path="/meus-produtos/editar/:productId" element={<ProductFormPage />} />
+            </>
+          )}
+          {isClient && <Route path="/cart" element={<CartPage />} />}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </Router>
