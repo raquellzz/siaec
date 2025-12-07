@@ -85,12 +85,14 @@
 .artisan-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 15px;
+  grid-auto-rows: 1fr;
+  gap: 16px;
   margin-top: 15px;
 }
 
 .event-list {
   display: grid;
+  grid-auto-rows: 1fr;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
 }

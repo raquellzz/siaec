@@ -1,0 +1,18 @@
+.product-name {
+  margin-top: 0;
+  margin-bottom: 4px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #121417;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-value {
+  margin: 0;
+  font-size: 16px;
+  color: #637587;
+}

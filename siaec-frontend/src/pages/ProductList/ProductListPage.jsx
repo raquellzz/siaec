@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { getProducts } from '../../services/productService';
-import { Link } from 'react-router-dom';
-import { FaSearch } from 'react-icons/fa';
+import { Link, useLocation } from 'react-router-dom';
 import './ProductListPage.css';
 import { Pagination } from '@mui/material';
+import Carregando from '../../components/Carregando';
+import SearchBar from '../../components/SearchBar';
+import ProductCard from '../../components/ProductCard';
 
 function ProductListPage() {
+  const location = useLocation();
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,8 +17,7 @@ function ProductListPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  const [filter, setFilter] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(location.state ? location.state.search : '');
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -41,9 +44,8 @@ function ProductListPage() {
     setCurrentPage(value - 1);
   };
 
-  const handleFilterSubmit = (e) => {
-    e.preventDefault();
-    setSearchTerm(filter);
+  const handleFilterSubmit = (value) => {
+    setSearchTerm(value);
     setCurrentPage(0);
   };
 
@@ -55,35 +57,21 @@ function ProductListPage() {
     <div className="product-list-page">
       <h2>Catálogo de Produtos</h2>
 
-      <div className="filter-container">
-        <div className="search-bar-wrapper">
-          <FaSearch className="search-icon" />
-          <input
-            type="text"
-            placeholder="Filtrar por nome..."
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="filter-input"
-          />
-        </div>
-        <button type="submit" className="filter-button" onClick={handleFilterSubmit}>
-          Buscar
-        </button>
-      </div>
+      <SearchBar placeholder="Filtrar por nome..." onSearch={handleFilterSubmit} />
 
       {loading ? (
-        <div className="loading">Carregando...</div>
+        <Carregando />
       ) : (
         <>
           <div className="product-grid">
             {products.length > 0 &&
               products.map((product) => (
                 <Link to={`/products/${product.productId}`} key={product.productId} className="product-card-link">
-                  <div className="product-card">
-                    {/* <img src={product.imagePaths ? product.imagePaths[0] : '/placeholder.png'} alt={product.name} /> */}
-                    <h3>{product.name}</h3>
-                    <p>R$ {product.price?.toFixed(2)}</p>
-                  </div>
+                  <ProductCard
+                    name={product.name}
+                    price={product.price?.toFixed(2)}
+                    imagePath={product.imagePaths ? product.imagePaths[0] : null}
+                  />
                 </Link>
               ))}
           </div>

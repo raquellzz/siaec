@@ -42,7 +42,7 @@ function HomePage() {
   }, []);
 
   const onSearchProducts = (value) => {
-    navigate({ pathname: '/products', state: { search: value } });
+    navigate({ pathname: '/products' }, { state: { search: value } });
   };
 
   if (loading) {
@@ -73,7 +73,9 @@ function HomePage() {
         {artisans.length > 0 ? (
           <div className="artisan-list">
             {artisans.map((artisan) => (
-              <ArtisanCard key={artisan.artisanId} name={artisan.user.name} description={artisan.description} />
+              <Link to={`/artisans/${artisan.artisanId}`} key={artisan.artisanId}>
+                <ArtisanCard key={artisan.artisanId} name={artisan.user.name} description={artisan.description} />
+              </Link>
             ))}
           </div>
         ) : (
@@ -93,13 +95,15 @@ function HomePage() {
         {events.length > 0 ? (
           <div className="event-list">
             {events.map((event) => (
-              <EventCard
-                key={event.eventId}
-                name={event.name}
-                local={event.location}
-                date={event.dateStart}
-                imagePath={event.imagePath}
-              />
+              <Link to={`/events/${event.eventId}`} key={event.eventId}>
+                <EventCard
+                  key={event.eventId}
+                  name={event.name}
+                  local={event.location}
+                  date={event.dateStart}
+                  imagePath={event.imagePath}
+                />
+              </Link>
             ))}
           </div>
         ) : (
