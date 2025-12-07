@@ -1,0 +1,36 @@
+.artisan-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.artisan-image {
+  border-radius: 8px;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.artisan-name {
+  margin-top: 0;
+  margin-bottom: 4px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #121417;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.artisan-description {
+  margin: 0;
+  font-size: 16px;
+  color: #637587;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

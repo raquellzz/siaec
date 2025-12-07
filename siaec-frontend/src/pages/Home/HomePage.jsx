@@ -4,6 +4,8 @@ import { getEvents } from '../../services/eventService';
 import { FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
+import ArtisanCard from '../../components/ArtisanCard';
+import EventCard from '../../components/EventCard';
 
 function HomePage() {
   const [artisans, setArtisans] = useState(null);
@@ -65,19 +67,19 @@ function HomePage() {
         </Link>
       </div>
 
-      <section className="featured-artisans mt-3">
+      <section className="featured-artisans">
         <div className="section-header">
           <h2>Artesões em Destaques</h2>
-          <Link to="/artisans" className="view-all-link">
-            Ver todos
-          </Link>
+          {artisans.length > 0 && (
+            <Link to="/artisans" className="view-all-link">
+              Ver todos
+            </Link>
+          )}
         </div>
         {artisans.length > 0 ? (
           <div className="artisan-list">
             {artisans.map((artisan) => (
-              <div key={artisan.artisanId} className="artisan-card">
-                <p>{artisan.user.name}</p>
-              </div>
+              <ArtisanCard key={artisan.artisanId} name={artisan.user.name} description={artisan.description} />
             ))}
           </div>
         ) : (
@@ -88,20 +90,20 @@ function HomePage() {
       <section className="upcoming-fairs">
         <div className="section-header">
           <h2>Próximos Eventos</h2>
-          <Link to="/events" className="view-all-link">
-            Ver todos
-          </Link>
+          {events.length > 0 && (
+            <Link to="/events" className="view-all-link">
+              Ver todos
+            </Link>
+          )}
         </div>
         {events.length > 0 ? (
-          <div className="fair-list">
-            {events.map((event, index) => (
-              <div key={index} className="fair-card">
-                <p>{event.name}</p>
-              </div>
+          <div className="event-list">
+            {events.map((event) => (
+              <EventCard key={event.eventId} name={event.name} local={event.location} date={event.dateStart} />
             ))}
           </div>
         ) : (
-          <p>'enhum evento cadastrado no momento.</p>
+          <p>Nenhum evento cadastrado no momento.</p>
         )}
       </section>
     </div>

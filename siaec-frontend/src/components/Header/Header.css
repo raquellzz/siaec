@@ -39,15 +39,17 @@
 .header-button {
   background: none;
   border: none;
-  font-size: 2em;
+  font-size: 1.75em;
   cursor: pointer;
   margin-left: 15px;
-  color: #b13707;
+  color: #a14a17;
   padding: 5px;
   line-height: 1;
+  transition: 0.1s ease-in filter;
 }
 
 .header-button:hover {
   opacity: 1;
-  color: #8f2b04;
+  color: #a14a17;
+  filter: brightness(0.9);
 }

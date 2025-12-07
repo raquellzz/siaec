@@ -3,7 +3,8 @@ import logo from '../../assets/logo-header.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { FaUserCircle, FaShoppingCart } from 'react-icons/fa';
-import { FaArrowRightFromBracket } from 'react-icons/fa6';
+import { FaArrowRightFromBracket, FaArrowRightToBracket } from 'react-icons/fa6';
+import { roleEnum } from '../../enums/RoleEnum';
 
 function Header() {
   const { isAuthenticated, logout, user } = useAuth();
@@ -24,7 +25,7 @@ function Header() {
       <div className="header-right">
         {isAuthenticated ? (
           <>
-            {user.role === 'CLIENT' && (
+            {user.role === roleEnum.client && (
               <Link to="/cart" className="header-button cart-button">
                 <FaShoppingCart />
               </Link>
@@ -38,7 +39,7 @@ function Header() {
           </>
         ) : (
           <Link to="/login" className="header-button profile-button">
-            <FaUserCircle />
+            <FaArrowRightToBracket />
           </Link>
         )}
       </div>
