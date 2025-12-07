@@ -1,0 +1,11 @@
+.snackbar-success {
+  background-color: #15803d !important;
+}
+
+.snackbar-warning {
+  background-color: #ca8a04 !important;
+}
+
+.snackbar-error {
+  background-color: #b91c1c !important;
+}

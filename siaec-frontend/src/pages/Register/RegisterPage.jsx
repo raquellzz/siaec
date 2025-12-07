@@ -6,6 +6,7 @@ import Input from '../../components/Input';
 import SelectUI from '../../components/SelectUI';
 import '../Login/styles.css';
 import { Snackbar } from '@mui/material';
+import { useSnackbar } from '../../hooks/useSnackbar';
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -20,9 +21,8 @@ function RegisterPage() {
   });
 
   const [loading, setLoading] = useState(false);
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-  const [message, setMessage] = useState(null);
   const navigate = useNavigate();
+  const snackbar = useSnackbar();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,23 +33,33 @@ function RegisterPage() {
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
-    setMessage(null);
+    if (
+      !formData.dateOfBirth ||
+      !formData.email ||
+      !formData.name ||
+      !formData.password ||
+      !formData.phone ||
+      !formData.taxId ||
+      !formData.username
+    ) {
+      snackbar.openErrorSnackbar('Preencha todos os campos');
+    } else {
+      setLoading(true);
 
-    try {
-      await register(formData);
+      try {
+        await register(formData);
 
-      setMessage('Cadastro feito com sucesso!');
-      navigate('/login');
-    } catch (err) {
-      setIsSnackbarOpen(true);
-      if (err.response && err.response.data && err.response.data.message) {
-        setMessage(err.response.data.message);
-      } else {
-        setMessage('Falha ao realizar o cadastro. Tente novamente.');
+        snackbar.openSuccessSnackbar('Cadastro feito com sucesso!');
+        navigate('/login');
+      } catch (err) {
+        if (err.response && err.response.data && err.response.data.message) {
+          snackbar.openErrorSnackbar(err.response.data.message);
+        } else {
+          snackbar.openErrorSnackbar('Falha ao realizar o cadastro. Tente novamente.');
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -123,12 +133,6 @@ function RegisterPage() {
 
         <ButtonUI loading={loading} text="Cadastrar" onClick={handleSubmit} fullWidth />
       </div>
-      <Snackbar
-        open={isSnackbarOpen}
-        autoHideDuration={5000}
-        onClose={() => setIsSnackbarOpen(false)}
-        message={message}
-      />
       <div style={{ marginTop: '1rem' }}>
         <p>
           Já tem uma conta?

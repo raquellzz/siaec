@@ -1,40 +1,41 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { useSnackbar } from '../../hooks/useSnackbar';
 import ButtonUI from '../../components/ButtonUI';
 import Input from '../../components/Input';
 import './styles.css';
-import { Snackbar } from '@mui/material';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
+  const snackbar = useSnackbar();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      setIsSnackbarOpen(true);
-      setError('Email e senha são obrigatórios.');
+      setError(true);
+      snackbar.openErrorSnackbar('Email e senha são obrigatórios.');
       return;
     }
 
-    setError(null);
+    setError(false);
     setLoading(true);
 
     try {
       await login(email, password);
 
       navigate('/');
-    } catch (error) {
-      setError('Email ou senha incorretos.');
-      console.error(error);
+    } catch (err) {
+      snackbar.openErrorSnackbar('Email ou senha incorretos.');
+      setError(true);
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -49,7 +50,10 @@ function LoginPage() {
           label="E-mail"
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setError(false);
+            setEmail(e.target.value);
+          }}
           required
           error={error}
         />
@@ -57,16 +61,12 @@ function LoginPage() {
           label="Senha"
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setError(false);
+            setPassword(e.target.value);
+          }}
           required
-          error={error !== null}
-        />
-
-        <Snackbar
-          open={isSnackbarOpen}
-          autoHideDuration={5000}
-          onClose={() => setIsSnackbarOpen(false)}
-          message={error}
+          error={error}
         />
 
         <ButtonUI text="Entrar" loading={loading} onClick={handleSubmit} fullWidth />

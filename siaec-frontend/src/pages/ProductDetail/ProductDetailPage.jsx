@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { getProductById } from '../../services/productService';
 import { useCart } from '../../contexts/CartContext';
 import ButtonUI from '../../components/ButtonUI';
 import Input from '../../components/Input';
+import Carregando from '../../components/Carregando';
 import './ProductDetailPage.css';
 
 function ProductDetailPage() {
   const { productId } = useParams();
-  const navigate = useNavigate();
   const { addItem } = useCart();
 
   const [product, setProduct] = useState(null);
@@ -21,7 +21,7 @@ function ProductDetailPage() {
     setLoading(true);
     getProductById(productId)
       .then(setProduct)
-      .catch((err) => setError('Produto não encontrado.'))
+      .catch(() => setError('Produto não encontrado.'))
       .finally(() => setLoading(false));
   }, [productId]);
 
@@ -32,7 +32,7 @@ function ProductDetailPage() {
     }
   };
 
-  if (loading) return <div className="detail-container">Carregando produto...</div>;
+  if (loading) return <Carregando />;
   if (error) return <div className="detail-container error">{error}</div>;
   if (!product) return null;
 

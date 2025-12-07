@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useCart } from '../../contexts/CartContext';
 import { createOrder } from '../../services/orderService';
 import { useNavigate, Link } from 'react-router-dom';
 import ButtonUI from '../../components/ButtonUI';
 import './CartPage.css';
+import { useSnackbar } from '../../hooks/useSnackbar';
 
 function CartPage() {
   const { cartItems, removeItem, clearCart } = useCart();
   const navigate = useNavigate();
+  const snackbar = useSnackbar();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   // Calcula o subtotal
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -18,7 +19,6 @@ function CartPage() {
 
   const handleFinalizeOrder = async () => {
     setLoading(true);
-    setError(null);
 
     const formattedItems = cartItems.map((item) => ({
       productId: item.productId,
@@ -33,11 +33,11 @@ function CartPage() {
 
     try {
       await createOrder(orderData);
-      alert('Pedido realizado com sucesso!');
+      snackbar.openSuccessSnackbar('Pedido realizado com sucesso!');
       clearCart();
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Falha ao finalizar o pedido.');
+      snackbar.openErrorSnackbar(err.response?.data?.message || 'Falha ao finalizar o pedido.');
     } finally {
       setLoading(false);
     }
@@ -82,7 +82,6 @@ function CartPage() {
             <p className="total">
               <span>Total:</span> <span>R$ {total.toFixed(2)}</span>
             </p>
-            {error && <p className="cart-error">{error}</p>}
             <ButtonUI
               text={loading ? 'Processando...' : 'Finalizar Pedido'}
               onClick={handleFinalizeOrder}
