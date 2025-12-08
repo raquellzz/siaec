@@ -37,6 +37,8 @@ public class ProductDTO {
 
     private String artisanId;
 
+    private String artisanName;
+
     private List<String> imagePaths;
 
     public ProductDTO() {}
@@ -54,6 +56,7 @@ public class ProductDTO {
 
         if (product.getCatalog() != null && product.getCatalog().getArtisan() != null) {
             dto.setArtisanId(product.getCatalog().getArtisan().getArtisanId());
+            dto.setArtisanName(product.getCatalog().getArtisan().getUser().getName());
         }
 
         if (product.getProductImages() != null) {

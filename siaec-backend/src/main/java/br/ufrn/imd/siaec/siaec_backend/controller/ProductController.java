@@ -70,7 +70,6 @@ public class ProductController {
     @PreAuthorize("hasRole('ARTISAN') or hasRole('ADMIN')")
     @PutMapping("/my-products/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable String id, @Valid @RequestBody ProductDTO productDTO) { 
-        // O service vai verificar se o produto pertence ao artesão logado
         ProductDTO updatedProduct = productService.update(id, productDTO);
         return ResponseEntity.ok(updatedProduct);
     }
@@ -78,8 +77,16 @@ public class ProductController {
     @PreAuthorize("hasRole('ARTISAN') or hasRole('ADMIN')")
     @DeleteMapping("/my-products/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) { 
-        // O service vai verificar se o produto pertence ao artesão logado
         productService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/by-artisan/{artisanId}")
+    public ResponseEntity<Page<ProductDTO>> getProductsByArtisanId(
+            @PathVariable String artisanId,
+            Pageable pageable) {
+
+        Page<ProductDTO> pageOfProducts = productService.findByArtisanId(artisanId, pageable);
+        return ResponseEntity.ok(pageOfProducts);
     }
 }

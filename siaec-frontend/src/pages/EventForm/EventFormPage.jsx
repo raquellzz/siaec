@@ -5,9 +5,9 @@ import ButtonUI from '../../components/ButtonUI';
 import Input from '../../components/Input';
 import Carregando from '../../components/Carregando';
 import { useSnackbar } from '../../hooks/useSnackbar';
+import { Alert } from '@mui/material';
 
 function EventFormPage() {
-  // Nota: No App.js definimos a rota como /meus-eventos/editar/:id
   const { EventId } = useParams(); 
   const navigate = useNavigate();
   const snackbar = useSnackbar();
@@ -20,9 +20,11 @@ function EventFormPage() {
     dateEnd: '',
     location: '',
     imagePath: '',
+    status: ''
   });
   
   const [loading, setLoading] = useState(false);
+  const [isReadOnly, setIsReadOnly] = useState(false);
 
   useEffect(() => {
     if (isEditing) {
@@ -32,13 +34,24 @@ function EventFormPage() {
           setFormData({
             name: data.name,
             description: data.description,
-            // Garante que as datas venham no formato compatível com input datetime-local
-            // Se o backend retornar ISO completo, talvez precise de ajustes, mas string simples funciona
             dateStart: data.dateStart, 
             dateEnd: data.dateEnd,
             location: data.location,
             imagePath: data.imagePath || '',
+            status: data.status
           });
+          let currentStatus = data.status;
+
+          if (!currentStatus) {
+            const now = new Date();
+            const end = new Date(data.dateEnd);
+            if (end < now) {
+                currentStatus = 'Concluído';
+            }
+          }
+          if (currentStatus === 'Cancelado' || currentStatus === 'Concluído') {
+            setIsReadOnly(true);
+          }
         })
         .catch((err) => {
           snackbar.openErrorMessage(
@@ -60,7 +73,6 @@ function EventFormPage() {
   const handleSubmit = async () => {
     setLoading(true);
 
-    // Validação simples de datas
     if (new Date(formData.dateEnd) < new Date(formData.dateStart)) {
         snackbar.openErrorMessage('A data de término não pode ser anterior à data de início.');
         setLoading(false);
@@ -95,23 +107,25 @@ function EventFormPage() {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: 24 }}>
         
         <Input 
-            label="Nome do Evento" 
-            type="text" 
-            name="name" 
-            value={formData.name} 
-            onChange={handleChange} 
-            required 
+            label="Nome do Evento"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            disabled={isReadOnly}
         />
 
         <Input
-          label="Descrição"
-          type="text"
-          multiline
-          rows={4}
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          required
+            label="Descrição"
+            type="text"
+            multiline
+            rows={4}
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+            disabled={isReadOnly}
         />
 
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
@@ -123,7 +137,8 @@ function EventFormPage() {
                     value={formData.dateStart}
                     onChange={handleChange}
                     required
-                    InputLabelProps={{ shrink: true }} // Necessário para inputs de data no Material UI/similares
+                    InputLabelProps={{ shrink: true }}
+                    disabled={isReadOnly}
                 />
             </div>
             <div style={{ flex: 1, minWidth: '200px' }}>
@@ -135,30 +150,31 @@ function EventFormPage() {
                     onChange={handleChange}
                     required
                     InputLabelProps={{ shrink: true }}
+                    disabled={isReadOnly}
                 />
             </div>
         </div>
 
         <Input
-          label="Localização"
-          type="text"
-          name="location"
-          value={formData.location}
-          onChange={handleChange}
-          required
-          placeholder="Ex: Centro de Convenções, Natal-RN"
+            label="Localização"
+            type="text"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            required
+            placeholder="Ex: Centro de Convenções, Natal-RN"
+            disabled={isReadOnly}
         />
 
         <Input
-          label="URL da Imagem (Banner)"
-          type="text"
-          name="imagePath"
-          value={formData.imagePath}
-          onChange={handleChange}
-          placeholder="http://exemplo.com/banner-evento.jpg"
+            label="URL da Imagem (Banner)"
+            type="text"
+            name="imagePath"
+            value={formData.imagePath}
+            onChange={handleChange}
+            placeholder="http://exemplo.com/banner-evento.jpg"
+            disabled={isReadOnly}
         />
-
-        {/* Pré-visualização da imagem (opcional, mas útil visualmente) */}
         {formData.imagePath && (
             <div style={{ marginTop: '-10px', marginBottom: '10px' }}>
                 <img 

@@ -8,7 +8,7 @@ const BackButton = ({ to }) => {
     if (to) {
       navigate(to);
     } else {
-      navigate(-1); // O valor -1 faz o navegador voltar uma página no histórico
+      navigate(-1); 
     }
   };
 
@@ -22,17 +22,16 @@ const BackButton = ({ to }) => {
         background: 'transparent',
         border: 'none',
         cursor: 'pointer',
-        color: '#555', // Cinza escuro
+        color: '#555', 
         fontSize: '1rem',
         fontWeight: '500',
         padding: '8px 0',
-        marginBottom: '16px', // Espaço abaixo do botão
+        marginBottom: '16px', 
         transition: 'color 0.2s'
       }}
-      onMouseEnter={(e) => e.target.style.color = '#B95318'} // Efeito hover laranja
+      onMouseEnter={(e) => e.target.style.color = '#B95318'} 
       onMouseLeave={(e) => e.target.style.color = '#555'}
     >
-      {/* Ícone de Seta para Esquerda (SVG) */}
       <svg 
         width="20" 
         height="20" 
@@ -42,7 +41,7 @@ const BackButton = ({ to }) => {
         strokeWidth="2" 
         strokeLinecap="round" 
         strokeLinejoin="round"
-        style={{ pointerEvents: 'none' }} // Evita problemas com o hover no SVG
+        style={{ pointerEvents: 'none' }} 
       >
         <path d="M19 12H5" />
         <path d="M12 19l-7-7 7-7" />

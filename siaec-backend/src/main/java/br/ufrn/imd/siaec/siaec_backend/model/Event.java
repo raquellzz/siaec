@@ -28,6 +28,9 @@ public class Event {
     private String eventId;
 
     @Nonnull
+    private String status = "Ativo";
+
+    @Nonnull
     private String name;
 
     @Nonnull

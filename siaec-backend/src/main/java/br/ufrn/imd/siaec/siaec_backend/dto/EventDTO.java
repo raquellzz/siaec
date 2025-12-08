@@ -14,6 +14,9 @@ public class EventDTO {
     @NotBlank(message = "O nome do evento é obrigatório")
     private String name;
 
+    @NotBlank
+    private String status;
+
     @NotBlank(message = "A descrição do evento é obrigatória")
     private String description;
 
@@ -30,16 +33,13 @@ public class EventDTO {
 
     private Date createdAt;
 
-    // Construtor vazio
     public EventDTO() {}
 
-    /**
-     * Converte uma Entidade Event para EventDTO
-     */
     public static EventDTO fromEntity(Event event) {
         EventDTO dto = new EventDTO();
         dto.setEventId(event.getEventId());
         dto.setName(event.getName());
+        dto.setStatus(event.getStatus());
         dto.setDescription(event.getDescription());
         dto.setDateStart(event.getDateStart());
         dto.setDateEnd(event.getDateEnd());
@@ -47,25 +47,19 @@ public class EventDTO {
         dto.setImagePath(event.getImagePath());
         dto.setCreatedAt(event.getCreatedAt());
         
-        // Nota: Não estamos mapeando artisanRegistrations aqui para evitar
-        // loops infinitos ou carregamento excessivo de dados em listagens simples.
         
         return dto;
     }
 
-    /**
-     * Converte este DTO para uma Entidade Event
-     */
     public Event toEntity() {
         Event event = new Event();
-        // O ID geralmente é gerado automaticamente ou setado no update do Service
         event.setName(this.name);
+        event.setStatus(this.status);
         event.setDescription(this.description);
         event.setDateStart(this.dateStart);
         event.setDateEnd(this.dateEnd);
         event.setLocation(this.location);
         event.setImagePath(this.imagePath);
-        // createdAt e deletedAt são gerenciados pelo banco ou lógica de serviço
         return event;
     }
 }

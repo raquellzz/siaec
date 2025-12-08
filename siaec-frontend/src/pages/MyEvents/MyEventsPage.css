@@ -1,4 +1,3 @@
-/* Container Geral da Página */
 .my-events-container {
     padding: 20px;
     max-width: 1200px;
@@ -18,7 +17,6 @@
     margin: 0;
 }
 
-/* --- Abas de Filtro (Todos, Próximos, etc) --- */
 .event-tabs {
     display: flex;
     gap: 20px;
@@ -43,11 +41,10 @@
 }
 
 .tab-button.active {
-    color: #B95318; /* Cor laranja do tema */
+    color: #B95318; 
     font-weight: bold;
 }
 
-/* Linha sublinhada da aba ativa */
 .tab-button.active::after {
     content: '';
     position: absolute;
@@ -58,14 +55,12 @@
     background-color: #B95318;
 }
 
-/* --- Grid de Cards --- */
 .event-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsivo */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
     gap: 24px;
 }
 
-/* Estado vazio */
 .no-events {
     grid-column: 1 / -1;
     text-align: center;
@@ -75,7 +70,6 @@
     color: #777;
 }
 
-/* --- Card Individual --- */
 .event-card {
     background: #fff;
     border: 1px solid #e0e0e0;
@@ -105,10 +99,7 @@
     font-weight: 700;
     color: #333;
     margin: 0;
-    /* Limitar linhas do título */
     display: -webkit-box;
-    /* -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical; */
     overflow: hidden;
 }
 
@@ -144,7 +135,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto; /* Empurra para o fundo */
+    margin-top: auto; 
 }
 
 .link-details {
@@ -157,7 +148,6 @@
     text-decoration: underline;
 }
 
-/* --- Tags de Status --- */
 .status-tag {
     padding: 4px 12px;
     border-radius: 20px;
@@ -167,20 +157,22 @@
     text-transform: capitalize;
 }
 
-.status-ativo, .status-proximo {
-    background-color: #8BC34A; /* Verde Oliva */
+.status-proximo {
+    background-color: #659feb;
+}
+
+.status-ativo {
+    background-color: #8BC34A; 
 }
 
 .status-concluido {
     background-color: #E0E0E0;
-    color: #757575;
 }
 
 .status-cancelado {
-    background-color: #FF5252; /* Vermelho */
+    background-color: #FF5252;
 }
 
-/* Paginação (Estilo Básico) */
 .pagination-container {
     display: flex;
     justify-content: center;
@@ -197,7 +189,7 @@
 }
 
 .page-btn.active {
-    background-color: #FCE4D6; /* Laranja bem claro */
+    background-color: #FCE4D6; 
     border-color: #B95318;
     color: #B95318;
 }

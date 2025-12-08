@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { getMyEvents, deleteEvent } from '../../services/eventService';
 import ButtonUI from '../../components/ButtonUI';
 import './MyEventsPage.css'; 
-import BackButton from '../../components/BackButton/BackButton';
 
 function MyEventsPage() {
   const [events, setEvents] = useState([]);
@@ -15,7 +14,6 @@ function MyEventsPage() {
     try {
       setLoading(true);
       const data = await getMyEvents();
-      // Assume-se que o backend retorna um Page<Event>, logo usamos data.content
       setEvents(data.content || []); 
       setError(null);
     } catch (err) {
@@ -30,31 +28,25 @@ function MyEventsPage() {
     loadEvents();
   }, []);
 
-  // --- Lógica de Deleção (Igual ao MyProductsPage) ---
   const handleDelete = async (eventId) => {
-    if (window.confirm('Tem certeza que deseja cancelar/excluir este evento?')) {
+    if (window.confirm('Tem certeza que deseja cancelar este evento? Ele ainda aparecerá na lista como Cancelado.')) {
       try {
         await deleteEvent(eventId);
-        loadEvents(); // Recarrega a lista
+        loadEvents(); 
       } catch (err) {
-        alert('Falha ao deletar o evento: ' + (err.response?.data?.message || err.message));
+        alert('Falha ao cancelar o evento: ' + (err.response?.data?.message || err.message));
       }
     }
   };
 
-  // --- Helpers Visuais ---
-
-  // Função para calcular status baseado na data (caso o backend não retorne o status pronto)
   const getStatus = (event) => {
-    // Se o backend já retornar o status, use: return event.status;
-    
-    if (event.status) return event.status; // Prioridade para o backend
+    if (event.status === 'Cancelado') return 'Cancelado';
+    if (event.status) return event.status; 
 
     const now = new Date();
     const start = new Date(event.dateStart);
     const end = new Date(event.dateEnd);
-
-    // Lógica simples de exemplo
+    
     if (end < now) return 'Concluído';
     if (start > now) return 'Próximo'; 
     return 'Ativo';
@@ -62,8 +54,8 @@ function MyEventsPage() {
 
   const getStatusStyle = (statusLabel) => {
     switch (statusLabel) {
-      case 'Ativo': 
-      case 'Próximo': return 'status-ativo';
+      case 'Ativo': return 'status-ativo';
+      case 'Próximo': return 'status-proximo';
       case 'Concluído': return 'status-concluido';
       case 'Cancelado': return 'status-cancelado';
       default: return 'status-ativo';
@@ -75,7 +67,7 @@ function MyEventsPage() {
     return new Date(dateString).toLocaleDateString('pt-BR');
   };
 
-  // Filtragem no Frontend (apenas visual, já que pegamos paginado do back)
+  
   const getFilteredEvents = () => {
     if (filter === 'Todos') return events;
     return events.filter(event => getStatus(event) === filter);
@@ -83,13 +75,11 @@ function MyEventsPage() {
 
   const tabs = ['Todos', 'Próximo', 'Concluído', 'Cancelado'];
 
-  // --- Renderização ---
   if (loading) return <div className="my-events-container">Carregando eventos...</div>;
   if (error) return <div className="my-events-container" style={{ color: 'red' }}>{error}</div>;
 
   return (
     <div className="my-events-container">
-      {/* Cabeçalho */}
       <div className="header-section">
         <h2 className="page-title">Gerenciar Meus Eventos</h2>
         <Link to="/meus-eventos/novo">
@@ -97,7 +87,6 @@ function MyEventsPage() {
         </Link>
       </div>
 
-      {/* Abas de Navegação */}
       <div className="event-tabs">
         {tabs.map((tab) => (
           <button
@@ -110,7 +99,6 @@ function MyEventsPage() {
         ))}
       </div>
 
-      {/* Grid de Cards */}
       <div className="event-cards-grid">
         {getFilteredEvents().length === 0 ? (
           <div className="no-events">
@@ -125,7 +113,6 @@ function MyEventsPage() {
                 <div className="card-header">
                   <h3 className="card-title">{event.name}</h3>
                   <div className="card-actions">
-                    {/* Botão Editar */}
                     <Link to={`/meus-eventos/editar/${event.eventId}`}>
                       <button className="icon-btn" title="Editar">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -134,7 +121,6 @@ function MyEventsPage() {
                         </svg>
                       </button>
                     </Link>
-                    {/* Botão Deletar */}
                     <button 
                         className="icon-btn delete" 
                         title="Excluir"
@@ -151,9 +137,9 @@ function MyEventsPage() {
                 <p className="card-date">{formatDate(event.dateStart)}</p>
 
                 <div className="card-footer">
-                  {/* <Link to={`/eventos/${event.eventId}`} className="link-details">
+                  <Link to={`/events/${event.eventId}`} className="link-details">
                     Ver detalhes
-                  </Link> */}
+                  </Link>
                   <span className={`status-tag ${getStatusStyle(currentStatus)}`}>
                     {currentStatus}
                   </span>
@@ -164,8 +150,6 @@ function MyEventsPage() {
         )}
       </div>
 
-      {/* Paginação Simples (Visual) */}
-      {/* Você pode integrar lógica real de paginação aqui baseada no retorno 'totalPages' do backend */}
       <div className="pagination-container">
         <button className="page-btn">Anterior</button>
         <button className="page-btn active">1</button>
