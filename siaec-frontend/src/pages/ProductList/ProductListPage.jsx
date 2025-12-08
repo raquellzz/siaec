@@ -30,7 +30,7 @@ function ProductListPage() {
         setProducts(data.content || []);
         setTotalPages(data.totalPages || 0);
       } catch (err) {
-        setError('Falha ao carregar produtos. A API do backend está rodando?');
+        setError('Falha ao carregar produtos.');
         console.error(err);
       } finally {
         setLoading(false);
