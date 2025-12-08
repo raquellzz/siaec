@@ -87,3 +87,22 @@ export const updateProduct = async (productId, productData) => {
     throw error;
   }
 };
+
+/**
+ * Busca produtos de um artesão específico
+ * @param {string} artisanId - O ID do artesão
+ * @param {number} page - O número da página (começando em 0)
+ * @param {number} size - O tamanho da página
+ * @returns {Promise<Object>} - A página de produtos (ex: { content: [], totalPages: 5 })
+ */
+export const getProductsByArtisanId = async (artisanId, page = 0, size = 9) => {
+  try {
+    const url = `/products/by-artisan/${artisanId}?page=${page}&size=${size}`;
+    console.log("SERVICE LOG: Chamando URL Catálogo:", url); // LOG DE DIAGNÓSTICO
+    const response = await api.get(url);
+    return response.data;
+  } catch (error) {
+    console.error(`SERVICE LOG: Erro ${error.response?.status} ao buscar produtos do artesão ${artisanId}:`, error.message);
+    throw error;
+  }
+};

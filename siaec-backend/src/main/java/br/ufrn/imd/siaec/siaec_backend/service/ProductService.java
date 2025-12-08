@@ -153,4 +153,15 @@ public class ProductService {
         Page<Product> page = productRepository.findByCatalogAndDeletedAtIsNull(catalog, pageable);
         return page.map(ProductDTO::fromEntity);
     }
+
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> findByArtisanId(String artisanId, Pageable pageable) {
+        // Busca o Catálogo do Artesão
+        Catalog catalog = catalogRepository.findByArtisanArtisanId(artisanId)
+                .orElseThrow(() -> new NotFoundException("Catálogo não encontrado para o artesão com id: " + artisanId));
+
+        // Busca os produtos ativos (deletedAt IS NULL) do Catálogo
+        Page<Product> page = productRepository.findByCatalogAndDeletedAtIsNull(catalog, pageable);
+        return page.map(ProductDTO::fromEntity);
+    }
 }

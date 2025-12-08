@@ -1,0 +1,91 @@
+.artisan-detail-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f8f8;
+}
+
+.artisan-details-container {
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 100px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.artisan-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #eeeeee;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.artisan-profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 30px;
+    border: 4px solid #f99c1c;
+}
+
+.artisan-info h1 {
+    font-size: 2.5em;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.artisan-description {
+    font-size: 1.1em;
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.artisan-contact p {
+    font-size: 1em;
+    color: #444444;
+    margin: 5px 0;
+}
+
+.catalog-title {
+    font-size: 2em;
+    color: #f99c1c;
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
+.product-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.no-products-message {
+    text-align: center;
+    font-size: 1.2em;
+    color: #999999;
+    padding: 40px 0;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .artisan-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .artisan-profile-image {
+        margin-bottom: 20px;
+        margin-right: 0;
+    }
+}

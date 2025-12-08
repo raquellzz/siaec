@@ -16,5 +16,11 @@ export const getEvents = async (page = 0, size = 10, nameFilter = null) => {
 };
 
 export const getEventById = async (id) => {
-    // ... (para a página "Ver evento")
+    try {
+        const response = await api.get(`/events/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Erro ao buscar evento com id ${id}:`, error.response?.data || error.message);
+        throw error;
+    }
 };

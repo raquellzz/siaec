@@ -16,5 +16,13 @@ export const getArtisans = async (page = 0, size = 10, nameFilter = null) => {
 };
 
 export const getArtisanById = async (id) => {
-    // ... (para a página "Ver artesão")
+    try {
+        const url = `/artisans/${id}`;
+        console.log("SERVICE LOG: Chamando URL Artesão:", url);
+        const response = await api.get(url);
+        return response.data;
+    } catch (error) {
+        console.error(`SERVICE LOG: Erro ${error.response?.status} ao buscar artesão ${id}:`, error.response?.data?.message || error.message);
+        throw error;
+    }
 };

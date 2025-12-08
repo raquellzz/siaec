@@ -12,9 +12,11 @@ import MyProductsPage from './pages/MyProducts/MyProductsPage.jsx';
 import ProductFormPage from './pages/ProductForm/ProductFormPage.jsx';
 import ProductDetailPage from './pages/ProductDetail/ProductDetailPage.jsx';
 import CartPage from './pages/Cart/CartPage.jsx';
+import ArtisanDetailPage from './pages/ArtisanDetail/ArtisanDetailPage.jsx';
 import { useAuth } from './hooks/useAuth.jsx';
 import { roleEnum } from './enums/RoleEnum.js';
 import NotFound from './pages/NotFound/index.jsx';
+import EventDetailPage from './pages/EventDetail/EventDetailPage.jsx';
 
 function App() {
   const { user } = useAuth();
@@ -31,7 +33,9 @@ function App() {
           <Route path="/products" element={<ProductListPage />} />
           <Route path="/products/:productId" element={<ProductDetailPage />} />
           <Route path="/artisans" element={<ArtisanListPage />} />
+          <Route path="/artisans/:artisanId" element={<ArtisanDetailPage />} />
           <Route path="/events" element={<EventListPage />} />
+          <Route path="/events/:eventId" element={<EventDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           {isUserLoggedIn && <Route path="/profile" element={<ProfilePage />} />}

@@ -82,4 +82,13 @@ public class ProductController {
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/by-artisan/{artisanId}")
+    public ResponseEntity<Page<ProductDTO>> getProductsByArtisanId(
+            @PathVariable String artisanId,
+            Pageable pageable) {
+
+        Page<ProductDTO> pageOfProducts = productService.findByArtisanId(artisanId, pageable);
+        return ResponseEntity.ok(pageOfProducts);
+    }
 }
