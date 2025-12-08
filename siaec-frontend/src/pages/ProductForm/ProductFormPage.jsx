@@ -69,7 +69,6 @@ function ProductFormPage() {
   const handleSubmit = async () => {
     setLoading(true);
 
-    // Filtra caminhos de imagem vazios
     const finalProductData = {
       ...formData,
       imagePaths: formData.imagePaths.filter((path) => path && path.trim() !== ''),

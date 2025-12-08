@@ -1,5 +1,6 @@
 package br.ufrn.imd.siaec.siaec_backend.controller;
 
+import br.ufrn.imd.siaec.siaec_backend.dto.EventDTO;
 import br.ufrn.imd.siaec.siaec_backend.model.Event;
 import br.ufrn.imd.siaec.siaec_backend.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,6 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @PreAuthorize("hasRole('ROLE_EVENT_PLANNER') or hasRole('ROLE_ADMIN')")
-    @PostMapping("")
-    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-        return ResponseEntity.ok(eventService.createEvent(event));
-    }
-
     @GetMapping("")
     public ResponseEntity<Page<Event>> getEvents(
             @RequestParam(required = false) String name,
@@ -32,17 +27,33 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable String id) {
-        return eventService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<EventDTO> getEventById(@PathVariable String id) {
+        EventDTO event = eventService.findById(id);
+        return ResponseEntity.ok(event);
     }
 
     @PreAuthorize("hasRole('ROLE_EVENT_PLANNER') or hasRole('ROLE_ADMIN')")
-    @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable String id, @RequestBody Event eventDetails) {
+    @GetMapping("/my-events")
+    public ResponseEntity<Page<Event>> getMyEvents(
+            @RequestParam(required = false) String name,
+            @PageableDefault(size = 10, page = 0) Pageable pageable) {
+
+        Page<Event> events = eventService.findEvents(name, pageable);
+        return ResponseEntity.ok(events);
+    }
+
+    @PreAuthorize("hasRole('ROLE_EVENT_PLANNER') or hasRole('ROLE_ADMIN')")
+    @PostMapping("/my-events")
+    public ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO eventDTO) {
+        EventDTO createdEvent = eventService.createEvent(eventDTO);
+        return ResponseEntity.ok(createdEvent);
+    }
+
+    @PreAuthorize("hasRole('ROLE_EVENT_PLANNER') or hasRole('ROLE_ADMIN')")
+    @PutMapping("/my-events/{id}")
+    public ResponseEntity<EventDTO> updateEvent(@PathVariable String id, @RequestBody EventDTO eventDTO) {
         try {
-            Event updatedEvent = eventService.updateEvent(id, eventDetails);
+            EventDTO updatedEvent = eventService.updateEvent(id, eventDTO);
             return ResponseEntity.ok(updatedEvent);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -50,7 +61,7 @@ public class EventController {
     }
 
     @PreAuthorize("hasRole('ROLE_EVENT_PLANNER') or hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/my-events/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable String id) {
         try {
             eventService.deleteEvent(id);

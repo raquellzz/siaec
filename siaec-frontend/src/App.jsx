@@ -11,18 +11,23 @@ import ProfilePage from './pages/Profile/ProfilePage.jsx';
 import MyProductsPage from './pages/MyProducts/MyProductsPage.jsx';
 import ProductFormPage from './pages/ProductForm/ProductFormPage.jsx';
 import ProductDetailPage from './pages/ProductDetail/ProductDetailPage.jsx';
+import MyEventsPage from './pages/MyEvents/MyEventsPage.jsx';
+import EventFormPage from './pages/EventForm/EventFormPage.jsx';
 import CartPage from './pages/Cart/CartPage.jsx';
 import ArtisanDetailPage from './pages/ArtisanDetail/ArtisanDetailPage.jsx';
 import { useAuth } from './hooks/useAuth.jsx';
 import { roleEnum } from './enums/RoleEnum.js';
 import NotFound from './pages/NotFound/index.jsx';
 import EventDetailPage from './pages/EventDetail/EventDetailPage.jsx';
+import ClientDashboardPage from './pages/ClientDashboard/ClientDashboardPage.jsx';
 
 function App() {
   const { user } = useAuth();
   const isUserLoggedIn = Boolean(user);
   const isArtisan = isUserLoggedIn && user.role === roleEnum.artisan;
   const isClient = isUserLoggedIn && user.role === roleEnum.client;
+  const ProfileRouteComponent = isClient ? ClientDashboardPage : ProfilePage;
+  const isEventPlanner = isUserLoggedIn && user.role === roleEnum.eventPlanner;
 
   return (
     <Router>
@@ -38,12 +43,19 @@ function App() {
           <Route path="/events/:eventId" element={<EventDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          {isUserLoggedIn && <Route path="/profile" element={<ProfilePage />} />}
+          {isUserLoggedIn && <Route path="/profile" element={<ProfileRouteComponent />} />}
           {isArtisan && (
             <>
               <Route path="/meus-produtos" element={<MyProductsPage />} />
               <Route path="/meus-produtos/novo" element={<ProductFormPage />} />
               <Route path="/meus-produtos/editar/:productId" element={<ProductFormPage />} />
+            </>
+          )}
+          {isEventPlanner && (
+            <>
+              <Route path="/meus-eventos" element={<MyEventsPage />} />
+              <Route path="/meus-eventos/novo" element={<EventFormPage />} />
+              <Route path="/meus-eventos/editar/:EventId" element={<EventFormPage />} />
             </>
           )}
           {isClient && <Route path="/cart" element={<CartPage />} />}

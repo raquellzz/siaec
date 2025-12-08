@@ -1,5 +1,6 @@
 package br.ufrn.imd.siaec.siaec_backend.service;
 
+import br.ufrn.imd.siaec.siaec_backend.dto.EventDTO;
 import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.model.Event;
 import br.ufrn.imd.siaec.siaec_backend.repository.EventRepository;
@@ -10,17 +11,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
+
+
     @Transactional
-    public Event createEvent(Event event) {
-        event.setCreatedAt(new Date());
-        return eventRepository.save(event);
+    public EventDTO createEvent(EventDTO eventDTO) {
+        eventDTO.setCreatedAt(new Date());
+        Event eventEntity = eventDTO.toEntity();
+        Event savedEvent = eventRepository.save(eventEntity);
+        return EventDTO.fromEntity(savedEvent);
     }
 
     @Transactional(readOnly = true)
@@ -33,14 +37,16 @@ public class EventService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Event> findById(String id) {
-        return eventRepository.findById(id)
-                .filter(event -> event.getDeletedAt() == null);
+    public EventDTO findById(String id) {
+        Event event = eventRepository.findById(id)
+                .filter(e -> e.getDeletedAt() == null)
+                .orElseThrow(() -> new NotFoundException("Evento não encontrado com id: " + id));
+        return EventDTO.fromEntity(event);
     }
 
     @Transactional
-    public Event updateEvent(String id, Event eventDetails) {
-        Event event = findById(id)
+    public EventDTO updateEvent(String id, EventDTO eventDetails) {
+        Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Evento não encontrado com id: " + id));
 
         event.setName(eventDetails.getName());
@@ -49,16 +55,18 @@ public class EventService {
         event.setDateStart(eventDetails.getDateStart());
         event.setDateEnd(eventDetails.getDateEnd());
         event.setImagePath(eventDetails.getImagePath());
-
-        return eventRepository.save(event);
+        Event updatedEvent = eventRepository.save(event);
+        return EventDTO.fromEntity(updatedEvent);
     }
 
     @Transactional
     public void deleteEvent(String id) {
-        Event event = findById(id)
+        Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Evento não encontrado com id: " + id));
 
-        event.setDeletedAt(new Date());
+        //event.setDeletedAt(new Date());
+        event.setStatus("Cancelado");
         eventRepository.save(event);
     }
+
 }

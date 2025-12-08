@@ -1,0 +1,195 @@
+.my-events-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.page-title {
+    font-size: 1.8rem;
+    color: #333;
+    margin: 0;
+}
+
+.event-tabs {
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 30px;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 10px 5px;
+    font-size: 1rem;
+    color: #666;
+    cursor: pointer;
+    position: relative;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.tab-button:hover {
+    color: #B95318;
+}
+
+.tab-button.active {
+    color: #B95318; 
+    font-weight: bold;
+}
+
+.tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #B95318;
+}
+
+.event-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 24px;
+}
+
+.no-events {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    color: #777;
+}
+
+.event-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-height: 160px;
+}
+
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+    display: -webkit-box;
+    overflow: hidden;
+}
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    padding: 4px;
+    transition: color 0.2s;
+}
+
+.icon-btn:hover {
+    color: #B95318;
+}
+
+.icon-btn.delete:hover {
+    color: #d32f2f;
+}
+
+.card-date {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; 
+}
+
+.link-details {
+    font-size: 0.9rem;
+    color: #777;
+    text-decoration: none;
+}
+
+.link-details:hover {
+    text-decoration: underline;
+}
+
+.status-tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    text-transform: capitalize;
+}
+
+.status-proximo {
+    background-color: #659feb;
+}
+
+.status-ativo {
+    background-color: #8BC34A; 
+}
+
+.status-concluido {
+    background-color: #E0E0E0;
+}
+
+.status-cancelado {
+    background-color: #FF5252;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    gap: 10px;
+}
+
+.page-btn {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.page-btn.active {
+    background-color: #FCE4D6; 
+    border-color: #B95318;
+    color: #B95318;
+}

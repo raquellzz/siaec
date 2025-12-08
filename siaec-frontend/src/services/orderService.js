@@ -14,3 +14,15 @@ export const createOrder = async (orderData) => {
     throw error;
   }
 };
+
+export const getMyOrders = async (page = 0, size = 10) => {
+  try {
+    const response = await api.get('/orders/my-orders', {
+      params: { page, size, sort: 'createdAt,desc' },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar meus pedidos:', error.response?.data || error.message);
+    throw error;
+  }
+};

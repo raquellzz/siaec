@@ -67,7 +67,22 @@ const EventDetailPage = () => {
     const endDate = event.dateEnd ? formatDate(event.dateEnd) : 'Data de Fim Não Informada';
     
     const plannerName = event.eventPlanner?.user?.name || 'Cerimonialista Desconhecido';
-    const status = event.status || 'Ativo';
+    // const status = event.status || 'Ativo';
+    let status = event.status;
+    if (!status) {
+        const now = new Date();
+        const end = new Date(event.dateEnd);
+        const start = new Date(event.dateStart);
+        status = 'Ativo';
+        if (end < now) status = 'Concluído';
+        if (start > now) status = 'Próximo'; 
+        
+    }
+
+    const statusClass = status
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") 
+    .replace(/ /g, '-');
 
     return (
         <div className="event-detail-page">
@@ -81,9 +96,9 @@ const EventDetailPage = () => {
                     />
                     <div className="event-info">
                         <h1>{eventName}</h1>
-                        <p className={`event-status status-${status.toLowerCase().replace(/ /g, '-')}`}>
-                            <strong>Status: </strong>{status}
-                        </p>
+                        <div className={`event-status-badge status-${statusClass}`}>
+                            {status}
+                        </div>
                         <p className="event-dates">
                             <strong>De: </strong>{startDate}  <strong>Até: </strong>{endDate}
                         </p>

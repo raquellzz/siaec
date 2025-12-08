@@ -11,7 +11,10 @@ import br.ufrn.imd.siaec.siaec_backend.model.User;
 import br.ufrn.imd.siaec.siaec_backend.repository.OrderRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.ProductRepository;
 
+import br.ufrn.imd.siaec.siaec_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,5 +86,14 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
 
         return OrderResponseDTO.fromEntity(savedOrder);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<OrderResponseDTO> findMyOrders(Pageable pageable) {
+        User currentUser = userService.getCurrentAuthenticatedUser();
+
+        Page<Order> page = orderRepository.findByUser_UserId(currentUser.getUserId(), pageable);
+
+        return page.map(OrderResponseDTO::fromEntity);
     }
 }
