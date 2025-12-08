@@ -54,7 +54,7 @@ function ProductDetailPage() {
       )}
       <div className="product-info">
         <h1>{product.name}</h1>
-        <p className="detail-artisan">De Maria Silva</p>
+        <p className="detail-artisan">De {product.artisanName}</p>
         <p className="detail-description">{product.description}</p>
         <p className="detail-stock-material">
           <strong>Estoque:</strong> {product.stock}
