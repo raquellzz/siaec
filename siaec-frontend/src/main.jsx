@@ -7,7 +7,7 @@ import { CartProvider } from './contexts/CartContext.jsx';
 import App from './App.jsx';
 import './index.css';
 import Snackbar from './components/Snackbar/index.jsx';
-import { SnackbarProvider } from './contexts/SnackbarContext';
+import { SnackbarProvider } from './hooks/useSnackbar.jsx';
 
 const theme = createTheme({
   palette: {

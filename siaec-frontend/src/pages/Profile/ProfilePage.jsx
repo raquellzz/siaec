@@ -57,6 +57,11 @@ function ProfilePage() {
             Histórico de Pedidos
           </Link>
         )}
+        {user.role === 'EVENT_PLANNER' && (
+          <Link to="/meus-eventos" className="profile-action-link">
+            Gerenciar Meus Eventos
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -11,6 +11,8 @@ import ProfilePage from './pages/Profile/ProfilePage.jsx';
 import MyProductsPage from './pages/MyProducts/MyProductsPage.jsx';
 import ProductFormPage from './pages/ProductForm/ProductFormPage.jsx';
 import ProductDetailPage from './pages/ProductDetail/ProductDetailPage.jsx';
+import MyEventsPage from './pages/MyEvents/MyEventsPage.jsx';
+import EventFormPage from './pages/EventForm/EventFormPage.jsx';
 import CartPage from './pages/Cart/CartPage.jsx';
 import { useAuth } from './hooks/useAuth.jsx';
 import { roleEnum } from './enums/RoleEnum.js';
@@ -21,6 +23,7 @@ function App() {
   const isUserLoggedIn = Boolean(user);
   const isArtisan = isUserLoggedIn && user.role === roleEnum.artisan;
   const isClient = isUserLoggedIn && user.role === roleEnum.client;
+  const isEventPlanner = isUserLoggedIn && user.role === roleEnum.eventPlanner;
 
   return (
     <Router>
@@ -40,6 +43,13 @@ function App() {
               <Route path="/meus-produtos" element={<MyProductsPage />} />
               <Route path="/meus-produtos/novo" element={<ProductFormPage />} />
               <Route path="/meus-produtos/editar/:productId" element={<ProductFormPage />} />
+            </>
+          )}
+          {isEventPlanner && (
+            <>
+              <Route path="/meus-eventos" element={<MyEventsPage />} />
+              <Route path="/meus-eventos/novo" element={<EventFormPage />} />
+              <Route path="/meus-eventos/editar/:EventId" element={<EventFormPage />} />
             </>
           )}
           {isClient && <Route path="/cart" element={<CartPage />} />}
