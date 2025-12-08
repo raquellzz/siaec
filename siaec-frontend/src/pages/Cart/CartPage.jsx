@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCart } from '../../contexts/CartContext';
+import { useCart } from '../../hooks/useCart';
 import { createOrder } from '../../services/orderService';
 import { useNavigate, Link } from 'react-router-dom';
 import ButtonUI from '../../components/ButtonUI';
