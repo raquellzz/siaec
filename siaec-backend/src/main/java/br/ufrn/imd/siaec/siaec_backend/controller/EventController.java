@@ -3,16 +3,19 @@ package br.ufrn.imd.siaec.siaec_backend.controller;
 import br.ufrn.imd.siaec.siaec_backend.dto.EventDTO;
 import br.ufrn.imd.siaec.siaec_backend.model.Event;
 import br.ufrn.imd.siaec.siaec_backend.service.EventService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/events")
+@Tag(name = "Eventos")
 public class EventController {
     @Autowired
     private EventService eventService;
@@ -62,6 +65,7 @@ public class EventController {
 
     @PreAuthorize("hasRole('ROLE_EVENT_PLANNER') or hasRole('ROLE_ADMIN')")
     @DeleteMapping("/my-events/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteEvent(@PathVariable String id) {
         try {
             eventService.deleteEvent(id);

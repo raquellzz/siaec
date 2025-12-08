@@ -3,10 +3,12 @@ package br.ufrn.imd.siaec.siaec_backend.controller;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.ufrn.imd.siaec.siaec_backend.dto.LoginDTO;
 import br.ufrn.imd.siaec.siaec_backend.dto.LoginResponseDTO;
@@ -15,9 +17,11 @@ import br.ufrn.imd.siaec.siaec_backend.dto.UserResponseDTO;
 import br.ufrn.imd.siaec.siaec_backend.model.User;
 import br.ufrn.imd.siaec.siaec_backend.service.AuthService;
 import br.ufrn.imd.siaec.siaec_backend.service.JwtService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Autenticação")
 public class AuthController {
     private AuthService authService;
     private final JwtService jwtService;
@@ -29,6 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserResponseDTO> register(@RequestBody UserRegisterDTO user) {
         UserResponseDTO usercreated = authService.create(user);
         URI location = URI.create("/v1/users/" + usercreated.getUserId());

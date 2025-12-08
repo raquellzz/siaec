@@ -2,6 +2,7 @@ package br.ufrn.imd.siaec.siaec_backend.controller;
 
 import br.ufrn.imd.siaec.siaec_backend.dto.ProductDTO;
 import br.ufrn.imd.siaec.siaec_backend.service.ProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/products") 
+@RequestMapping("/products")
+@Tag(name = "Produtos")
 public class ProductController {
 
     @Autowired
@@ -21,6 +23,7 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ARTISAN') or hasRole('ADMIN')")
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductDTO newProduct = productService.create(productDTO);
         return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
@@ -55,6 +58,7 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ARTISAN') or hasRole('ADMIN')")
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteProduct(@PathVariable String id) { 
         productService.delete(id);
         return ResponseEntity.noContent().build();
@@ -76,6 +80,7 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ARTISAN') or hasRole('ADMIN')")
     @DeleteMapping("/my-products/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> delete(@PathVariable String id) { 
         productService.delete(id);
         return ResponseEntity.noContent().build();
