@@ -4,6 +4,12 @@
 }
 
 .images {
+  display: flex;
+  gap: 8px;
+  height: 400px;
+}
+
+.images-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1.5fr 1fr;
   grid-template-rows: 400px;

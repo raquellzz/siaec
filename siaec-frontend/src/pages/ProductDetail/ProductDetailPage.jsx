@@ -38,8 +38,16 @@ function ProductDetailPage() {
 
   return (
     <div className="detail-container">
-      {product.imagePaths && product.imagePaths.length > 0 && (
+      {product.imagePaths && product.imagePaths.length < 4 && (
         <div className="images">
+          {product.imagePaths[0] && <img src={product.imagePaths[0]} className="detail-image" />}
+          {product.imagePaths[1] && <img src={product.imagePaths[1]} className="detail-image" />}
+          {product.imagePaths[2] && <img src={product.imagePaths[2]} className="detail-image" />}
+          {product.imagePaths[3] && <img src={product.imagePaths[3]} className="detail-image" />}
+        </div>
+      )}
+      {product.imagePaths && product.imagePaths.length > 4 && (
+        <div className="images-grid">
           <img src={product.imagePaths[0] || defaultImage} className="detail-image" />
           <img src={product.imagePaths[1] || defaultImage} className="detail-image" />
           <div className="image-col">
