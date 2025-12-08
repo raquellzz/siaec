@@ -7,10 +7,14 @@ import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.model.Order;
 import br.ufrn.imd.siaec.siaec_backend.model.OrderItem;
 import br.ufrn.imd.siaec.siaec_backend.model.Product;
+import br.ufrn.imd.siaec.siaec_backend.model.User;
 import br.ufrn.imd.siaec.siaec_backend.repository.OrderRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.ProductRepository;
 
+import br.ufrn.imd.siaec.siaec_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +28,9 @@ public class OrderService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Transactional
     public OrderResponseDTO createOrder(OrderRequestDTO requestDTO) {
@@ -78,5 +85,14 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
 
         return OrderResponseDTO.fromEntity(savedOrder);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<OrderResponseDTO> findMyOrders(Pageable pageable) {
+        User currentUser = userService.getCurrentAuthenticatedUser();
+
+        Page<Order> page = orderRepository.findByUser_UserId(currentUser.getUserId(), pageable);
+
+        return page.map(OrderResponseDTO::fromEntity);
     }
 }

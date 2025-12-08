@@ -19,12 +19,14 @@ import { useAuth } from './hooks/useAuth.jsx';
 import { roleEnum } from './enums/RoleEnum.js';
 import NotFound from './pages/NotFound/index.jsx';
 import EventDetailPage from './pages/EventDetail/EventDetailPage.jsx';
+import ClientDashboardPage from './pages/ClientDashboard/ClientDashboardPage.jsx';
 
 function App() {
   const { user } = useAuth();
   const isUserLoggedIn = Boolean(user);
   const isArtisan = isUserLoggedIn && user.role === roleEnum.artisan;
   const isClient = isUserLoggedIn && user.role === roleEnum.client;
+  const ProfileRouteComponent = isClient ? ClientDashboardPage : ProfilePage;
   const isEventPlanner = isUserLoggedIn && user.role === roleEnum.eventPlanner;
 
   return (
@@ -41,7 +43,7 @@ function App() {
           <Route path="/events/:eventId" element={<EventDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          {isUserLoggedIn && <Route path="/profile" element={<ProfilePage />} />}
+          {isUserLoggedIn && <Route path="/profile" element={<ProfileRouteComponent />} />}
           {isArtisan && (
             <>
               <Route path="/meus-produtos" element={<MyProductsPage />} />
