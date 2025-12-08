@@ -37,7 +37,7 @@ public class Order {
     private String orderId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id") //
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Nonnull
@@ -52,9 +52,12 @@ public class Order {
     @Nonnull
     private boolean status;
 
+    @Nonnull
+    private String address;
+
     @Enumerated(EnumType.STRING)
     @Nonnull
-    private PaymentMethodEnum role;
+    private PaymentMethodEnum paymentMethod;
 
     @Nonnull
     @Temporal(TemporalType.TIMESTAMP)

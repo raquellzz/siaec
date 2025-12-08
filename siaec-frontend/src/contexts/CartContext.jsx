@@ -20,10 +20,17 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const removeItem = (productId) => {
-    setCartItems((prevItems) => {
-      return prevItems.filter((item) => item.productId !== productId);
+  const changeProductQuantity = (productId, increment) => {
+    const cartTemporary = cartItems.map((item) => {
+      if (item.productId === productId) {
+        const quantity = item.quantity + increment;
+        if (quantity > 0) return { ...item, quantity: item.quantity + increment };
+        else return undefined;
+      } else {
+        return item;
+      }
     });
+    setCartItems(cartTemporary.filter((item) => item !== undefined));
   };
 
   const clearCart = () => {
@@ -33,7 +40,7 @@ export const CartProvider = ({ children }) => {
   const value = {
     cartItems,
     addItem,
-    removeItem,
+    changeProductQuantity,
     clearCart,
   };
 

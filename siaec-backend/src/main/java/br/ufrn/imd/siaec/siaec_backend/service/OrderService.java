@@ -7,6 +7,7 @@ import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.model.Order;
 import br.ufrn.imd.siaec.siaec_backend.model.OrderItem;
 import br.ufrn.imd.siaec.siaec_backend.model.Product;
+import br.ufrn.imd.siaec.siaec_backend.model.User;
 import br.ufrn.imd.siaec.siaec_backend.repository.OrderRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.ProductRepository;
 
@@ -25,8 +26,12 @@ public class OrderService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private UserService userService;
+
     @Transactional
     public OrderResponseDTO createOrder(OrderRequestDTO requestDTO) {
+        User currentUser = userService.getCurrentAuthenticatedUser();
         
         if (requestDTO.getItems() == null || requestDTO.getItems().isEmpty()) {
             throw new BusinessRuleException("O carrinho não pode estar vazio.");
@@ -34,12 +39,12 @@ public class OrderService {
 
         Order order = new Order();
         order.setCreatedAt(new Date());
-        order.setStatus(false); 
-        //order.setPaymentMethod(requestDTO.getPaymentMethod() != null ? requestDTO.getPaymentMethod().name() : null);
+        order.setStatus(false);
+        order.setAddress(requestDTO.getAddress()); 
+        order.setPaymentMethod(requestDTO.getPaymentMethod());
         order.setShippingFee(requestDTO.getShippingFee());
+        order.setUser(currentUser);
 
-        
-        
         double subtotal = 0.0;
 
         for (var itemDTO : requestDTO.getItems()) {

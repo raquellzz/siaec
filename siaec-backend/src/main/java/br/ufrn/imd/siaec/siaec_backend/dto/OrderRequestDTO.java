@@ -20,4 +20,7 @@ public class OrderRequestDTO {
     @NotEmpty
     @Valid 
     private List<OrderItemRequestDTO> items;
+
+    @NotNull
+    private String address;
 }

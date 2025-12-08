@@ -8,7 +8,6 @@ import java.util.Date;
 @Data
 public class OrderResponseDTO {
     private String orderId;
-    // private String userId;
     private double subtotal;
     private double shippingFee;
     private double total;
@@ -20,13 +19,11 @@ public class OrderResponseDTO {
     public static OrderResponseDTO fromEntity(Order order) {
         OrderResponseDTO dto = new OrderResponseDTO();
         dto.setOrderId(order.getOrderId());
-        //dto.setUserId(order.getUser().getId()); // Se houver usuário
         dto.setSubtotal(order.getSubtotal());
         dto.setShippingFee(order.getShippingFee());
         dto.setTotal(order.getTotal());
         dto.setStatus(order.isStatus());
-        // Order does not define getPaymentMethod(); set to null for now and map when a getter exists
-        dto.setPaymentMethod(order.getRole());
+        dto.setPaymentMethod(order.getPaymentMethod());
         dto.setCreatedAt(order.getCreatedAt());
         dto.setTotalItems(order.getItems() != null ? order.getItems().size() : 0);
         return dto;
