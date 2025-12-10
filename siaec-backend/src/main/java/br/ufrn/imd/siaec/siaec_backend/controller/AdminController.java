@@ -2,6 +2,7 @@ package br.ufrn.imd.siaec.siaec_backend.controller;
 
 import br.ufrn.imd.siaec.siaec_backend.dto.AdminDTO;
 import br.ufrn.imd.siaec.siaec_backend.service.AdminService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admins")
+@Tag(name = "Administrador")
 public class AdminController {
 
     @Autowired
