@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getMyProducts, deleteProduct } from '../../services/productService';
 import ButtonUI from '../../components/ButtonUI';
@@ -68,13 +68,13 @@ function MyProductsPage() {
           ) : (
             products.map((product) => (
               <tr key={product.productId} style={{ borderBottom: '1px solid #ddd' }}>
-                <td style={{ padding: '8px' }}>{product.name}</td>
-                <td style={{ padding: '8px' }}>R$ {product.price?.toFixed(2) || '0.00'}</td>
-                <td style={{ padding: '8px' }}>{product.stock}</td>
-                <td style={{ padding: '8px' }}>{product.status ? 'Ativo' : 'Inativo'}</td>
-                <td style={{ padding: '8px' }}>
+                <td style={{ padding: '8px', textAlign: 'left' }}>{product.name}</td>
+                <td style={{ padding: '8px', textAlign: 'left' }}>R$ {product.price?.toFixed(2) || '0.00'}</td>
+                <td style={{ padding: '8px', textAlign: 'left' }}>{product.stock}</td>
+                <td style={{ padding: '8px', textAlign: 'left' }}>{product.status ? 'Ativo' : 'Inativo'}</td>
+                <td style={{ padding: '8px', display: 'flex' }}>
                   <Link to={`/meus-produtos/editar/${product.productId}`}>
-                    <button style={{ marginRight: '5px' }}>Editar</button>
+                    <button style={{ marginRight: '5px', backgroundColor: '#929292', color: '#fff' }}>Editar</button>
                   </Link>
                   <button
                     onClick={() => handleDelete(product.productId)}
