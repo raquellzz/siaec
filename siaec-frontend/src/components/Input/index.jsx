@@ -26,7 +26,7 @@ export default function Input({
       error={error}
       multiline={multiline}
       rows={rows}
-      slotProps={{ inputLabel: { shrink: type === 'date' ? true : true } }}
+      slotProps={{ inputLabel: { shrink: type === 'date' ? true : undefined } }}
       {...otherProps}
     />
   );
