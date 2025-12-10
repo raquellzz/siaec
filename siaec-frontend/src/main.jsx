@@ -4,10 +4,10 @@ import { ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext.jsx';
+import { SnackbarProvider } from './contexts/SnackbarContext.jsx';
 import App from './App.jsx';
 import './index.css';
 import Snackbar from './components/Snackbar/index.jsx';
-import { SnackbarProvider } from './hooks/useSnackbar.jsx';
 
 const theme = createTheme({
   palette: {
