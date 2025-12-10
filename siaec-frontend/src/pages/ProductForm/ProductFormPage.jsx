@@ -40,7 +40,7 @@ function ProductFormPage() {
           });
         })
         .catch((err) => {
-          snackbar.openErrorMessage(
+          snackbar.openErrorSnackbar(
             'Não foi possível carregar o produto para edição.' + (err.response?.data?.message || ''),
           );
         })
@@ -80,10 +80,10 @@ function ProductFormPage() {
       } else {
         await createProduct(finalProductData);
       }
-      snackbar.openSuccessMessage('Produto salvo!');
+      snackbar.openSuccessSnackbar('Produto salvo!');
       navigate('/meus-produtos');
     } catch (err) {
-      snackbar.openErrorMessage('Erro ao salvar o produto. Verifique os campos.');
+      snackbar.openErrorSnackbar('Erro ao salvar o produto. Verifique os campos.');
       console.error(err);
     } finally {
       setLoading(false);

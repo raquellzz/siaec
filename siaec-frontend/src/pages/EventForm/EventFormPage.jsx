@@ -5,10 +5,9 @@ import ButtonUI from '../../components/ButtonUI';
 import Input from '../../components/Input';
 import Carregando from '../../components/Carregando';
 import { useSnackbar } from '../../hooks/useSnackbar';
-import { Alert } from '@mui/material';
 
 function EventFormPage() {
-  const { EventId } = useParams(); 
+  const { EventId } = useParams();
   const navigate = useNavigate();
   const snackbar = useSnackbar();
   const isEditing = Boolean(EventId);
@@ -20,9 +19,9 @@ function EventFormPage() {
     dateEnd: '',
     location: '',
     imagePath: '',
-    status: ''
+    status: '',
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [isReadOnly, setIsReadOnly] = useState(false);
 
@@ -34,11 +33,11 @@ function EventFormPage() {
           setFormData({
             name: data.name,
             description: data.description,
-            dateStart: data.dateStart, 
+            dateStart: data.dateStart,
             dateEnd: data.dateEnd,
             location: data.location,
             imagePath: data.imagePath || '',
-            status: data.status
+            status: data.status,
           });
           let currentStatus = data.status;
 
@@ -46,7 +45,7 @@ function EventFormPage() {
             const now = new Date();
             const end = new Date(data.dateEnd);
             if (end < now) {
-                currentStatus = 'Concluído';
+              currentStatus = 'Concluído';
             }
           }
           if (currentStatus === 'Cancelado' || currentStatus === 'Concluído') {
@@ -54,8 +53,8 @@ function EventFormPage() {
           }
         })
         .catch((err) => {
-          snackbar.openErrorMessage(
-            'Não foi possível carregar o evento para edição. ' + (err.response?.data?.message || '')
+          snackbar.openErrorSnackbar(
+            'Não foi possível carregar o evento para edição. ' + (err.response?.data?.message || ''),
           );
         })
         .finally(() => setLoading(false));
@@ -74,22 +73,22 @@ function EventFormPage() {
     setLoading(true);
 
     if (new Date(formData.dateEnd) < new Date(formData.dateStart)) {
-        snackbar.openErrorMessage('A data de término não pode ser anterior à data de início.');
-        setLoading(false);
-        return;
+      snackbar.openErrorSnackbar('A data de término não pode ser anterior à data de início.');
+      setLoading(false);
+      return;
     }
 
     try {
       if (isEditing) {
         await updateEvent(EventId, formData);
-        snackbar.openSuccessMessage('Evento atualizado com sucesso!');
+        snackbar.openSuccessSnackbar('Evento atualizado com sucesso!');
       } else {
         await createEvent(formData);
-        snackbar.openSuccessMessage('Evento criado com sucesso!');
+        snackbar.openSuccessSnackbar('Evento criado com sucesso!');
       }
       navigate('/meus-eventos');
     } catch (err) {
-      snackbar.openErrorMessage('Erro ao salvar o evento. Verifique os campos.');
+      snackbar.openErrorSnackbar('Erro ao salvar o evento. Verifique os campos.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -100,107 +99,94 @@ function EventFormPage() {
 
   return (
     <div style={{ maxWidth: '600px', margin: '64px auto 32px', padding: '0 20px' }}>
-      <h2 style={{ marginBottom: '24px' }}>
-        {isEditing ? 'Editar Evento' : 'Cadastrar Novo Evento'}
-      </h2>
-      
+      <h2 style={{ marginBottom: '24px' }}>{isEditing ? 'Editar Evento' : 'Cadastrar Novo Evento'}</h2>
+
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: 24 }}>
-        
-        <Input 
-            label="Nome do Evento"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            disabled={isReadOnly}
+        <Input
+          label="Nome do Evento"
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          disabled={isReadOnly}
         />
 
         <Input
-            label="Descrição"
-            type="text"
-            multiline
-            rows={4}
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            disabled={isReadOnly}
+          label="Descrição"
+          type="text"
+          multiline
+          rows={4}
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          required
+          disabled={isReadOnly}
         />
 
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-            <div style={{ flex: 1, minWidth: '200px' }}>
-                <Input
-                    label="Data e Hora de Início"
-                    type="datetime-local"
-                    name="dateStart"
-                    value={formData.dateStart}
-                    onChange={handleChange}
-                    required
-                    InputLabelProps={{ shrink: true }}
-                    disabled={isReadOnly}
-                />
-            </div>
-            <div style={{ flex: 1, minWidth: '200px' }}>
-                <Input
-                    label="Data e Hora de Término"
-                    type="datetime-local"
-                    name="dateEnd"
-                    value={formData.dateEnd}
-                    onChange={handleChange}
-                    required
-                    InputLabelProps={{ shrink: true }}
-                    disabled={isReadOnly}
-                />
-            </div>
+          <div style={{ flex: 1, minWidth: '200px' }}>
+            <Input
+              label="Data e Hora de Início"
+              type="datetime-local"
+              name="dateStart"
+              value={formData.dateStart}
+              onChange={handleChange}
+              required
+              InputLabelProps={{ shrink: true }}
+              disabled={isReadOnly}
+            />
+          </div>
+          <div style={{ flex: 1, minWidth: '200px' }}>
+            <Input
+              label="Data e Hora de Término"
+              type="datetime-local"
+              name="dateEnd"
+              value={formData.dateEnd}
+              onChange={handleChange}
+              required
+              InputLabelProps={{ shrink: true }}
+              disabled={isReadOnly}
+            />
+          </div>
         </div>
 
         <Input
-            label="Localização"
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            required
-            placeholder="Ex: Centro de Convenções, Natal-RN"
-            disabled={isReadOnly}
+          label="Localização"
+          type="text"
+          name="location"
+          value={formData.location}
+          onChange={handleChange}
+          required
+          placeholder="Ex: Centro de Convenções, Natal-RN"
+          disabled={isReadOnly}
         />
 
         <Input
-            label="URL da Imagem (Banner)"
-            type="text"
-            name="imagePath"
-            value={formData.imagePath}
-            onChange={handleChange}
-            placeholder="http://exemplo.com/banner-evento.jpg"
-            disabled={isReadOnly}
+          label="URL da Imagem (Banner)"
+          type="text"
+          name="imagePath"
+          value={formData.imagePath}
+          onChange={handleChange}
+          placeholder="http://exemplo.com/banner-evento.jpg"
+          disabled={isReadOnly}
         />
         {formData.imagePath && (
-            <div style={{ marginTop: '-10px', marginBottom: '10px' }}>
-                <img 
-                    src={formData.imagePath} 
-                    alt="Pré-visualização" 
-                    style={{ width: '100%', maxHeight: '200px', objectFit: 'cover', borderRadius: '8px' }} 
-                    onError={(e) => e.target.style.display = 'none'}
-                />
-            </div>
+          <div style={{ marginTop: '-10px', marginBottom: '10px' }}>
+            <img
+              src={formData.imagePath}
+              alt="Pré-visualização"
+              style={{ width: '100%', maxHeight: '200px', objectFit: 'cover', borderRadius: '8px' }}
+              onError={(e) => (e.target.style.display = 'none')}
+            />
+          </div>
         )}
 
         <div style={{ marginTop: '20px', display: 'flex', gap: 16, justifyContent: 'end' }}>
           <Link to="/meus-eventos">
-            <ButtonUI 
-                text="Cancelar" 
-                loading={loading} 
-                onClick={() => {}} 
-                color="primary" 
-                variant="text" 
-            />
+            <ButtonUI text="Cancelar" loading={loading} onClick={() => {}} color="primary" variant="text" />
           </Link>
-          <ButtonUI 
-            text="Salvar Evento" 
-            loading={loading} 
-            onClick={handleSubmit} 
-          />
+          <ButtonUI text="Salvar Evento" loading={loading} onClick={handleSubmit} />
         </div>
       </div>
     </div>
