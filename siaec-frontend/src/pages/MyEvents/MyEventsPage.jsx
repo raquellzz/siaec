@@ -3,18 +3,23 @@ import { Link } from 'react-router-dom';
 import { getMyEvents, deleteEvent } from '../../services/eventService';
 import ButtonUI from '../../components/ButtonUI';
 import './MyEventsPage.css';
+import { Pagination } from '@mui/material';
 
 function MyEventsPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('Todos');
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const loadEvents = async () => {
     try {
       setLoading(true);
       const data = await getMyEvents();
       setEvents(data.content || []);
+      setTotalPages(data.totalPages);
+      setCurrentPage(0);
       setError(null);
     } catch (err) {
       setError('Falha ao carregar seus eventos. Verifique sua conexão ou permissões.');
@@ -27,6 +32,14 @@ function MyEventsPage() {
   useEffect(() => {
     loadEvents();
   }, []);
+
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [filter]);
+
+  const handleChange = (_, value) => {
+    setCurrentPage(value);
+  };
 
   const handleDelete = async (eventId) => {
     if (window.confirm('Tem certeza que deseja cancelar este evento? Ele ainda aparecerá na lista como Cancelado.')) {
@@ -173,12 +186,17 @@ function MyEventsPage() {
         )}
       </div>
 
-      <div className="pagination-container">
-        <button className="page-btn">Anterior</button>
-        <button className="page-btn active">1</button>
-        <button className="page-btn">2</button>
-        <button className="page-btn">Próximo</button>
-      </div>
+      {totalPages > 0 && (
+        <div className="pagination">
+          <Pagination
+            count={totalPages}
+            color="secondary"
+            shape="rounded"
+            page={currentPage + 1}
+            onChange={handleChange}
+          />
+        </div>
+      )}
     </div>
   );
 }
