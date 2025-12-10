@@ -22,6 +22,7 @@ import EventDetailPage from './pages/EventDetail/EventDetailPage.jsx';
 import ClientDashboardPage from './pages/ClientDashboard/ClientDashboardPage.jsx';
 import ManageUsersPage from './pages/ManageUsers/ManageUsersPage.jsx';
 import ArtisanDashboardPage from './pages/ArtisanDashboard/ArtisanDashboardPage.jsx';
+import FavoriteEventsPage from './pages/FavoriteEvents/FavoriteEventsPage.jsx';
 
 function App() {
   const { user, isAuthenticated } = useAuth();
@@ -39,9 +40,9 @@ function App() {
           <Route path="/produtos" element={<ProductListPage />} />
           <Route path="/produtos/:id" element={<ProductDetailPage />} />
           <Route path="/artesaos" element={<ArtisanListPage />} />
-          <Route path="/artesaos/:id" element={<ArtisanDetailPage />} />
+          <Route path="/artesaos/:artisanId" element={<ArtisanDetailPage />} />
           <Route path="/eventos" element={<EventListPage />} />
-          <Route path="/eventos/:id" element={<EventDetailPage />} />
+          <Route path="/eventos/:eventId"element={<EventDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/cadastro" element={<RegisterPage />} />
           {isArtisan && (
@@ -56,7 +57,7 @@ function App() {
             <>
               <Route path="/meus-eventos" element={<MyEventsPage />} />
               <Route path="/meus-eventos/novo" element={<EventFormPage />} />
-              <Route path="/meus-eventos/editar/:id" element={<EventFormPage />} />
+              <Route path="/meus-eventos/editar/:EventId" element={<EventFormPage />} />
               <Route path="/perfil" element={<ProfilePage />} />
             </>
           )}
@@ -67,6 +68,9 @@ function App() {
               {/* <Route path="/admin/usuarios/:id" element={<UserDetailPage />} /> */}
             </>
           )}
+          {isClient || isArtisan ? (
+              <Route path="/meus-eventos-salvos" element={<FavoriteEventsPage />} />
+          ) : null}
           {isClient && (
             <>
               <Route path="/carrinho" element={<CartPage />} />

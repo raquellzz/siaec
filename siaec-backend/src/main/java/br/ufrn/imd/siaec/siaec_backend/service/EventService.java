@@ -4,9 +4,12 @@ import br.ufrn.imd.siaec.siaec_backend.dto.EventDTO;
 import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.model.Event;
 import br.ufrn.imd.siaec.siaec_backend.repository.EventRepository;
+
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +19,9 @@ import java.util.Date;
 public class EventService {
     @Autowired
     private EventRepository eventRepository;
-
-
+    
+    @Autowired
+    private UserService userRepository;
 
     @Transactional
     public EventDTO createEvent(EventDTO eventDTO) {
@@ -41,7 +45,22 @@ public class EventService {
         Event event = eventRepository.findById(id)
                 .filter(e -> e.getDeletedAt() == null)
                 .orElseThrow(() -> new NotFoundException("Evento não encontrado com id: " + id));
-        return EventDTO.fromEntity(event);
+        
+        EventDTO dto = EventDTO.fromEntity(event);
+
+        org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
+            String email = auth.getName();
+            boolean isFavorited = event.getFavoritedByUsers().stream()
+                    .anyMatch(u -> u.getEmail().equals(email));
+            
+            dto.setFavorite(isFavorited);
+        } else {
+            dto.setFavorite(false); 
+        }
+
+        return dto;
     }
 
     @Transactional
@@ -64,9 +83,44 @@ public class EventService {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Evento não encontrado com id: " + id));
 
-        //event.setDeletedAt(new Date());
         event.setStatus("Cancelado");
         eventRepository.save(event);
+    }
+
+    @Transactional 
+    public void toggleFavorite(String eventId) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado."));
+
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new NotFoundException("Evento não encontrado."));
+
+        System.out.println("Tentando favoritar. Usuário: " + user.getName() + " | Evento: " + event.getName());
+
+        boolean exists = user.getFavoriteEvents().stream()
+                .anyMatch(e -> e.getEventId().equals(eventId));
+
+        if (exists) {
+            System.out.println("Removendo favorito...");
+            user.getFavoriteEvents().removeIf(e -> e.getEventId().equals(eventId));
+        } else {
+            System.out.println("Adicionando favorito...");
+            user.getFavoriteEvents().add(event);
+        }
+        userRepository.save(user); 
+        
+        System.out.println("Salvo com sucesso. Total de favoritos: " + user.getFavoriteEvents().size());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Event> getFavoriteEvents(Pageable pageable) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário logado não encontrado"));
+
+        return eventRepository.findByFavoritedByUsers_Email(email, pageable);
     }
 
 }

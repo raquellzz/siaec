@@ -70,3 +70,26 @@ export const updateEvent = async (eventId, eventData) => {
     throw error;
   }
 };
+
+export const getFavoriteEvents = async (page = 0, size = 10) => {
+  try {
+    // Ajuste a rota conforme seu backend. Ex: /events/favorites ou /users/favorites
+    const response = await api.get('/events/favorites', {
+      params: { page, size, sort: 'dateStart,asc' },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar eventos favoritos:', error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const toggleFavoriteEvent = async (eventId) => {
+  try {
+    const response = await api.post(`/events/${eventId}/favorite`);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao favoritar evento:', error.response?.data || error.message);
+    throw error;
+  }
+};

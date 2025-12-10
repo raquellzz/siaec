@@ -74,4 +74,23 @@ public class EventController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{id}/favorite")
+    public ResponseEntity<Void> toggleFavorite(@PathVariable String id) {
+        try {
+            eventService.toggleFavorite(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/favorites")
+    public ResponseEntity<Page<Event>> getFavoriteEvents(
+            @PageableDefault(size = 10, page = 0) Pageable pageable) {
+        Page<Event> favoriteEvents = eventService.getFavoriteEvents(pageable);
+        return ResponseEntity.ok(favoriteEvents);
+    }
 }

@@ -41,9 +41,12 @@ function ProfilePage() {
         <h2>Minhas Ações</h2>
 
         {user.role === 'ARTISAN' && (
+          <>
           <Link to="/meus-produtos" className="profile-action-link">
             Gerenciar Meus Produtos
           </Link>
+          <Link to="/meus-eventos-salvos" className="profile-action-link">Eventos Salvos</Link>
+          </>
         )}
 
         {user.role === 'ADMIN' && (
@@ -61,9 +64,12 @@ function ProfilePage() {
         )}
 
         {user.role === 'CLIENT' && (
+          <>
           <Link to="/meus-pedidos" className="profile-action-link">
             Histórico de Pedidos
           </Link>
+          <Link to="/meus-eventos-salvos" className="profile-action-link">Eventos Salvos</Link>
+          </>
         )}
         {user.role === 'EVENT_PLANNER' && (
           <Link to="/meus-eventos" className="profile-action-link">

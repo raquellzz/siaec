@@ -33,6 +33,8 @@ public class EventDTO {
 
     private Date createdAt;
 
+    private boolean favorite;
+
     public EventDTO() {}
 
     public static EventDTO fromEntity(Event event) {

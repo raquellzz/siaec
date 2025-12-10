@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header.jsx';
 import Carregando from '../../components/Carregando/index.jsx';
-import { getEventById } from '../../services/eventService.js';
+import { getEventById, toggleFavoriteEvent } from '../../services/eventService.js';
 import { formatDate } from '../../utils/formatDate.js';
 import './EventDetailPage.css';
 import EventPlaceholder from '../../assets/event.png';
+import { useAuth } from '../../hooks/useAuth';
 
 const EventDetailPage = () => {
     const { eventId } = useParams();
+    const navigate = useNavigate();
     const [event, setEvent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { user } = useAuth();
+    const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -24,6 +28,11 @@ const EventDetailPage = () => {
             try {
                 setLoading(true);
                 const data = await getEventById(eventId); 
+                if (data.favorite) {
+                    setIsFavorite(true);
+                } else {
+                    setIsFavorite(false);
+                }
                 setEvent(data);
                 setError(null);
             } catch (err) {
@@ -36,6 +45,21 @@ const EventDetailPage = () => {
 
         fetchEvent();
     }, [eventId]);
+
+    const handleToggleFavorite = async () => {
+        if (!user) {
+            alert("Você precisa estar logado para favoritar eventos!");
+            navigate('/login');
+            return;
+        }
+        try {
+            await toggleFavoriteEvent(eventId);
+            setIsFavorite(!isFavorite); 
+        } catch (err) {
+            console.error("Erro ao favoritar:", err);
+            alert("Não foi possível favoritar o evento.");
+        }
+    };
 
     if (loading) {
         return <Carregando />;
@@ -67,7 +91,7 @@ const EventDetailPage = () => {
     const endDate = event.dateEnd ? formatDate(event.dateEnd) : 'Data de Fim Não Informada';
     
     const plannerName = event.eventPlanner?.user?.name || 'Cerimonialista Desconhecido';
-    // const status = event.status || 'Ativo';
+
     let status = event.status;
     if (!status) {
         const now = new Date();
@@ -95,6 +119,30 @@ const EventDetailPage = () => {
                         className="event-image"
                     />
                     <div className="event-info">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                            <h1 style={{ margin: 0, flex: 1 }}>{eventName}</h1>
+                            
+                            {user && user.role !== 'EVENT_PLANNER' && (
+                                <button 
+                                    onClick={handleToggleFavorite}
+                                    style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        color: isFavorite ? '#d32f2f' : '#ccc', 
+                                        transition: 'transform 0.2s',
+                                        marginLeft: '15px'
+                                    }}
+                                    title={isFavorite ? "Remover dos favoritos" : "Salvar evento"}
+                                    onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                                    onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                                >
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill={isFavorite ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                </button>
+                            )}
+                        </div>
                         <h1>{eventName}</h1>
                         <div className={`event-status-badge status-${statusClass}`}>
                             {status}

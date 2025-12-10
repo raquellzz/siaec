@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface EventRepository extends JpaRepository<Event, String> {
     Page<Event> findByNameContainingIgnoreCaseAndDeletedAtIsNull(String name, Pageable pageable);
     Page<Event> findAllByDeletedAtIsNull(Pageable pageable);
+    Page<Event> findByFavoritedByUsers_Email(String email, Pageable pageable);
 }
