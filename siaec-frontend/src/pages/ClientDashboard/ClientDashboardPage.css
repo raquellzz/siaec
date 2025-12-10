@@ -94,8 +94,9 @@
   flex-grow: 1;
 }
 .order-history-list .order-item {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  /* justify-content: space-between; */
   align-items: center;
   padding: 10px;
   margin-bottom: 8px;

@@ -7,6 +7,8 @@ import java.util.Date;
 
 @Data
 public class OrderResponseDTO {
+    private String artisanId;
+    private String artisanName;
     private String orderId;
     private double subtotal;
     private double shippingFee;
@@ -18,6 +20,10 @@ public class OrderResponseDTO {
 
     public static OrderResponseDTO fromEntity(Order order) {
         OrderResponseDTO dto = new OrderResponseDTO();
+        if (order.getArtisan() != null) {
+          dto.setArtisanId(order.getArtisan().getArtisanId());
+          dto.setArtisanName(order.getArtisan().getUser().getName());
+        }
         dto.setOrderId(order.getOrderId());
         dto.setSubtotal(order.getSubtotal());
         dto.setShippingFee(order.getShippingFee());

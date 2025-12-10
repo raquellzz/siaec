@@ -143,7 +143,7 @@ function ProductFormPage() {
           required
         />
 
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <Checkbox name="status" checked={formData.status} onChange={handleChange} />
           <p>Produto ativo</p>
         </div>

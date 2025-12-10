@@ -101,7 +101,7 @@ p {
   text-decoration: underline;
 }
 
-.address {
+.row {
   display: flex;
   gap: 16px;
   flex-direction: column;
@@ -113,8 +113,50 @@ p {
 }
 
 .cart-error {
-  color: red;
+  color: #b91c1c;
   font-weight: bold;
   text-align: center;
   margin: 10px 0;
+}
+
+.artisan-name {
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.artisan-name p:first-child {
+  font-weight: 500;
+}
+
+.artisan-name p:last-child {
+  font-weight: 400;
+}
+
+.summary-order {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.summary-order h2 {
+  font-size: 24px;
+  text-align: left;
+}
+
+.summary-row {
+  display: flex;
+  gap: 32px;
+}
+
+.summary-info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.summary-info p:first-child {
+  font-weight: 500;
 }

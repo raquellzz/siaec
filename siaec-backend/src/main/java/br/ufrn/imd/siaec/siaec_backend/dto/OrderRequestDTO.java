@@ -15,7 +15,7 @@ public class OrderRequestDTO {
 
     @NotNull
     @Min(0)
-    private Double shippingFee; 
+    private Double shippingFee;
 
     @NotEmpty
     @Valid 
@@ -23,4 +23,7 @@ public class OrderRequestDTO {
 
     @NotNull
     private String address;
+
+    @NotNull
+    private String artisanId;
 }

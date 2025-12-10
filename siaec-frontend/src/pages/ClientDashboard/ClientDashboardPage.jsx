@@ -101,7 +101,7 @@ function ClientDashboardPage() {
                 {orders.length > 0 ? (
                   orders.map((order) => (
                     <div key={order.orderId} className="order-item">
-                      <p>Loja ARTS (Mock)</p>
+                      {order.artisanId ? <p>{order.artisanName}</p> : <p></p>}
                       <p>{formatDate(order.createdAt)}</p>
                       <p>{order.status === 'COMPLETED' ? 'Concluído' : 'Em Andamento'}</p>
                       <Link to={`/pedidos/${order.orderId}`}>Ver Pedido</Link>

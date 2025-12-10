@@ -4,14 +4,15 @@ import br.ufrn.imd.siaec.siaec_backend.dto.OrderRequestDTO;
 import br.ufrn.imd.siaec.siaec_backend.dto.OrderResponseDTO;
 import br.ufrn.imd.siaec.siaec_backend.exception.BusinessRuleException;
 import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
+import br.ufrn.imd.siaec.siaec_backend.model.Artisan;
 import br.ufrn.imd.siaec.siaec_backend.model.Order;
 import br.ufrn.imd.siaec.siaec_backend.model.OrderItem;
 import br.ufrn.imd.siaec.siaec_backend.model.Product;
 import br.ufrn.imd.siaec.siaec_backend.model.User;
+import br.ufrn.imd.siaec.siaec_backend.repository.ArtisanRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.OrderRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.ProductRepository;
 
-import br.ufrn.imd.siaec.siaec_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,11 +31,16 @@ public class OrderService {
     private ProductRepository productRepository;
 
     @Autowired
+    private ArtisanRepository artisanRepository;
+
+    @Autowired
     private UserService userService;
 
     @Transactional
     public OrderResponseDTO createOrder(OrderRequestDTO requestDTO) {
         User currentUser = userService.getCurrentAuthenticatedUser();
+        Artisan artisan = artisanRepository.findById(requestDTO.getArtisanId())
+            .orElseThrow(() -> new NotFoundException("Artesão " + requestDTO.getArtisanId() + " não encontrado."));
         
         if (requestDTO.getItems() == null || requestDTO.getItems().isEmpty()) {
             throw new BusinessRuleException("O carrinho não pode estar vazio.");
@@ -47,6 +53,7 @@ public class OrderService {
         order.setPaymentMethod(requestDTO.getPaymentMethod());
         order.setShippingFee(requestDTO.getShippingFee());
         order.setUser(currentUser);
+        order.setArtisan(artisan);
 
         double subtotal = 0.0;
 

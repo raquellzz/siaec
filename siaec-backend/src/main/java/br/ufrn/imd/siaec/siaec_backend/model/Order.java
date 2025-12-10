@@ -40,6 +40,11 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "artisan_id")
+    @Nullable
+    private Artisan artisan;
+
     @Nonnull
     private double subtotal;
 
