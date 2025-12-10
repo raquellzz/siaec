@@ -36,6 +36,8 @@ public class UserResponseDTO {
     
     private Date createdAt;
 
+    private String description;
+
     public static UserResponseDTO fromEntity(User user) {
         return UserResponseDTO.builder()
                 .userId(user.getUserId())

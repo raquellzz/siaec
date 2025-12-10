@@ -11,8 +11,11 @@ import br.ufrn.imd.siaec.siaec_backend.dto.UserUpdateDTO;
 import br.ufrn.imd.siaec.siaec_backend.exception.BadRequestException;
 import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.enums.AccountStatusEnum;
+import br.ufrn.imd.siaec.siaec_backend.enums.RoleEnum;
 import br.ufrn.imd.siaec.siaec_backend.exception.UnauthorizedException;
+import br.ufrn.imd.siaec.siaec_backend.model.Artisan;
 import br.ufrn.imd.siaec.siaec_backend.model.User;
+import br.ufrn.imd.siaec.siaec_backend.repository.ArtisanRepository;
 import br.ufrn.imd.siaec.siaec_backend.repository.UserRepository;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +24,17 @@ import org.springframework.security.core.Authentication;
 @Service
 public class UserService {
     private UserRepository repository;
+    private ArtisanRepository artisanRepository;
     private PasswordEncoder passwordEncoder;
 
     public UserService(
         UserRepository repository,
+        ArtisanRepository artisanRepository,
         PasswordEncoder passwordEncoder
     ) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+        this.artisanRepository = artisanRepository;
     }
 
     public Page<User> getAll(Pageable pageable) {
@@ -60,7 +66,8 @@ public class UserService {
 
     public UserResponseDTO get(String userId) {
         User user = repository.findById(userId).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
-        return UserResponseDTO.builder()
+        
+        UserResponseDTO userResponse = UserResponseDTO.builder()
             .userId(user.getUserId())
             .name(user.getName())
             .email(user.getEmail())
@@ -70,6 +77,14 @@ public class UserService {
             .dateOfBirth(user.getDateOfBirth())
             .taxId(user.getTaxId())
             .build();
+
+        if (user.getRole() == RoleEnum.ARTISAN) {
+          Artisan artisan = artisanRepository.findByUserUserId(user.getUserId())
+              .orElseThrow(() -> new NotFoundException("Artesão não encontrado"));
+          userResponse.setDescription(artisan.getDescription());
+        }
+
+        return userResponse;
     }
 
     public void update(String userId, UserUpdateDTO input) {

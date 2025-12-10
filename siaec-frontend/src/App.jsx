@@ -21,6 +21,7 @@ import NotFound from './pages/NotFound/index.jsx';
 import EventDetailPage from './pages/EventDetail/EventDetailPage.jsx';
 import ClientDashboardPage from './pages/ClientDashboard/ClientDashboardPage.jsx';
 import ManageUsersPage from './pages/ManageUsers/ManageUsersPage.jsx';
+import ArtisanDashboardPage from './pages/ArtisanDashboard/ArtisanDashboardPage.jsx';
 
 function App() {
   const { user, isAuthenticated } = useAuth();
@@ -48,7 +49,7 @@ function App() {
               <Route path="/meus-produtos" element={<MyProductsPage />} />
               <Route path="/meus-produtos/novo" element={<ProductFormPage />} />
               <Route path="/meus-produtos/editar/:productId" element={<ProductFormPage />} />
-              <Route path="/perfil" element={<ProfilePage />} />
+              <Route path="/perfil" element={<ArtisanDashboardPage />} />
             </>
           )}
           {isEventPlanner && (
