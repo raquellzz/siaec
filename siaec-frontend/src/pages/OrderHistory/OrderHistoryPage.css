@@ -1,0 +1,152 @@
+.order-history-page {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding-bottom: 40px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.error-msg {
+    color: #d32f2f;
+    background-color: #ffebee;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.no-orders {
+    text-align: center;
+    color: #666;
+    font-size: 1.2rem;
+    margin-top: 50px;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-card-summary {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.order-card-summary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.order-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 150px;
+}
+
+.order-date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.order-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    width: fit-content;
+}
+
+.order-status.completed {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.order-status.pending {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+.order-body {
+    flex: 1;
+    padding: 0 30px;
+}
+
+.order-body p {
+    margin: 5px 0;
+    color: #444;
+}
+
+.order-footer {
+    min-width: 120px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-details {
+    background-color: #B95318;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.btn-details:hover {
+    background-color: #964212;
+    color: white;
+}
+
+/* Paginação */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .order-card-summary {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .order-body {
+        padding: 0;
+        width: 100%;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+    }
+    
+    .order-footer {
+        width: 100%;
+    }
+    
+    .btn-details {
+        display: block;
+        text-align: center;
+        width: 100%;
+    }
+}

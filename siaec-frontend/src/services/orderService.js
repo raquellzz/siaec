@@ -26,3 +26,13 @@ export const getMyOrders = async (page = 0, size = 10) => {
     throw error;
   }
 };
+
+export const getOrderById = async (orderId) => {
+  try {
+    const response = await api.get(`/orders/${orderId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Erro ao buscar pedido ${orderId}:`, error.response?.data || error.message);
+    throw error;
+  }
+};

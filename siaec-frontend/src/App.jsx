@@ -24,6 +24,8 @@ import ManageUsersPage from './pages/ManageUsers/ManageUsersPage.jsx';
 import ArtisanDashboardPage from './pages/ArtisanDashboard/ArtisanDashboardPage.jsx';
 import FavoriteEventsPage from './pages/FavoriteEvents/FavoriteEventsPage.jsx';
 import EditProfileArtisanPage from './pages/EditProfileArtisan/EditProfileArtisanPage.jsx';
+import OrderHistoryPage from './pages/OrderHistory/OrderHistoryPage.jsx';
+import OrderDetailPage from './pages/OrderDetail/OrderDetailPage.jsx';
 
 function App() {
   const { user, isAuthenticated } = useAuth();
@@ -75,6 +77,8 @@ function App() {
             <>
               <Route path="/carrinho" element={<CartPage />} />
               <Route path="/perfil" element={<ClientDashboardPage />} />
+              <Route path="/pedidos" element={<OrderHistoryPage />} />
+              <Route path="/pedidos/:id" element={<OrderDetailPage />} />
             </>
           )}
           <Route path="*" element={<NotFound />} />
