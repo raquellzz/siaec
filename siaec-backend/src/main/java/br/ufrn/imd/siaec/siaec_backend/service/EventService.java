@@ -3,9 +3,9 @@ package br.ufrn.imd.siaec.siaec_backend.service;
 import br.ufrn.imd.siaec.siaec_backend.dto.EventDTO;
 import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.model.Event;
+import br.ufrn.imd.siaec.siaec_backend.model.User;
 import br.ufrn.imd.siaec.siaec_backend.repository.EventRepository;
-
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import br.ufrn.imd.siaec.siaec_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +21,7 @@ public class EventService {
     private EventRepository eventRepository;
     
     @Autowired
-    private UserService userRepository;
+    private UserRepository userRepository;
 
     @Transactional
     public EventDTO createEvent(EventDTO eventDTO) {
@@ -117,8 +117,6 @@ public class EventService {
     @Transactional(readOnly = true)
     public Page<Event> getFavoriteEvents(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário logado não encontrado"));
 
         return eventRepository.findByFavoritedByUsers_Email(email, pageable);
     }
