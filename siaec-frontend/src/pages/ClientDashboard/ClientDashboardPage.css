@@ -96,7 +96,6 @@
 .order-history-list .order-item {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  /* justify-content: space-between; */
   align-items: center;
   padding: 10px;
   margin-bottom: 8px;
@@ -209,4 +208,12 @@
   .dashboard-content {
     flex-direction: column;
   }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
 }
