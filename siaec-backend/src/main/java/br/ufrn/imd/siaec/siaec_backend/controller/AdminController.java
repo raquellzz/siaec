@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admins")
-@Tag(name = "Admin")
+@Tag(name = "Administrador")
 public class AdminController {
 
     @Autowired

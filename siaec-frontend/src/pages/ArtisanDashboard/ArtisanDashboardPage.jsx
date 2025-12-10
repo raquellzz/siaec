@@ -61,7 +61,7 @@ export default function ArtisanDashboardPage() {
             </Link>
           </div>
 
-          <div className="dashboard-card">
+          {/* <div className="dashboard-card">
             <h3>Próximo evento</h3>
             {lastEvent ? (
               <div className="event">
@@ -72,11 +72,11 @@ export default function ArtisanDashboardPage() {
             ) : (
               <p>Você não tem próximos eventos agendados no momento.</p>
             )}
-          </div>
+          </div> */}
         </div>
 
         <div className="dashboard-column-right">
-          <div className="dashboard-card">
+          {/* <div className="dashboard-card">
             <h3>Estatísticas</h3>
             <div className="info">
               <div className="info-card">
@@ -88,11 +88,11 @@ export default function ArtisanDashboardPage() {
                 <span>42</span>
               </div>
               <div className="info-card">
-                <h4>Pedidos pendentes</h4>
+                <h4>Pedidos</h4>
                 <span>10</span>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="dashboard-card">
             <h3>Acesso rápido</h3>

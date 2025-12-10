@@ -78,10 +78,6 @@ function ClientDashboardPage() {
               <h3>Minhas Informações</h3>
               <div className="personal-info-grid">
                 <p>
-                  <strong>Nome Completo</strong>
-                  {user.name}
-                </p>
-                <p>
                   <strong>E-mail</strong>
                   {user.email}
                 </p>
@@ -90,7 +86,7 @@ function ClientDashboardPage() {
                   {user.phone}
                 </p>
               </div>
-              <Link to="/perfil" className="edit-link">
+              <Link to="/perfil/editar" className="edit-link">
                 <button className="edit-button">Editar perfil</button>
               </Link>
             </div>
@@ -126,18 +122,17 @@ function ClientDashboardPage() {
               )}
             </div>
             <div className="dashboard-card">
-            <h3>Acesso rápido</h3>
-            <div className="row">
-              <Link to="/meus-eventos-salvos" className="edit-link">
-                <button className="edit-button">Meus eventos</button>
-              </Link>
-              <Link to="/pedidos" className="edit-link">
-                <button className="edit-button">Histórico de pedidos</button>
-              </Link>
+              <h3>Acesso rápido</h3>
+              <div className="row">
+                <Link to="/meus-eventos-salvos" className="edit-link">
+                  <button className="edit-button">Meus eventos</button>
+                </Link>
+                <Link to="/pedidos" className="edit-link">
+                  <button className="edit-button">Histórico de pedidos</button>
+                </Link>
+              </div>
             </div>
           </div>
-          </div>
-          
         </div>
       </div>
     </div>
