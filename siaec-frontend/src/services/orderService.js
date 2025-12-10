@@ -36,3 +36,24 @@ export const getOrderById = async (orderId) => {
     throw error;
   }
 };
+
+export const getMySales = async (page = 0, size = 10) => {
+  try {
+    const response = await api.get('/orders/my-sales', {
+      params: { page, size, sort: 'createdAt,desc' },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar vendas:', error);
+    throw error;
+  }
+};
+
+export const updateOrderStatus = async (orderId, status) => {
+  try {
+    await api.patch(`/orders/${orderId}/status`, null, { params: { status } });
+  } catch (error) {
+    console.error('Erro ao atualizar status:', error);
+    throw error;
+  }
+};

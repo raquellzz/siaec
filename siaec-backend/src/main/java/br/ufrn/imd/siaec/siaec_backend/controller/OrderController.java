@@ -2,6 +2,7 @@ package br.ufrn.imd.siaec.siaec_backend.controller;
 
 import br.ufrn.imd.siaec.siaec_backend.dto.OrderRequestDTO;
 import br.ufrn.imd.siaec.siaec_backend.dto.OrderResponseDTO;
+import br.ufrn.imd.siaec.siaec_backend.dto.SaleResponseDTO;
 import br.ufrn.imd.siaec.siaec_backend.service.OrderService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -41,5 +42,19 @@ public class OrderController {
     public ResponseEntity<OrderResponseDTO> getOrderById(@PathVariable String id) {
         OrderResponseDTO order = orderService.findOrderById(id);
         return ResponseEntity.ok(order);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ARTISAN')")
+    @GetMapping("/my-sales")
+    public ResponseEntity<Page<SaleResponseDTO>> getMySales(Pageable pageable) {
+        Page<SaleResponseDTO> sales = orderService.findMySales(pageable);
+        return ResponseEntity.ok(sales);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ARTISAN')")
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Void> updateOrderStatus(@PathVariable String id, @RequestParam boolean status) {
+        orderService.updateOrderStatus(id, status);
+        return ResponseEntity.noContent().build();
     }
 }

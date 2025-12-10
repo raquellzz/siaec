@@ -100,7 +100,7 @@ export default function ArtisanDashboardPage() {
               <Link to="/meus-produtos" className="edit-link">
                 <button className="edit-button">Gerenciar produtos</button>
               </Link>
-              <Link to="/perfil" className="edit-link">
+              <Link to="/minhas-vendas" className="edit-link">
                 <button className="edit-button">Gerenciar vendas</button>
               </Link>
               <Link to="/meus-eventos-salvos" className="edit-link">

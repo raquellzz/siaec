@@ -26,6 +26,7 @@ import FavoriteEventsPage from './pages/FavoriteEvents/FavoriteEventsPage.jsx';
 import EditProfileArtisanPage from './pages/EditProfileArtisan/EditProfileArtisanPage.jsx';
 import OrderHistoryPage from './pages/OrderHistory/OrderHistoryPage.jsx';
 import OrderDetailPage from './pages/OrderDetail/OrderDetailPage.jsx';
+import MySalesPage from './pages/MySales/MySalesPage.jsx';
 
 function App() {
   const { user, isAuthenticated } = useAuth();
@@ -55,6 +56,7 @@ function App() {
               <Route path="/meus-produtos/editar/:productId" element={<ProductFormPage />} />
               <Route path="/perfil" element={<ArtisanDashboardPage />} />
               <Route path="/perfil/editar" element={<EditProfileArtisanPage />} />
+              <Route path="/minhas-vendas" element={<MySalesPage />} />
             </>
           )}
           {isEventPlanner && (

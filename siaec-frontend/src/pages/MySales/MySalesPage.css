@@ -1,0 +1,136 @@
+.my-sales-page {
+    min-height: 100vh;
+    background-color: #f4f6f8;
+    padding-bottom: 40px;
+}
+
+.sales-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.sale-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #eaeaea;
+}
+
+.sale-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.sale-date {
+    color: #888;
+    font-size: 0.9rem;
+    margin-right: 15px;
+}
+
+.sale-client {
+    font-size: 1.1rem;
+    color: #444;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: white;
+}
+.status-badge.success { background-color: #28a745; }
+.status-badge.warning { background-color: #ffc107; color: #444; }
+
+.sale-items {
+    background-color: #fafafa;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.sale-item-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.sale-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.sale-total {
+    font-size: 1.1rem;
+}
+
+.sale-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.address-tooltip {
+    font-size: 0.9rem;
+    color: #666;
+    cursor: help;
+    border-bottom: 1px dashed #ccc;
+}
+
+.btn-status {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-complete {
+    background-color: #B95318;
+    color: white;
+}
+
+.btn-reopen {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.no-sales {
+    text-align: center;
+    margin-top: 50px;
+    color: #666;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 600px) {
+    .sale-header, .sale-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .status-badge {
+        align-self: flex-start;
+    }
+    .sale-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}

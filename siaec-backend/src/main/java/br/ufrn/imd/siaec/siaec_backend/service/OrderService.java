@@ -2,6 +2,7 @@ package br.ufrn.imd.siaec.siaec_backend.service;
 
 import br.ufrn.imd.siaec.siaec_backend.dto.OrderRequestDTO;
 import br.ufrn.imd.siaec.siaec_backend.dto.OrderResponseDTO;
+import br.ufrn.imd.siaec.siaec_backend.dto.SaleResponseDTO;
 import br.ufrn.imd.siaec.siaec_backend.exception.BusinessRuleException;
 import br.ufrn.imd.siaec.siaec_backend.exception.NotFoundException;
 import br.ufrn.imd.siaec.siaec_backend.model.Artisan;
@@ -116,5 +117,30 @@ public class OrderService {
         // }
 
         return OrderResponseDTO.fromEntity(order);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<SaleResponseDTO> findMySales(Pageable pageable) {
+        User currentArtisan = userService.getCurrentAuthenticatedUser();
+        Page<Order> orders = orderRepository.searchSalesForArtisan(currentArtisan.getUserId(), pageable);
+
+        return orders.map(order -> SaleResponseDTO.fromEntity(order, currentArtisan.getUserId()));
+    }
+
+    @Transactional
+    public void updateOrderStatus(String orderId, boolean status) {
+        User currentArtisan = userService.getCurrentAuthenticatedUser();
+        Order order = orderRepository.findById(orderId)
+             .orElseThrow(() -> new NotFoundException("Pedido não encontrado"));
+             
+        boolean isMyOrder = order.getItems().stream()
+             .anyMatch(i -> i.getProduct().getCatalog().getArtisan().getUser().getUserId().equals(currentArtisan.getUserId()));
+             
+        // if(!isMyOrder) {
+        //      throw new AccessDeniedException("Você não tem permissão para alterar este pedido.");
+        // }
+
+        order.setStatus(status);
+        orderRepository.save(order);
     }
 }
