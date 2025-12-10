@@ -143,7 +143,6 @@ const EventDetailPage = () => {
                                 </button>
                             )}
                         </div>
-                        <h1>{eventName}</h1>
                         <div className={`event-status-badge status-${statusClass}`}>
                             {status}
                         </div>
