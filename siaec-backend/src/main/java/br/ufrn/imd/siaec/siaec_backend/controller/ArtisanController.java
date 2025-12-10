@@ -1,5 +1,6 @@
 package br.ufrn.imd.siaec.siaec_backend.controller;
 
+import br.ufrn.imd.siaec.siaec_backend.dto.UserResponseDTO;
 import br.ufrn.imd.siaec.siaec_backend.dto.UserUpdateDTO;
 import br.ufrn.imd.siaec.siaec_backend.model.Artisan;
 import br.ufrn.imd.siaec.siaec_backend.service.ArtisanService;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -47,11 +47,11 @@ public class ArtisanController {
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.userId")
     @Transactional
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> updateArtisan(@PathVariable String id, @RequestBody UserUpdateDTO input) {
+    public ResponseEntity<UserResponseDTO> updateArtisan(@PathVariable String id, @RequestBody UserUpdateDTO input) {
         userService.update(id, input);
         artisanService.update(id, input);
 
-        return ResponseEntity.noContent().build();
+        UserResponseDTO user = userService.get(id);
+        return ResponseEntity.ok(user);
     }
 }

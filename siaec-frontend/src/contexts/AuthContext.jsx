@@ -60,6 +60,8 @@ export const AuthProvider = ({ children }) => {
     delete api.defaults.headers.common['Authorization'];
   };
 
+  const updateUser = (user) => setUser(user);
+
   const value = {
     isAuthenticated: !!token && !!user,
     user,
@@ -67,6 +69,7 @@ export const AuthProvider = ({ children }) => {
     loadingAuth,
     login,
     logout,
+    updateUser,
   };
 
   return <AuthContext.Provider value={value}>{!loadingAuth && children}</AuthContext.Provider>;

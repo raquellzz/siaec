@@ -18,6 +18,8 @@ import lombok.NoArgsConstructor;
 public class UserResponseDTO {
     private String userId;
 
+    private String artisanId;
+
     private RoleEnum role;
 
     private String name;

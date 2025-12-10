@@ -82,6 +82,7 @@ public class UserService {
           Artisan artisan = artisanRepository.findByUserUserId(user.getUserId())
               .orElseThrow(() -> new NotFoundException("Artesão não encontrado"));
           userResponse.setDescription(artisan.getDescription());
+          userResponse.setArtisanId(artisan.getArtisanId());
         }
 
         return userResponse;

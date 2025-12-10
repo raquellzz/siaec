@@ -39,7 +39,7 @@ export default function ArtisanDashboardPage() {
       <div className="dashboard-profile-header">
         <img src={artisanImage} alt="Perfil" className="profile-image" />
         <h2>{user.name}</h2>
-        <p>{user.description}</p>
+        <p className="description">{user.description}</p>
       </div>
 
       <div className="dashboard-content">
@@ -56,7 +56,7 @@ export default function ArtisanDashboardPage() {
                 {user.phone}
               </p>
             </div>
-            <Link to="/perfil" className="edit-link">
+            <Link to="/perfil/editar" className="edit-link">
               <button className="edit-button">Editar perfil</button>
             </Link>
           </div>

@@ -42,7 +42,7 @@ public class ArtisanService {
     }
 
     public void update(String userId, UserUpdateDTO input) {
-        Artisan userUpdated = artisanRepository.findById(userId)
+        Artisan userUpdated = artisanRepository.findByUserUserId(userId)
             .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
 
         if (input.getDescription() != null) userUpdated.setDescription(input.getDescription());
