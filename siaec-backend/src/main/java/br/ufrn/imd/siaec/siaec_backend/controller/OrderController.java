@@ -35,4 +35,11 @@ public class OrderController {
         Page<OrderResponseDTO> myOrders = orderService.findMyOrders(pageable);
         return ResponseEntity.ok(myOrders);
     }
+
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponseDTO> getOrderById(@PathVariable String id) {
+        OrderResponseDTO order = orderService.findOrderById(id);
+        return ResponseEntity.ok(order);
+    }
 }

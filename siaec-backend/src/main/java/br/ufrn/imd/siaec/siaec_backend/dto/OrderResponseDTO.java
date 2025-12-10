@@ -4,6 +4,7 @@ import br.ufrn.imd.siaec.siaec_backend.enums.PaymentMethodEnum;
 import br.ufrn.imd.siaec.siaec_backend.model.Order;
 import lombok.Data;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class OrderResponseDTO {
@@ -17,6 +18,8 @@ public class OrderResponseDTO {
     private PaymentMethodEnum paymentMethod;
     private Date createdAt;
     private int totalItems;
+    private List<OrderItemResponseDTO> items;
+    private String address;
 
     public static OrderResponseDTO fromEntity(Order order) {
         OrderResponseDTO dto = new OrderResponseDTO();
@@ -32,6 +35,10 @@ public class OrderResponseDTO {
         dto.setPaymentMethod(order.getPaymentMethod());
         dto.setCreatedAt(order.getCreatedAt());
         dto.setTotalItems(order.getItems() != null ? order.getItems().size() : 0);
+        dto.setItems(order.getItems().stream()
+                .map(OrderItemResponseDTO::fromEntity)
+                .toList());
+        dto.setAddress(order.getAddress());
         return dto;
     }
 }

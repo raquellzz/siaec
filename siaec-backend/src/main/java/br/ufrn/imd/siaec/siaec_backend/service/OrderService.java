@@ -103,4 +103,18 @@ public class OrderService {
 
         return page.map(OrderResponseDTO::fromEntity);
     }
+
+    @Transactional(readOnly = true)
+    public OrderResponseDTO findOrderById(String orderId) {
+        User currentUser = userService.getCurrentAuthenticatedUser();
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundException("Pedido não encontrado com ID: " + orderId));
+
+        // if (!order.getUser().getUserId().equals(currentUser.getUserId())) {
+        //     throw new AccessDeniedException("Você não tem permissão para visualizar este pedido.");
+        // }
+
+        return OrderResponseDTO.fromEntity(order);
+    }
 }

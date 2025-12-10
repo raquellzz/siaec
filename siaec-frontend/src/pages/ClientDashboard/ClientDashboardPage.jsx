@@ -125,7 +125,19 @@ function ClientDashboardPage() {
                 <p>Realize seu primeiro pedido para acompanhar o status.</p>
               )}
             </div>
+            <div className="dashboard-card">
+            <h3>Acesso rápido</h3>
+            <div className="row">
+              <Link to="/meus-eventos-salvos" className="edit-link">
+                <button className="edit-button">Meus eventos</button>
+              </Link>
+              <Link to="/pedidos" className="edit-link">
+                <button className="edit-button">Histórico de pedidos</button>
+              </Link>
+            </div>
           </div>
+          </div>
+          
         </div>
       </div>
     </div>
