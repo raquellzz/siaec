@@ -59,10 +59,10 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.userId")
     @PatchMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> updateUser(@PathVariable String id, @RequestBody UserUpdateDTO user) {
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable String id, @RequestBody UserUpdateDTO user) {
         userService.update(id, user);
-        return ResponseEntity.noContent().build();
+        UserResponseDTO userUpdated = userService.get(id);
+        return ResponseEntity.ok(userUpdated);
     }
 
     @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.userId")

@@ -6,8 +6,10 @@ import '../Login/styles.css';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import { useAuth } from '../../hooks/useAuth';
 import { saveArtisan } from '../../services/artisanService';
+import { roleEnum } from '../../enums/RoleEnum';
+import { updateUserProfile } from '../../services/userService';
 
-function EditProfileArtisanPage() {
+function EditProfilePage() {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -62,8 +64,12 @@ function EditProfileArtisanPage() {
       };
       if (formData.password.length === 0) delete data.password;
       if (formData.username === user.username) delete data.username;
+      if (user.role !== roleEnum.artisan) delete data.description;
 
-      const userUpdated = await saveArtisan(data, user.userId);
+      const updateFunction = user.role === roleEnum.artisan ? saveArtisan : updateUserProfile;
+
+      const userUpdated = await updateFunction(data, user.userId);
+      console.log(userUpdated);
       updateUser(userUpdated);
       snackbar.openSuccessSnackbar('Perfil salvo com sucesso!');
       navigate('/perfil');
@@ -97,16 +103,18 @@ function EditProfileArtisanPage() {
       <div className="form">
         <Input label="Nome completo" type="text" name="name" value={formData.name} onChange={handleChange} required />
 
-        <Input
-          label="Sobre você"
-          type="text"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          multiline
-          rows={3}
-          required
-        />
+        {user.role === roleEnum.artisan && (
+          <Input
+            label="Sobre você"
+            type="text"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            multiline
+            rows={3}
+            required
+          />
+        )}
 
         <Input
           label="Username"
@@ -158,4 +166,4 @@ function EditProfileArtisanPage() {
   );
 }
 
-export default EditProfileArtisanPage;
+export default EditProfilePage;

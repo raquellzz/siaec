@@ -23,9 +23,9 @@ import ClientDashboardPage from './pages/ClientDashboard/ClientDashboardPage.jsx
 import ManageUsersPage from './pages/ManageUsers/ManageUsersPage.jsx';
 import ArtisanDashboardPage from './pages/ArtisanDashboard/ArtisanDashboardPage.jsx';
 import FavoriteEventsPage from './pages/FavoriteEvents/FavoriteEventsPage.jsx';
-import EditProfileArtisanPage from './pages/EditProfileArtisan/EditProfileArtisanPage.jsx';
 import OrderHistoryPage from './pages/OrderHistory/OrderHistoryPage.jsx';
 import OrderDetailPage from './pages/OrderDetail/OrderDetailPage.jsx';
+import EditProfilePage from './pages/EditProfile/EditProfilePage.jsx';
 
 function App() {
   const { user, isAuthenticated } = useAuth();
@@ -54,7 +54,7 @@ function App() {
               <Route path="/meus-produtos/novo" element={<ProductFormPage />} />
               <Route path="/meus-produtos/editar/:productId" element={<ProductFormPage />} />
               <Route path="/perfil" element={<ArtisanDashboardPage />} />
-              <Route path="/perfil/editar" element={<EditProfileArtisanPage />} />
+              <Route path="/perfil/editar" element={<EditProfilePage />} />
             </>
           )}
           {isEventPlanner && (
@@ -79,6 +79,7 @@ function App() {
               <Route path="/perfil" element={<ClientDashboardPage />} />
               <Route path="/pedidos" element={<OrderHistoryPage />} />
               <Route path="/pedidos/:id" element={<OrderDetailPage />} />
+              <Route path="/perfil/editar" element={<EditProfilePage />} />
             </>
           )}
           <Route path="*" element={<NotFound />} />
