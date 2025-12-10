@@ -56,7 +56,7 @@ function ArtisanListPage() {
           <div className="product-grid">
             {artisans.length > 0 &&
               artisans.map((artisan) => (
-                <Link to={`/artisans/${artisan.artisanId}`} key={artisan.artisanId}>
+                <Link to={`/artesaos/${artisan.artisanId}`} key={artisan.artisanId}>
                   <ArtisanCard description={artisan.description} name={artisan.user.name} />
                 </Link>
               ))}

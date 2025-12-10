@@ -66,7 +66,7 @@ function ProductListPage() {
           <div className="product-grid">
             {products.length > 0 &&
               products.map((product) => (
-                <Link to={`/products/${product.productId}`} key={product.productId} className="product-card-link">
+                <Link to={`/produtos/${product.productId}`} key={product.productId} className="product-card-link">
                   <ProductCard
                     name={product.name}
                     price={product.price?.toFixed(2)}

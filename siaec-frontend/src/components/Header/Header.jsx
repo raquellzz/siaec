@@ -26,20 +26,20 @@ function Header() {
       </div>
       <div className="header-left">
         {location.pathname !== '/' && (
-           <div style={{ marginLeft: '20px', marginTop: '15px' }}> 
-              <BackButton />
-           </div>
+          <div style={{ marginLeft: '20px', marginTop: '15px' }}>
+            <BackButton />
+          </div>
         )}
       </div>
       <div className="header-right">
         {isAuthenticated ? (
           <>
             {user.role === roleEnum.client && (
-              <Link to="/cart" className="header-button cart-button">
+              <Link to="/carrinho" className="header-button cart-button">
                 <FaShoppingCart />
               </Link>
             )}
-            <Link to="/profile" className="header-button cart-button">
+            <Link to="/perfil" className="header-button cart-button">
               <FaUserCircle />
             </Link>
             <button onClick={handleLogout} className="header-button cart-button navbar-logout">

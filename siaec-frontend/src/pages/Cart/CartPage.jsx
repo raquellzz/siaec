@@ -61,7 +61,7 @@ function CartPage() {
       {cartItems.length === 0 ? (
         <div className="cart-empty">
           <p>Seu carrinho está vazio.</p>
-          <Link to="/products" className="link">
+          <Link to="/produtos" className="link">
             Ver produtos
           </Link>
         </div>

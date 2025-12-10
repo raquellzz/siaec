@@ -42,7 +42,7 @@ function HomePage() {
   }, []);
 
   const onSearchProducts = (value) => {
-    navigate({ pathname: '/products' }, { state: { search: value } });
+    navigate({ pathname: '/produtos' }, { state: { search: value } });
   };
 
   if (loading) {
@@ -65,7 +65,7 @@ function HomePage() {
         <div className="section-header">
           <h2>Artesões em Destaques</h2>
           {artisans.length > 0 && (
-            <Link to="/artisans" className="view-all-link">
+            <Link to="/artesaos" className="view-all-link">
               Ver todos
             </Link>
           )}
@@ -73,7 +73,7 @@ function HomePage() {
         {artisans.length > 0 ? (
           <div className="artisan-list">
             {artisans.map((artisan) => (
-              <Link to={`/artisans/${artisan.artisanId}`} key={artisan.artisanId}>
+              <Link to={`/artesaos/${artisan.artisanId}`} key={artisan.artisanId}>
                 <ArtisanCard key={artisan.artisanId} name={artisan.user.name} description={artisan.description} />
               </Link>
             ))}
@@ -87,7 +87,7 @@ function HomePage() {
         <div className="section-header">
           <h2>Próximos Eventos</h2>
           {events.length > 0 && (
-            <Link to="/events" className="view-all-link">
+            <Link to="/eventos" className="view-all-link">
               Ver todos
             </Link>
           )}
@@ -95,7 +95,7 @@ function HomePage() {
         {events.length > 0 ? (
           <div className="event-list">
             {events.map((event) => (
-              <Link to={`/events/${event.eventId}`} key={event.eventId}>
+              <Link to={`/eventos/${event.eventId}`} key={event.eventId}>
                 <EventCard
                   key={event.eventId}
                   name={event.name}

@@ -57,7 +57,7 @@ function EventListPage() {
           <div className="product-grid">
             {events.length > 0 &&
               events.map((event) => (
-                <Link to={`/events/${event.eventId}`} key={event.eventId}>
+                <Link to={`/eventos/${event.eventId}`} key={event.eventId}>
                   <EventCard
                     name={event.name}
                     local={event.location}

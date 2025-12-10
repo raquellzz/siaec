@@ -75,7 +75,7 @@ function LoginPage() {
       <div style={{ marginTop: '1rem' }}>
         <p>
           Não tem uma conta?
-          <Link to="/register" style={{ color: '#c66e19' }}>
+          <Link to="/cadastro" style={{ color: '#c66e19' }}>
             {' '}
             Cadastre-se aqui
           </Link>

@@ -23,13 +23,11 @@ import ClientDashboardPage from './pages/ClientDashboard/ClientDashboardPage.jsx
 import ManageUsersPage from './pages/ManageUsers/ManageUsersPage.jsx';
 
 function App() {
-  const { user } = useAuth();
-  const isUserLoggedIn = Boolean(user);
-  const isArtisan = isUserLoggedIn && user.role === roleEnum.artisan;
-  const isClient = isUserLoggedIn && user.role === roleEnum.client;
-  const ProfileRouteComponent = isClient ? ClientDashboardPage : ProfilePage;
-  const isEventPlanner = isUserLoggedIn && user.role === roleEnum.eventPlanner;
-  const isAdmin = isUserLoggedIn && user.role === roleEnum.admin;
+  const { user, isAuthenticated } = useAuth();
+  const isArtisan = isAuthenticated && user.role === roleEnum.artisan;
+  const isClient = isAuthenticated && user.role === roleEnum.client;
+  const isEventPlanner = isAuthenticated && user.role === roleEnum.eventPlanner;
+  const isAdmin = isAuthenticated && user.role === roleEnum.admin;
 
   return (
     <Router>
@@ -37,36 +35,43 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/products" element={<ProductListPage />} />
-          <Route path="/products/:productId" element={<ProductDetailPage />} />
-          <Route path="/artisans" element={<ArtisanListPage />} />
-          <Route path="/artisans/:artisanId" element={<ArtisanDetailPage />} />
-          <Route path="/events" element={<EventListPage />} />
-          <Route path="/events/:eventId" element={<EventDetailPage />} />
+          <Route path="/produtos" element={<ProductListPage />} />
+          <Route path="/produtos/:id" element={<ProductDetailPage />} />
+          <Route path="/artesaos" element={<ArtisanListPage />} />
+          <Route path="/artesaos/:id" element={<ArtisanDetailPage />} />
+          <Route path="/eventos" element={<EventListPage />} />
+          <Route path="/eventos/:id" element={<EventDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          {isUserLoggedIn && <Route path="/profile" element={<ProfileRouteComponent />} />}
+          <Route path="/cadastro" element={<RegisterPage />} />
           {isArtisan && (
             <>
               <Route path="/meus-produtos" element={<MyProductsPage />} />
               <Route path="/meus-produtos/novo" element={<ProductFormPage />} />
               <Route path="/meus-produtos/editar/:productId" element={<ProductFormPage />} />
+              <Route path="/perfil" element={<ProfilePage />} />
             </>
           )}
           {isEventPlanner && (
             <>
               <Route path="/meus-eventos" element={<MyEventsPage />} />
               <Route path="/meus-eventos/novo" element={<EventFormPage />} />
-              <Route path="/meus-eventos/editar/:EventId" element={<EventFormPage />} />
+              <Route path="/meus-eventos/editar/:id" element={<EventFormPage />} />
+              <Route path="/perfil" element={<ProfilePage />} />
             </>
           )}
           {isAdmin && (
             <>
               <Route path="/admin/usuarios" element={<ManageUsersPage />} />
-              {/* <Route path="/admin/users/:userId" element={<UserDetailPage />} /> */}
+              <Route path="/perfil" element={<ProfilePage />} />
+              {/* <Route path="/admin/usuarios/:id" element={<UserDetailPage />} /> */}
             </>
           )}
-          {isClient && <Route path="/cart" element={<CartPage />} />}
+          {isClient && (
+            <>
+              <Route path="/carrinho" element={<CartPage />} />
+              <Route path="/perfil" element={<ClientDashboardPage />} />
+            </>
+          )}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
