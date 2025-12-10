@@ -27,3 +27,27 @@ export const deleteMyAccount = async (userId) => {
         throw error;
     }
 };
+
+export const getAllUsers = async (page = 0, size = 10) => {
+  try {
+    const params = { page, size, sort: 'createdAt,desc' };
+    const response = await api.get('/users', { params });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar usuários:', error);
+    throw error;
+  }
+};
+
+export const updateUserStatus = async (userId, newStatus) => {
+  try {
+    // Exemplo de endpoint: PATCH /users/{id}/status?status=BANNED
+    const response = await api.patch(`/users/${userId}/status`, null, {
+        params: { status: newStatus }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao atualizar status:', error);
+    throw error;
+  }
+};

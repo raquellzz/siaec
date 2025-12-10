@@ -47,9 +47,17 @@ function ProfilePage() {
         )}
 
         {user.role === 'ADMIN' && (
+          <>
           <Link to="/admin/dashboard" className="profile-action-link">
             Painel de Administrador
           </Link>
+          <Link to="/admin/usuarios" className="profile-action-link">
+            Gerenciar Usuários
+          </Link>
+          <Link to="/admin/categorias" className="profile-action-link">
+            Gerenciar Categorias
+          </Link>
+          </>
         )}
 
         {user.role === 'CLIENT' && (

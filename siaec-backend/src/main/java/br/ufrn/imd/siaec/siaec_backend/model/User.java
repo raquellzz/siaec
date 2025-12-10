@@ -101,12 +101,18 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return statusAccount.equals(AccountStatusEnum.ACTIVE);
+        if (this.statusAccount == null) {
+            return true; 
+        }
+        return this.statusAccount.equals(AccountStatusEnum.ACTIVE);
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return statusAccount.equals(AccountStatusEnum.ACTIVE);
+        if (this.statusAccount == null) {
+            return true; 
+        }
+        return this.statusAccount.equals(AccountStatusEnum.ACTIVE);
     }
 
     @Override
@@ -116,6 +122,9 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return statusAccount.equals(AccountStatusEnum.ACTIVE);
+        if (this.statusAccount == null) {
+            return true; 
+        }
+        return this.statusAccount.equals(AccountStatusEnum.ACTIVE);
     }
 }

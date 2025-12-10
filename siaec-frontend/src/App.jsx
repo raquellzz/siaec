@@ -20,6 +20,7 @@ import { roleEnum } from './enums/RoleEnum.js';
 import NotFound from './pages/NotFound/index.jsx';
 import EventDetailPage from './pages/EventDetail/EventDetailPage.jsx';
 import ClientDashboardPage from './pages/ClientDashboard/ClientDashboardPage.jsx';
+import ManageUsersPage from './pages/ManageUsers/ManageUsersPage.jsx';
 
 function App() {
   const { user } = useAuth();
@@ -28,6 +29,7 @@ function App() {
   const isClient = isUserLoggedIn && user.role === roleEnum.client;
   const ProfileRouteComponent = isClient ? ClientDashboardPage : ProfilePage;
   const isEventPlanner = isUserLoggedIn && user.role === roleEnum.eventPlanner;
+  const isAdmin = isUserLoggedIn && user.role === roleEnum.admin;
 
   return (
     <Router>
@@ -56,6 +58,12 @@ function App() {
               <Route path="/meus-eventos" element={<MyEventsPage />} />
               <Route path="/meus-eventos/novo" element={<EventFormPage />} />
               <Route path="/meus-eventos/editar/:EventId" element={<EventFormPage />} />
+            </>
+          )}
+          {isAdmin && (
+            <>
+              <Route path="/admin/usuarios" element={<ManageUsersPage />} />
+              {/* <Route path="/admin/users/:userId" element={<UserDetailPage />} /> */}
             </>
           )}
           {isClient && <Route path="/cart" element={<CartPage />} />}

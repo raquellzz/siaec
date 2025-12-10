@@ -42,7 +42,7 @@ O repositório está organizado em duas pastas principais:
 
 Antes de começar, certifique-se de ter instalado:
 
-* [cite_start]**JDK 17:** [cite: 4289] Verifique com `java -version`. Configure a variável de ambiente `JAVA_HOME`.
+* **JDK 17:** Verifique com `java -version`. Configure a variável de ambiente `JAVA_HOME`.
 * **Maven:** Verifique com `mvn -version`.
 * **MySQL**: Instale o banco de dados MySQL.
 * **Node.js e npm:** Verifique com `node -v` e `npm -v`. Use uma versão LTS recente.

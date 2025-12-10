@@ -1,0 +1,126 @@
+.manage-users-page {
+    min-height: 100vh;
+}
+
+.admin-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #1a1a1a;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+    background-color: #fff;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table th {
+    background-color: #fff;
+    color: #1a1a1a;
+    font-weight: 700;
+    padding: 18px 15px;
+    font-size: 0.95rem;
+    border-bottom: 2px solid #333;
+    text-align: center; 
+    white-space: nowrap; 
+}
+
+.users-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    color: #555;
+    text-align: center; 
+    font-size: 0.95rem;
+}
+
+.users-table th:nth-child(2),
+.users-table td:nth-child(2) {
+    text-align: left;
+    min-width: 200px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 20px; 
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    min-width: 90px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.status-ativo { background-color: #6CBE45; } 
+.status-banido { background-color: #E74C3C; } 
+.status-suspenso { background-color: #95A5A6; } 
+.status-indefinido { background-color: #333; } 
+
+.actions-cell {
+    display: flex;
+    justify-content: center; 
+    gap: 10px;
+}
+
+.btn-details {
+    background-color: #B95318;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: background-color 0.2s;
+    border: none;
+    display: inline-block;
+}
+
+.btn-details:hover {
+    background-color: #964212;
+    color: white; 
+    text-decoration: none;
+}
+
+.btn-action {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: white;
+    transition: opacity 0.2s;
+}
+
+.btn-ban { background-color: #dc3545; }
+.btn-activate { background-color: #28a745; }
+
+.btn-action:hover { opacity: 0.9; }
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    padding: 30px 0;
+}

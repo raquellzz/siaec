@@ -45,7 +45,7 @@ public class ArtisanController {
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or #id == authentication.principal.userId")
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.userId")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> updateArtisan(@PathVariable String id, @RequestBody UserUpdateDTO input) {

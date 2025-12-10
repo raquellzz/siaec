@@ -35,6 +35,29 @@ public class UserService {
         return repository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
+    public Page<UserResponseDTO> findAllUsers(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(UserResponseDTO::fromEntity);
+    }
+
+    
+    @Transactional
+    public UserResponseDTO updateUserStatus(String userId, String newStatus) {
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado com id: " + userId));
+
+        try {
+            AccountStatusEnum statusEnum = AccountStatusEnum.valueOf(newStatus.toUpperCase());
+            user.setStatusAccount(statusEnum);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Status inválido: " + newStatus);
+        }
+
+        User updatedUser = repository.save(user);
+        return UserResponseDTO.fromEntity(updatedUser);
+    }
+
     public UserResponseDTO get(String userId) {
         User user = repository.findById(userId).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
         return UserResponseDTO.builder()
